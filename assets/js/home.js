@@ -30,7 +30,7 @@
 
   if (cards.length && !reduceMotion.matches && 'IntersectionObserver' in window) {
     document.body.classList.add('is-motion-ready');
-    cards.forEach((card, index) => card.style.setProperty('--card-delay', `${index * 75}ms`));
+    cards.forEach((card, index) => card.style.setProperty('--card-delay', `${index * 110}ms`));
 
     const cardObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
@@ -48,7 +48,10 @@
     const scrollY = window.scrollY;
     header?.classList.toggle('is-scrolled', scrollY > 24);
     if (!reduceMotion.matches && hero && scrollY < hero.offsetHeight * 1.15) {
-      document.documentElement.style.setProperty('--hero-shift', `${Math.min(scrollY * 0.035, 28)}px`);
+      const progress = Math.min(scrollY, hero.offsetHeight * 1.15);
+      document.documentElement.style.setProperty('--hero-image-shift', `${progress * 0.16}px`);
+      document.documentElement.style.setProperty('--hero-content-shift', `${progress * 0.07}px`);
+      document.documentElement.style.setProperty('--hero-explore-shift', `${progress * -0.11}px`);
     }
     scheduled = false;
   };
