@@ -2,7 +2,6 @@
   const header = document.querySelector('[data-header]');
   const toggle = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-menu]');
-  const navbar = document.querySelector('.navbar');
   const hero = document.querySelector('.hero');
   const cards = document.querySelectorAll('.access-card');
   const year = document.querySelector('[data-year]');
@@ -29,22 +28,9 @@
     if (event.key === 'Escape') closeMenu();
   });
 
-  if (navbar && !reduceMotion.matches) {
-    navbar.addEventListener('pointermove', (event) => {
-      const bounds = navbar.getBoundingClientRect();
-      navbar.style.setProperty('--glass-x', `${event.clientX - bounds.left}px`);
-      navbar.style.setProperty('--glass-y', `${event.clientY - bounds.top}px`);
-    }, { passive: true });
-
-    navbar.addEventListener('pointerleave', () => {
-      navbar.style.setProperty('--glass-x', '50%');
-      navbar.style.setProperty('--glass-y', '0%');
-    });
-  }
-
   if (cards.length && !reduceMotion.matches && 'IntersectionObserver' in window) {
     document.body.classList.add('is-motion-ready');
-    cards.forEach((card, index) => card.style.setProperty('--card-delay', `${(index % 2) * 110}ms`));
+    cards.forEach((card, index) => card.style.setProperty('--card-delay', `${index * 75}ms`));
 
     const cardObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
@@ -62,7 +48,7 @@
     const scrollY = window.scrollY;
     header?.classList.toggle('is-scrolled', scrollY > 24);
     if (!reduceMotion.matches && hero && scrollY < hero.offsetHeight * 1.15) {
-      document.documentElement.style.setProperty('--hero-shift', `${Math.min(scrollY * 0.055, 46)}px`);
+      document.documentElement.style.setProperty('--hero-shift', `${Math.min(scrollY * 0.035, 28)}px`);
     }
     scheduled = false;
   };
