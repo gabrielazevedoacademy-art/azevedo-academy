@@ -3,6 +3,7 @@
   const toggle = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-menu]');
   const hero = document.querySelector('.hero');
+  const cardGrid = document.querySelector('.card-grid');
   const cards = document.querySelectorAll('.access-card');
   const year = document.querySelector('[data-year]');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -28,19 +29,29 @@
     if (event.key === 'Escape') closeMenu();
   });
 
-  if (cards.length && !reduceMotion.matches && 'IntersectionObserver' in window) {
-    document.body.classList.add('is-motion-ready');
-    cards.forEach((card, index) => card.style.setProperty('--card-delay', `${index * 110}ms`));
+  if (cardGrid && cards.length && !reduceMotion.matches && 'IntersectionObserver' in window) {
+    try {
+      const revealAllCards = () => cards.forEach((card) => card.classList.add('is-visible'));
+      const cardObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px 8% 0px' });
 
-    const cardObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
+      cards.forEach((card, index) => {
+        card.style.setProperty('--card-delay', `${index * 90}ms`);
+        cardObserver.observe(card);
       });
-    }, { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
 
-    cards.forEach((card) => cardObserver.observe(card));
+      // The hidden reveal state only exists after every card is being observed.
+      cardGrid.classList.add('has-card-reveal');
+      window.setTimeout(revealAllCards, 2400);
+    } catch (error) {
+      cardGrid.classList.remove('has-card-reveal');
+      console.warn('Card reveal disabled; showing static cards.', error);
+    }
   }
 
   let scheduled = false;
