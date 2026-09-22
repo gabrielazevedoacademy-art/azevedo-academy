@@ -3,101 +3,135 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Azevedo Academy — Em breve</title>
-  <meta name="description" content="Azevedo Academy: IA, criação de conteúdo, design, edição de vídeo, marketing e tecnologia. Site em construção." />
+  <meta name="theme-color" content="#0e0e0e" />
+  <title>Azevedo Academy — Inteligência artificial para quem cria</title>
+  <meta name="description" content="Aprenda a usar inteligência artificial para criar mais, produzir melhor e transformar ideias em realidade." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700;900&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;600;700;800;900&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preload" href="/assets/images/hero-azevedo.png" as="image" fetchpriority="high" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/global.css" />
-
-  <style>
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: var(--space-6);
-    }
-
-    .hero .eyebrow {
-      font-family: var(--font-body);
-      font-weight: var(--weight-semibold);
-      font-size: var(--text-sm);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--color-accent);
-      margin-bottom: var(--space-4);
-    }
-
-    .hero h1 {
-      font-size: var(--text-4xl);
-      color: var(--color-text);
-      max-width: 20ch;
-    }
-
-    .hero h1 span {
-      color: var(--color-accent);
-    }
-
-    .hero p {
-      margin-top: var(--space-5);
-      max-width: 42ch;
-      font-size: var(--text-lg);
-      color: var(--color-text-muted);
-    }
-
-    .hero .actions {
-      margin-top: var(--space-8);
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-4);
-      justify-content: center;
-    }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-3) var(--space-6);
-      font-family: var(--font-display);
-      font-weight: var(--weight-semibold);
-      border-radius: var(--radius-full);
-      border: 1px solid var(--color-border);
-      color: var(--color-text);
-      transition: border-color var(--transition-fast), color var(--transition-fast);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--color-accent-secondary);
-      color: var(--color-accent-secondary);
-    }
-
-    @media (max-width: 480px) {
-      .hero h1 {
-        font-size: var(--text-3xl);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/css/home.css" />
+  <script src="/assets/js/home.js" defer></script>
 </head>
-<body>
-  <main class="hero">
-    <p class="eyebrow">Azevedo Academy</p>
-    <h1>Site em <span>construção</span></h1>
-    <p>
-      IA, criação de conteúdo, design, edição de vídeo, marketing e tecnologia.
-      Estamos preparando algo novo — enquanto isso, nos acompanhe no YouTube.
-    </p>
-    <div class="actions">
-      <!-- TODO: substituir pelo link real do canal do YouTube -->
-      <a class="btn btn-primary" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
-        Inscreva-se no YouTube
+<body class="home-page">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header" data-header>
+    <nav class="navbar" aria-label="Navegação principal">
+      <a class="brand" href="/" aria-label="Azevedo Academy — página inicial">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span class="brand-name">AZEVEDO <strong>ACADEMY</strong></span>
       </a>
-    </div>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu" data-menu-toggle>
+        <span class="sr-only">Abrir menu</span>
+        <span></span><span></span>
+      </button>
+
+      <div class="nav-links" id="main-menu" data-menu>
+        <a class="is-active" href="/" aria-current="page">Home</a>
+        <a href="/ferramentas">Ferramentas</a>
+        <a href="/produtos">Produtos</a>
+        <a href="/sobre">Sobre</a>
+        <a href="/contato">Contato</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-background" aria-hidden="true"></div>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="hero-kicker">Inteligência para quem cria</p>
+        <h1 id="hero-title"><span>O FUTURO</span><span>JÁ CHEGOU.</span></h1>
+        <p class="hero-copy">Aprenda a usar inteligência artificial para criar mais, produzir melhor e transformar ideias em realidade.</p>
+        <a class="hero-cta" href="/ferramentas">
+          <span>Explorar ferramentas</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+      </div>
+      <div class="hero-scroll" aria-hidden="true"><span></span>Explore</div>
+    </section>
+
+    <section class="destinations" aria-labelledby="destinations-title">
+      <div class="section-glow" aria-hidden="true"></div>
+      <div class="destinations-inner">
+        <div class="section-heading">
+          <p class="section-index">01 — Descubra</p>
+          <h2 id="destinations-title">Escolha por onde começar.</h2>
+          <p>Conteúdo, ferramentas e recursos selecionados para transformar curiosidade em criação.</p>
+        </div>
+
+        <div class="card-grid">
+          <a class="access-card card-prompts" href="/biblioteca-de-prompts">
+            <span class="card-number">01</span>
+            <span class="card-content">
+              <span class="card-label">Produto</span>
+              <strong>Biblioteca<br />de Prompts</strong>
+              <span class="card-description">Prompts prontos e estratégicos para acelerar seu trabalho com inteligência artificial.</span>
+            </span>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a class="access-card card-tools" href="/ferramentas">
+            <span class="card-number">02</span>
+            <span class="card-content">
+              <span class="card-label">Curadoria</span>
+              <strong>Ferramentas recomendadas</strong>
+              <span class="card-description">Conheça as ferramentas que recomendo para criar, produzir e ganhar tempo.</span>
+            </span>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a class="access-card card-pack" href="/produtos#super-pack">
+            <span class="card-number">03</span>
+            <span class="card-content">
+              <span class="card-label">Em destaque</span>
+              <strong>Super Pack de<br />Edição &amp; Design</strong>
+              <span class="card-description">Recursos selecionados para levar seus projetos visuais a outro nível.</span>
+            </span>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a class="access-card card-contact" href="/contato">
+            <span class="card-number">04</span>
+            <span class="card-content">
+              <span class="card-label">Vamos conversar</span>
+              <strong>Entre em contato</strong>
+              <span class="card-description">Projetos, parcerias e oportunidades profissionais começam por aqui.</span>
+            </span>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="/" aria-label="Azevedo Academy — página inicial">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-name">AZEVEDO <strong>ACADEMY</strong></span>
+        </a>
+        <p>Inteligência artificial, criação e tecnologia.</p>
+      </div>
+      <nav class="footer-links" aria-label="Navegação do rodapé">
+        <a href="/">Home</a><a href="/ferramentas">Ferramentas</a><a href="/produtos">Produtos</a><a href="/sobre">Sobre</a><a href="/contato">Contato</a>
+      </nav>
+      <div class="social-placeholder" aria-label="Redes sociais">
+        <span>Redes sociais</span><span class="social-line" aria-hidden="true"></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> Azevedo Academy</span>
+      <span>Ideias que movem o futuro.</span>
+    </div>
+  </footer>
 </body>
 </html>
