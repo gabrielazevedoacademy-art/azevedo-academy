@@ -10,11 +10,12 @@
 
   if (year) year.textContent = new Date().getFullYear();
 
-  const closeMenu = () => {
+  const closeMenu = (restoreFocus = false) => {
     if (!toggle || !menu) return;
     toggle.setAttribute('aria-expanded', 'false');
     toggle.querySelector('.sr-only').textContent = 'Abrir menu';
     menu.classList.remove('is-open');
+    if (restoreFocus) toggle.focus();
   };
 
   toggle?.addEventListener('click', () => {
@@ -24,9 +25,9 @@
     menu.classList.toggle('is-open', shouldOpen);
   });
 
-  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => closeMenu()));
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeMenu();
+    if (event.key === 'Escape' && menu?.classList.contains('is-open')) closeMenu(true);
   });
 
   if (cardGrid && cards.length && !reduceMotion.matches && 'IntersectionObserver' in window) {
