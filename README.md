@@ -82,13 +82,30 @@ da navegação pública. Ela usa funções serverless em `/api/higgsfield/*`; po
 isso, deve ser executada com `vercel dev` (um servidor apenas estático não
 executa a integração).
 
+O backend usa o cliente V2 do pacote oficial `@higgsfield/client@0.2.6`, pelo
+entrypoint `@higgsfield/client/v2`. A geração usa uma instância isolada criada
+com `createHiggsfieldClient({ credentials })` e chama
+`subscribe("bytedance/seedance-2.5/text-to-video", { input, withPolling: true })`.
 Configure no ambiente da Vercel, sem prefixo público:
 
-- `HIGGSFIELD_API_KEY` e `HIGGSFIELD_API_SECRET`: credenciais oficiais;
+- `HF_CREDENTIALS`: credencial oficial completa no formato
+  `key-id:key-secret`. Ela é entregue diretamente ao SDK, exclusivamente no
+  servidor;
 - `HIGGSFIELD_STUDIO_PASSWORD`: senha de acesso à ferramenta;
 - `HIGGSFIELD_STUDIO_SESSION_SECRET`: segredo longo e aleatório para assinar
-  cookies e referências de jobs;
-- `HIGGSFIELD_STUDIO_ORIGIN`: origem exata do site (recomendado em produção).
+  cookies de sessão;
+- `HIGGSFIELD_STUDIO_ORIGIN`: origem canônica do site. Em produção, use
+  **`https://www.azevedoacademy.com.br`**.
+
+No painel da Vercel, remova as variáveis obsoletas `HIGGSFIELD_API_KEY` e
+`HIGGSFIELD_API_SECRET`, adicione `HF_CREDENTIALS` e preserve as três variáveis
+`HIGGSFIELD_STUDIO_*`. Faça um novo deploy depois de salvar as alterações.
+
+O Studio disponibiliza somente o fluxo **Seedance 2.5 — Texto para vídeo**. A
+interface envia os quatro campos confirmados pelo exemplo oficial da
+Higgsfield: `prompt`, `duration` (5), `resolution` (`720p`) e `aspect_ratio`
+(`16:9`). O modelo e o caminho do SDK são fixados no servidor e não podem ser
+escolhidos pelo navegador.
 
 O histórico recente (até 20 itens, sem credenciais) fica somente no
 `localStorage` do navegador autenticado. Essa escolha evita acrescentar banco
