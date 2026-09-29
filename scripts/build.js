@@ -1,6 +1,8 @@
 'use strict';
 
 const fs = require('node:fs');
+const path = require('node:path');
+const { spawnSync } = require('node:child_process');
 
 const required = [
   'index.html',
@@ -35,5 +37,24 @@ for (const file of clientFiles) {
   }
 }
 
+function collectJs(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const file = path.join(dir, entry.name);
+    if (entry.isDirectory()) return collectJs(file);
+    return entry.isFile() && file.endsWith('.js') ? [file] : [];
+  });
+}
+
+const syntaxFiles = ['assets/js/higgsfield-studio.js', ...collectJs('api'), ...collectJs('lib'), ...collectJs('test')];
+for (const file of syntaxFiles) {
+  const check = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });
+  if (check.status !== 0) throw new Error('Erro de sintaxe em ' + file + ': ' + (check.stderr || check.stdout));
+}
+
+const typecheck = spawnSync(process.execPath, ['scripts/typecheck.js'], { encoding: 'utf8' });
+if (typecheck.status !== 0) throw new Error(typecheck.stderr || typecheck.stdout || 'Typecheck falhou.');
+
+console.log(typecheck.stdout.trim());
 console.log('Build estático verificado. Artefato de deploy: raiz do repositório (outputDirectory: ".").');
-console.log('Separação de secrets verificada.');
+console.log('Separação de secrets e sintaxe verificadas.');
