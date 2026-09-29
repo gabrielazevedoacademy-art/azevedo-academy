@@ -75,49 +75,6 @@ vercel dev
 
 Depois acesse `http://localhost:8000` (ou a porta indicada pela ferramenta escolhida).
 
-## Higgsfield Studio privado
-
-A rota `/higgsfield-studio/` é uma ferramenta privada, deliberadamente ausente
-da navegação pública. Ela usa funções serverless em `/api/higgsfield/*`; por
-isso, deve ser executada com `vercel dev` (um servidor apenas estático não
-executa a integração).
-
-O backend usa o cliente V2 do pacote oficial `@higgsfield/client@0.2.6`, pelo
-entrypoint `@higgsfield/client/v2`. A geração usa uma instância isolada criada
-com `createHiggsfieldClient({ credentials })` e chama
-`subscribe("bytedance/seedance-2.5/text-to-video", { input, withPolling: true })`.
-Configure no ambiente da Vercel, sem prefixo público:
-
-- `HF_CREDENTIALS`: credencial oficial completa no formato
-  `key-id:key-secret`. Ela é entregue diretamente ao SDK, exclusivamente no
-  servidor;
-- `HIGGSFIELD_STUDIO_PASSWORD`: senha de acesso à ferramenta;
-- `HIGGSFIELD_STUDIO_SESSION_SECRET`: segredo longo e aleatório para assinar
-  cookies de sessão;
-- `HIGGSFIELD_STUDIO_ORIGIN`: origem canônica do site. Em produção, use
-  **`https://www.azevedoacademy.com.br`**.
-
-No painel da Vercel, remova as variáveis obsoletas `HIGGSFIELD_API_KEY` e
-`HIGGSFIELD_API_SECRET`, adicione `HF_CREDENTIALS` e preserve as três variáveis
-`HIGGSFIELD_STUDIO_*`. Faça um novo deploy depois de salvar as alterações.
-
-O Studio usa um catálogo server-side com os workflows documentados de **Seedance 2.5**,
-**Seedance 2.0** e **Kling 3.0**. Estão disponíveis texto para vídeo, Reference
-to Video, imagem para vídeo e Motion Control, com variantes Standard, Pro,
-Turbo e 4K quando o endpoint oficial correspondente existe. Cada modelo expõe
-somente os parâmetros e resoluções permitidos pelo seu contrato.
-
-Arquivos de referência podem ser enviados diretamente do navegador para uma URL
-pré-assinada da infraestrutura da Higgsfield. O backend cria essa autorização
-com `HF_CREDENTIALS`, mas nunca envia a credencial ao navegador. Como fallback,
-a interface também aceita URLs HTTPS já hospedadas. O caminho real de cada
-modelo permanece fixo no servidor e não pode ser escolhido arbitrariamente pelo
-cliente.
-
-O histórico recente (até 20 itens, sem credenciais) fica somente no
-`localStorage` do navegador autenticado. Essa escolha evita acrescentar banco
-de dados ao site estático; limpar os dados do navegador remove o histórico.
-
 ## Deploy
 
 O deploy é automático via Vercel:
