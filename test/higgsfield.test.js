@@ -67,10 +67,15 @@ test('normaliza estados de cancelamento e moderação retornados pelo SDK', () =
   assert.equal(sanitizeResult({ data: { status: 'cancelled' } }).status, 'canceled');
   assert.equal(sanitizeResult({ data: { status: 'content_policy_violation' } }).status, 'moderated');
 });
-test('frontend não contém credenciais e backend usa subscribe do SDK oficial', () => {
+test('frontend não contém credenciais e backend usa o cliente V2 oficial com polling', () => {
   const client = fs.readFileSync('lib/higgsfield/client.js', 'utf8');
+  const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
   for (const file of ['higgsfield-studio/index.html', 'assets/js/higgsfield-studio.js', 'assets/css/higgsfield-studio.css']) assert.doesNotMatch(fs.readFileSync(file, 'utf8'), /HF_CREDENTIALS/);
-  assert.match(client, /require\('@higgsfield\/client'\)/); assert.match(client, /\.subscribe\(MODEL_PATH, \{ input \}\)/);
+  assert.match(client, /require\('@higgsfield\/client\/v2'\)/);
+  assert.match(client, /createHiggsfieldClient\(\{ credentials: credentials\(\) \}\)/);
+  assert.match(client, /\.subscribe\(MODEL_PATH, \{ input, withPolling: true \}\)/);
+  assert.doesNotMatch(client, /require\('@higgsfield\/client'\)|\{\s*hf\s*\}|hf\.config/);
+  assert.equal(pkg.dependencies['@higgsfield/client'], '0.2.6');
   assert.doesNotMatch(client, /HIGGSFIELD_API_(KEY|SECRET)|hf-api-key|hf-secret/);
 });
 test('/biblioteca-de-prompts/ permanece idêntica ao início da alteração', () => {
