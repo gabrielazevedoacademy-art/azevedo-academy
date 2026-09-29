@@ -82,16 +82,18 @@ da navegação pública. Ela usa funções serverless em `/api/higgsfield/*`; po
 isso, deve ser executada com `vercel dev` (um servidor apenas estático não
 executa a integração).
 
-O backend usa o pacote oficial `@higgsfield/client` e o método
-`subscribe("bytedance/seedance-2.5/text-to-video", { input })`. Configure no
-ambiente da Vercel, sem prefixo público:
+O backend usa o cliente V2 do pacote oficial `@higgsfield/client@0.2.6`, pelo
+entrypoint `@higgsfield/client/v2`. A geração usa uma instância isolada criada
+com `createHiggsfieldClient({ credentials })` e chama
+`subscribe("bytedance/seedance-2.5/text-to-video", { input, withPolling: true })`.
+Configure no ambiente da Vercel, sem prefixo público:
 
 - `HF_CREDENTIALS`: credencial oficial completa no formato
   `key-id:key-secret`. Ela é entregue diretamente ao SDK, exclusivamente no
   servidor;
 - `HIGGSFIELD_STUDIO_PASSWORD`: senha de acesso à ferramenta;
 - `HIGGSFIELD_STUDIO_SESSION_SECRET`: segredo longo e aleatório para assinar
-  cookies e referências de jobs;
+  cookies de sessão;
 - `HIGGSFIELD_STUDIO_ORIGIN`: origem canônica do site. Em produção, use
   **`https://www.azevedoacademy.com.br`**.
 
