@@ -2,20 +2,6 @@
   "outputDirectory": ".",
   "headers": [
     {
-      "source": "/higgsfield-studio/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "private, no-store" },
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
-      ]
-    },
-    {
-      "source": "/api/higgsfield/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "private, no-store" },
-        { "key": "Content-Security-Policy", "value": "default-src 'none'; frame-ancestors 'none'" }
-      ]
-    },
-    {
       "source": "/(.*)",
       "headers": [
         {
