@@ -1,0 +1,14 @@
+{
+  "name": "azevedo-academy",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@higgsfield/client": "latest"
+  },
+  "scripts": {
+    "lint": "node --check assets/js/higgsfield-studio.js && find api lib test -name '*.js' -print0 | xargs -0 -n1 node --check",
+    "typecheck": "node scripts/typecheck.js",
+    "test": "node --test",
+    "build": "node scripts/build.js"
+  }
+}
