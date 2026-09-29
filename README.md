@@ -75,6 +75,25 @@ vercel dev
 
 Depois acesse `http://localhost:8000` (ou a porta indicada pela ferramenta escolhida).
 
+## Higgsfield Studio privado
+
+A rota `/higgsfield-studio/` é uma ferramenta privada, deliberadamente ausente
+da navegação pública. Ela usa funções serverless em `/api/higgsfield/*`; por
+isso, deve ser executada com `vercel dev` (um servidor apenas estático não
+executa a integração).
+
+Configure no ambiente da Vercel, sem prefixo público:
+
+- `HIGGSFIELD_API_KEY` e `HIGGSFIELD_API_SECRET`: credenciais oficiais;
+- `HIGGSFIELD_STUDIO_PASSWORD`: senha de acesso à ferramenta;
+- `HIGGSFIELD_STUDIO_SESSION_SECRET`: segredo longo e aleatório para assinar
+  cookies e referências de jobs;
+- `HIGGSFIELD_STUDIO_ORIGIN`: origem exata do site (recomendado em produção).
+
+O histórico recente (até 20 itens, sem credenciais) fica somente no
+`localStorage` do navegador autenticado. Essa escolha evita acrescentar banco
+de dados ao site estático; limpar os dados do navegador remove o histórico.
+
 ## Deploy
 
 O deploy é automático via Vercel:
@@ -84,5 +103,11 @@ O deploy é automático via Vercel:
   com uma URL própria, sem afetar produção.
 - Configurações de headers de segurança e roteamento ficam em `vercel.json`.
 
-Não é necessário nenhum comando de build — a Vercel serve os arquivos
-estáticos diretamente.
+Como os arquivos HTML públicos já vivem na raiz, `vercel.json` declara
+`outputDirectory: "."`. O comando de build apenas valida os arquivos estáticos;
+ele não gera uma pasta `public`. No painel da Vercel, o preset deve permanecer
+em **Other** e a configuração de Output Directory não deve forçar `public`
+(a configuração versionada aponta explicitamente para a raiz).
+
+Não há compilação ou geração de bundles: o comando de build valida o projeto e
+a Vercel serve os arquivos estáticos diretamente da raiz.
