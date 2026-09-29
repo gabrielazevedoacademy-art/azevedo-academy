@@ -1,7 +1,14 @@
 'use strict';
 const { catalog } = require('../lib/higgsfield/catalog');
+
+const ids = Object.keys(catalog);
+if (ids.length < 10) throw new Error('Catálogo Higgsfield incompleto.');
+
 for (const [id, model] of Object.entries(catalog)) {
-  if (model.id !== id || model.modelPath !== 'bytedance/seedance-2.5/text-to-video' || model.media !== 'video') throw new Error(`Catálogo inválido: ${id}`);
-  if (!model.workflow || !model.prompt || !model.fields) throw new Error(`Contrato incompleto: ${id}`);
+  if (model.id !== id || typeof model.modelPath !== 'string' || !model.modelPath.includes('/')) throw new Error('Catálogo inválido: ' + id);
+  if (model.media !== 'video' || !model.family || !model.workflow || !model.variant || !model.prompt || !model.fields || !Array.isArray(model.references)) {
+    throw new Error('Contrato incompleto: ' + id);
+  }
 }
-console.log(`Contratos verificados: ${Object.keys(catalog).length} modelos.`);
+
+console.log('Contratos verificados: ' + ids.length + ' modelos/workflows.');
