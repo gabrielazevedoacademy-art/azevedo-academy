@@ -101,11 +101,18 @@ No painel da Vercel, remova as variáveis obsoletas `HIGGSFIELD_API_KEY` e
 `HIGGSFIELD_API_SECRET`, adicione `HF_CREDENTIALS` e preserve as três variáveis
 `HIGGSFIELD_STUDIO_*`. Faça um novo deploy depois de salvar as alterações.
 
-O Studio disponibiliza somente o fluxo **Seedance 2.5 — Texto para vídeo**. A
-interface envia os quatro campos confirmados pelo exemplo oficial da
-Higgsfield: `prompt`, `duration` (5), `resolution` (`720p`) e `aspect_ratio`
-(`16:9`). O modelo e o caminho do SDK são fixados no servidor e não podem ser
-escolhidos pelo navegador.
+O Studio usa um catálogo server-side com os workflows documentados de **Seedance 2.5**,
+**Seedance 2.0** e **Kling 3.0**. Estão disponíveis texto para vídeo, Reference
+to Video, imagem para vídeo e Motion Control, com variantes Standard, Pro,
+Turbo e 4K quando o endpoint oficial correspondente existe. Cada modelo expõe
+somente os parâmetros e resoluções permitidos pelo seu contrato.
+
+Arquivos de referência podem ser enviados diretamente do navegador para uma URL
+pré-assinada da infraestrutura da Higgsfield. O backend cria essa autorização
+com `HF_CREDENTIALS`, mas nunca envia a credencial ao navegador. Como fallback,
+a interface também aceita URLs HTTPS já hospedadas. O caminho real de cada
+modelo permanece fixo no servidor e não pode ser escolhido arbitrariamente pelo
+cliente.
 
 O histórico recente (até 20 itens, sem credenciais) fica somente no
 `localStorage` do navegador autenticado. Essa escolha evita acrescentar banco
