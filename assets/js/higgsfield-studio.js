@@ -14,6 +14,7 @@
   };
 
   const labels = {
+    ready: 'Pronto para gerar',
     queued: 'Na fila',
     pending: 'Na fila',
     in_progress: 'Processando',
