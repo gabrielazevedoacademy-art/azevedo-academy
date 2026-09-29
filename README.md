@@ -103,5 +103,11 @@ O deploy é automático via Vercel:
   com uma URL própria, sem afetar produção.
 - Configurações de headers de segurança e roteamento ficam em `vercel.json`.
 
-Não é necessário nenhum comando de build — a Vercel serve os arquivos
-estáticos diretamente.
+Como os arquivos HTML públicos já vivem na raiz, `vercel.json` declara
+`outputDirectory: "."`. O comando de build apenas valida os arquivos estáticos;
+ele não gera uma pasta `public`. No painel da Vercel, o preset deve permanecer
+em **Other** e a configuração de Output Directory não deve forçar `public`
+(a configuração versionada aponta explicitamente para a raiz).
+
+Não há compilação ou geração de bundles: o comando de build valida o projeto e
+a Vercel serve os arquivos estáticos diretamente da raiz.
