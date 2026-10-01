@@ -11,7 +11,8 @@
 - Catálogo contém 11 ferramentas: ChatGPT, Claude, Gemini, Magnific, Higgsfield, HeyGen, ElevenLabs, Google Flow, Musicful, Suno e Flow Music.
 - Cada ferramenta aparece uma única vez e usa tags internas para múltiplas categorias.
 - Filtros: Todas, LLMs, Criação de conteúdo, Imagem, Vídeo, Narração e Música.
-- Cards exibem logo, nome e descrição curta, com reveal em stagger e hover simples por crescimento; o spotlight que seguia o mouse foi removido.
+- Cards estão compactos e centralizados, sem numeração; exibem logo, nome e descrição curta. O hover flutua para cima e cresce levemente, sem contorno.
+- Claude usa o ícone próprio da marca. O catálogo tem fundo quente/escuro distinto do restante da página.
 - Não existem links externos/afiliados nos cards ainda.
 - Página responsiva: 4 colunas desktop amplo, 3 em telas intermediárias, 2 no tablet e 1 no celular.
 - Mobile possui menu hambúrguer com painel lateral, backdrop e fechamento acessível.
