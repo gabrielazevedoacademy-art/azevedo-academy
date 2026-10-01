@@ -143,6 +143,18 @@ Não modificar sem pedido explícito.
 
 Mudanças específicas da Home devem preferencialmente ficar em `home.css` e `home.js`.
 
+## Vídeos recentes do YouTube
+
+A Home possui uma seção de vídeos recentes antes do footer.
+
+- Fonte: canal público `@Azevedo.Academy`, ID `UCal4KF4mgJCUrFXu4Qw5aog`.
+- A integração usa uma Vercel Function em `/api/youtube` para consultar o feed público do YouTube no servidor; não usa chave de API no frontend.
+- Preferência: feed de long-form; fallback para o feed geral do canal caso necessário.
+- A Home mostra os 3 vídeos recentes, com thumbnail, título e data, além de link para a aba de vídeos do canal.
+- A resposta da função pode ser cacheada por curto período para reduzir latência e dependência direta do YouTube em cada visita.
+- Se o feed falhar, a Home deve continuar funcional e manter o link direto para o canal.
+- Preservar responsividade, acessibilidade e `prefers-reduced-motion`.
+
 ## Deploy
 
 Push na `main` dispara deploy de produção na Vercel.
