@@ -2,6 +2,7 @@
   const header = document.querySelector('[data-header]');
   const toggle = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-menu]');
+  const menuOverlay = document.querySelector('[data-menu-overlay]');
   const hero = document.querySelector('.hero');
   const creativePath = document.querySelector('[data-creative-path]');
   const destinations = document.querySelector('[data-destinations]');
@@ -35,24 +36,35 @@
     }
   }
 
-  const closeMenu = (restoreFocus = false) => {
+  const setMenuState = (shouldOpen) => {
     if (!toggle || !menu) return;
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.querySelector('.sr-only').textContent = 'Abrir menu';
-    menu.classList.remove('is-open');
-    if (restoreFocus) toggle.focus();
+    toggle.setAttribute('aria-expanded', String(shouldOpen));
+    toggle.querySelector('.sr-only').textContent = shouldOpen ? 'Fechar menu' : 'Abrir menu';
+    menu.classList.toggle('is-open', shouldOpen);
+    menuOverlay?.classList.toggle('is-open', shouldOpen);
+    document.body.classList.toggle('mobile-menu-open', shouldOpen);
+  };
+
+  const closeMenu = (restoreFocus = false) => {
+    setMenuState(false);
+    if (restoreFocus) toggle?.focus({ preventScroll: true });
   };
 
   toggle?.addEventListener('click', () => {
     const shouldOpen = toggle.getAttribute('aria-expanded') !== 'true';
-    toggle.setAttribute('aria-expanded', String(shouldOpen));
-    toggle.querySelector('.sr-only').textContent = shouldOpen ? 'Fechar menu' : 'Abrir menu';
-    menu.classList.toggle('is-open', shouldOpen);
+    setMenuState(shouldOpen);
   });
 
+  menuOverlay?.addEventListener('click', () => closeMenu());
   menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => closeMenu()));
+
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && menu?.classList.contains('is-open')) closeMenu(true);
+  });
+
+  const mobileMenuMedia = window.matchMedia('(max-width: 860px)');
+  mobileMenuMedia.addEventListener?.('change', (event) => {
+    if (!event.matches) closeMenu();
   });
 
   if (creativePath) {
@@ -131,18 +143,25 @@
   let scheduled = false;
   const updateScrollEffects = () => {
     const scrollY = window.scrollY;
+    const desktop = window.matchMedia('(min-width: 861px)').matches;
+
     header?.classList.toggle('is-scrolled', scrollY > 24);
     if (header) {
-      const desktop = window.matchMedia('(min-width: 861px)').matches;
       const introComplete = header.classList.contains('is-intro-complete') || reduceMotion.matches;
       header.classList.toggle('is-away', desktop && introComplete && scrollY > 64);
     }
-    if (!reduceMotion.matches && hero && scrollY < hero.offsetHeight * 1.15) {
+
+    if (!reduceMotion.matches && desktop && hero && scrollY < hero.offsetHeight * 1.15) {
       const progress = Math.min(scrollY, hero.offsetHeight * 1.15);
       document.documentElement.style.setProperty('--hero-image-shift', `${progress * 0.16}px`);
       document.documentElement.style.setProperty('--hero-content-shift', `${progress * 0.07}px`);
       document.documentElement.style.setProperty('--hero-explore-shift', `${progress * -0.11}px`);
+    } else if (!desktop) {
+      document.documentElement.style.removeProperty('--hero-image-shift');
+      document.documentElement.style.removeProperty('--hero-content-shift');
+      document.documentElement.style.removeProperty('--hero-explore-shift');
     }
+
     scheduled = false;
   };
 
