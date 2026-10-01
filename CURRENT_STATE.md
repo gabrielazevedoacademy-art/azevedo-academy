@@ -1,34 +1,36 @@
 # CURRENT_STATE.md — Azevedo Academy
 
-**Atualizado em:** 2026-09-30  
+**Atualizado em:** 2026-10-01  
 **Branch:** `main` após integração da tarefa atual  
-**Estado geral:** Home funcional em produção, com desktop preservado e responsividade mobile/tablet refinada.
+**Estado geral:** Home funcional em produção e nova página de ferramentas pronta para publicação.
 
 ## Estado atual
 
-- Desktop acima de 860px foi preservado.
-- Header/nav desktop mantém entrada, saída no scroll e retorno ao topo.
-- Em até 860px, a navegação usa botão hambúrguer com menu lateral off-canvas pela direita.
-- Menu mobile possui backdrop com blur, animação dos links em sequência, fechamento por backdrop/Escape/link e bloqueio do scroll de fundo.
-- Hero mobile usa espaçamento fluido, tipografia responsiva e parallax de scroll desativado para evitar jitter/posicionamento instável.
-- A jornada criativa preserva o layout cinematográfico no desktop; em telas estreitas vira timeline vertical animada para impedir sobreposição.
-- Seção **Explore o ecossistema.** usa 2 colunas no tablet e 1 coluna no celular, mantendo proporção 4:5 dos cards.
-- Seção **Últimos vídeos** mantém embeds fixos; em telas estreitas passa para 1 coluna e CTA centralizado.
-- Footer reorganizado para tablet/celular sem overflow lateral.
-- A Home mantém scroll nativo, foco acessível e suporte a `prefers-reduced-motion`.
+- Home preservada, incluindo desktop e responsividade mobile/tablet já aprovados.
+- `/ferramentas` possui hero próprio alinhado à identidade preta, branca e laranja.
+- Catálogo contém 11 ferramentas: ChatGPT, Claude, Gemini, Magnific, Higgsfield, HeyGen, ElevenLabs, Google Flow, Musicful, Suno e Flow Music.
+- Cada ferramenta aparece uma única vez e usa tags internas para múltiplas categorias.
+- Filtros: Todas, LLMs, Criação de conteúdo, Imagem, Vídeo, Narração e Música.
+- Cards exibem logo, nome e descrição curta, com reveal em stagger, spotlight e hover.
+- Não existem links externos/afiliados nos cards ainda.
+- Página responsiva: 4 colunas desktop amplo, 3 em telas intermediárias, 2 no tablet e 1 no celular.
+- Mobile possui menu hambúrguer com painel lateral, backdrop e fechamento acessível.
+- Filtros mobile usam rolagem horizontal própria sem causar overflow da página.
+- `prefers-reduced-motion` é respeitado.
 - `/biblioteca-de-prompts/` permanece protegida e não foi modificada.
 
-## Validação
+## Validação esperada
 
-- Sintaxe do JavaScript verificada.
-- Estrutura de blocos CSS verificada.
-- Condições equivalentes do build estático verificadas: `index.html`, Biblioteca e `vercel.json` permanecem válidos.
-- Preview da Vercel na branch: **success**.
-- Diff restrito a `index.html`, `assets/js/home.js`, `assets/css/home.css` e arquivos de contexto.
+- `npm run lint`
+- `npm run build`
+- revisão de sintaxe do CSS
+- revisão de overflow/responsividade
+- preview Vercel
+- merge na `main` após validação
 
 ## Pendente
 
-- Inspeção visual final no site publicado em aparelhos/tamanhos reais.
+- Inspeção visual do proprietário no site publicado e refinamentos, se necessários.
 
 ## Área protegida
 
