@@ -7,12 +7,12 @@
 ## Estado atual
 
 - Home preservada, incluindo desktop e responsividade mobile/tablet já aprovados.
-- `/ferramentas` possui hero próprio alinhado à identidade preta, branca e laranja; o microtítulo atual é **Ferramentas recomendadas** e o espaçamento do título foi ajustado para evitar colisão entre linhas.
+- `/ferramentas` possui hero próprio alinhado à identidade preta, branca e laranja; o microtítulo atual é **Ferramentas recomendadas**. Os textos editoriais foram simplificados para uma linguagem mais natural, sem travessões decorativos.
 - Catálogo contém 11 ferramentas: ChatGPT, Claude, Gemini, Magnific, Higgsfield, HeyGen, ElevenLabs, Google Flow, Musicful, Suno e Flow Music.
 - Cada ferramenta aparece uma única vez e usa tags internas para múltiplas categorias.
-- Filtros: Todas, LLMs, Criação de conteúdo, Imagem, Vídeo, Narração e Música.
-- Cards estão compactos e centralizados, sem numeração; exibem logo, nome e descrição curta. O hover flutua para cima e cresce levemente, sem contorno.
-- Claude usa o ícone próprio da marca. O catálogo tem fundo quente/escuro distinto do restante da página.
+- Filtros: Todas, Texto e ideias, Criação de conteúdo, Imagem, Vídeo, Narração e Música.
+- Cards estão compactos e centralizados, sem numeração; exibem logo, nome e descrição curta. O hover agora move o card inteiro para cima e cresce de forma suave, sem contorno e sem depender da animação do logo.
+- Claude usa o ícone próprio da marca. O catálogo tem fundo quente/escuro distinto do restante da página e uma transição gradual com o hero.
 - Não existem links externos/afiliados nos cards ainda.
 - Página responsiva: 4 colunas desktop amplo, 3 em telas intermediárias, 2 no tablet e 1 no celular.
 - Mobile possui menu hambúrguer com painel lateral, backdrop e fechamento acessível.
