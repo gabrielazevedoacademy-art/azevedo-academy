@@ -90,14 +90,12 @@
 
   const finePointer = window.matchMedia('(pointer: fine)');
   let smoothWheelFrame = 0;
-  let smoothWheelCurrent = window.scrollY;
-  let smoothWheelTarget = window.scrollY;
+  let smoothWheelTail = 0;
 
   const stopSmoothWheel = () => {
     if (smoothWheelFrame) window.cancelAnimationFrame(smoothWheelFrame);
     smoothWheelFrame = 0;
-    smoothWheelCurrent = window.scrollY;
-    smoothWheelTarget = window.scrollY;
+    smoothWheelTail = 0;
   };
 
   const hasScrollableAncestor = (target) => {
@@ -111,19 +109,17 @@
     return false;
   };
 
-  const animateSmoothWheel = () => {
-    const distance = smoothWheelTarget - smoothWheelCurrent;
-    smoothWheelCurrent += distance * 0.16;
-
-    if (Math.abs(distance) < 0.6) {
-      window.scrollTo(0, smoothWheelTarget);
+  const animateSmoothWheelTail = () => {
+    if (Math.abs(smoothWheelTail) < 0.35) {
       smoothWheelFrame = 0;
-      smoothWheelCurrent = smoothWheelTarget;
+      smoothWheelTail = 0;
       return;
     }
 
-    window.scrollTo(0, smoothWheelCurrent);
-    smoothWheelFrame = window.requestAnimationFrame(animateSmoothWheel);
+    const step = smoothWheelTail * 0.38;
+    smoothWheelTail -= step;
+    window.scrollBy(0, step);
+    smoothWheelFrame = window.requestAnimationFrame(animateSmoothWheelTail);
   };
 
   if (!reduceMotion.matches && finePointer.matches) {
@@ -132,19 +128,23 @@
 
       const multiplier = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
       const delta = event.deltaY * multiplier;
-      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+      // Trackpads already provide smooth high-frequency scrolling; keep that behavior native.
+      if (event.deltaMode === 0 && Math.abs(delta) < 50) return;
 
       event.preventDefault();
 
-      if (!smoothWheelFrame) {
-        smoothWheelCurrent = window.scrollY;
-        smoothWheelTarget = window.scrollY;
+      if (smoothWheelTail && Math.sign(smoothWheelTail) !== Math.sign(delta)) {
+        stopSmoothWheel();
       }
 
-      smoothWheelTarget = Math.min(maxScroll, Math.max(0, smoothWheelTarget + (delta * 0.92)));
+      // Respond immediately, then add only a short eased tail so the wheel feels softer without lag.
+      window.scrollBy(0, delta * 0.82);
+      smoothWheelTail += delta * 0.14;
+      smoothWheelTail = Math.max(-72, Math.min(72, smoothWheelTail));
 
       if (!smoothWheelFrame) {
-        smoothWheelFrame = window.requestAnimationFrame(animateSmoothWheel);
+        smoothWheelFrame = window.requestAnimationFrame(animateSmoothWheelTail);
       }
     }, { passive: false });
 
