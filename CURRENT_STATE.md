@@ -1,47 +1,57 @@
-# CURRENT_STATE.md — Estado Atual do Projeto
+# CURRENT_STATE.md — Azevedo Academy
 
-## STATUS GERAL
+**Atualizado em:** 2026-09-30  
+**Branch:** `main`  
+**Estado geral:** Home funcional em produção; transição criativa redesenhada.
 
-**Estado atual:** estável; transição criativa animada implementada  
-**Última atualização:** 2026-09-30  
-**Último estado seguro conhecido:** commit desta tarefa na `main`
+## Último estado publicado
 
-## FUNCIONANDO
+Commit visual mais recente:
 
-- Cabeçalho transparente com logo + “Azevedo Academy”.
-- No desktop, o header aparece no topo e desaparece suavemente após o início do scroll; no mobile o comportamento anterior foi preservado.
-- Hero sem kicker; título, texto principal e CTA aprovado preservados.
-- Faixa branca mantém a mensagem “NÃO É SOBRE ACOMPANHAR O FUTURO. É SOBRE CRIAR COM ELE.”
-- Frase pequena superior, círculo abstrato e assinatura com bolinha foram removidos.
-- A faixa branca agora contém um caminho curvo animado que é desenhado quando entra na viewport.
-- Etapas do caminho: IDEIA → PROMPT → CRIAÇÃO → IMPACTO, surgindo em sequência.
-- A animação usa SVG/CSS/IntersectionObserver, sem biblioteca externa e sem peso adicional relevante.
-- Cards, glows e hover uniformizado permanecem intactos.
-- `prefers-reduced-motion` mantém uma versão estática acessível.
-- `/biblioteca-de-prompts/` não foi alterada.
+`c3cef2847b25fc72dc9e8f065956737edec03f97`
 
-## PENDÊNCIAS
+Vercel reportou **success** para esse commit.
 
-- Validar visualmente o caminho animado e as posições das quatro etapas em desktop e mobile.
-- Ajustar somente proporções/ritmo caso o proprietário peça.
+## O que está funcionando
 
-## BLOQUEIOS
+- Header/nav existente preservado.
+- Hero existente preservado.
+- Cards de imagem preservados.
+- `/biblioteca-de-prompts/` preservada.
+- Transição entre hero e cards agora usa fundo escuro cinematográfico.
+- Título da seção: **O CAMINHO DA CRIAÇÃO.**
+- Copy de apoio: “Da ideia ao impacto, cada etapa transforma intenção em algo que merece ser visto.”
+- Caminho ampliado e mais elaborado atravessa a seção.
+- Linha verde com glow é desenhada ao entrar na viewport.
+- Depois do desenho principal, um fluxo luminoso percorre o trajeto continuamente.
+- Etapas continuam: IDEIA → PROMPT → CRIAÇÃO → IMPACTO.
+- Cada etapa nasce diretamente do caminho, recebe um conector e revela o texto em sequência.
+- Fundo possui movimento sutil de grade e luzes difusas.
+- `prefers-reduced-motion` mantém versão estática acessível.
 
-> Nenhum bloqueio atual.
+## Validação
 
-## VALIDAÇÃO MAIS RECENTE
+- Alterações estão na `main`.
+- Status Vercel do commit visual: **success**.
+- `vercel.json` continua com `outputDirectory: "."`.
+- `biblioteca-de-prompts/index.html` continua existente e não foi alterado.
+- `home.js` não precisou ser alterado; o IntersectionObserver existente continua acionando a animação.
+- Os comandos locais `npm run lint` e `npm run build` não puderam ser executados neste ambiente porque o clone externo do GitHub não estava disponível. A estrutura exigida pelo build foi conferida diretamente no repositório.
 
-**Build:** estrutura estática e configuração Vercel preservadas  
-**Lint:** sintaxe do JavaScript alterado validada  
-**Typecheck:** não disponível  
-**Testes:** não existem testes automatizados adicionais  
-**Validação visual:** aguardando inspeção do site publicado  
-**Deploy:** push para `main` aciona a Vercel
+## Pendente
 
-## ÁREA SENSÍVEL
+- Inspeção visual do resultado publicado pelo proprietário em desktop e mobile.
+- Ajustar apenas ritmo, proporções ou posicionamento se o resultado visual pedir refinamento.
 
-- `biblioteca-de-prompts/index.html` — preservado e não alterado.
+## Área protegida
 
-## RESUMO PARA O PRÓXIMO AGENTE
+- `biblioteca-de-prompts/index.html`
 
-> A faixa branca usa um SVG curvo animado como narrativa de processo: IDEIA → PROMPT → CRIAÇÃO → IMPACTO. O caminho é desenhado ao entrar na tela e os nós surgem em sequência; reduced motion mostra tudo estático. No desktop, o header agora é visível apenas no topo e some após 64px de scroll. O CTA aprovado e os cards não foram alterados.
+## Próximo passo provável
+
+Abrir o site publicado, assistir a transição inteira e avaliar visualmente:
+- fundo;
+- percurso;
+- ritmo da linha verde;
+- posição dos textos;
+- leitura em desktop e mobile.
