@@ -2,26 +2,26 @@
 
 ## STATUS GERAL
 
-**Estado atual:** estável; hover dos quatro cards uniformizado  
+**Estado atual:** estável; nova transição editorial entre hero e cards implementada  
 **Última atualização:** 2026-09-30  
 **Último estado seguro conhecido:** commit desta tarefa na `main`
 
 ## FUNCIONANDO
 
 - Cabeçalho transparente com logo + “Azevedo Academy”.
-- Hero sem kicker; título e texto principal preservados.
-- CTA “Explorar ferramentas” aprovado pelo proprietário e deve ser mantido como está.
-- Quatro cards usam as artes PNG e mantêm seus links.
-- Entrada dos cards continua com stagger.
-- Qualquer card já visível responde ao hover sem `transition-delay`, inclusive os cards 3 e 4.
-- Glows permanecem azul, roxo, amarelo e ciano.
-- Layout 4/2/1, foco visível e `prefers-reduced-motion` permanecem tratados.
+- Hero sem kicker; título, texto principal e CTA aprovado preservados.
+- Nova faixa clara entre o hero e os cards, com linguagem editorial de alto contraste.
+- Mensagem da faixa: “NÃO É SOBRE ACOMPANHAR O FUTURO. É SOBRE CRIAR COM ELE.”
+- Textos antigos “Acessos — Descubra”, “Escolha por onde começar” e o parágrafo explicativo foram removidos.
+- Cards entram diretamente após a faixa clara.
+- Quatro cards, glows e hover uniformizado permanecem intactos.
+- Layout 4/2/1 e `prefers-reduced-motion` continuam tratados.
 - `/biblioteca-de-prompts/` não foi alterada.
 
 ## PENDÊNCIAS
 
-- Validar visualmente se os quatro hovers agora têm resposta idêntica.
-- Continuar os próximos refinamentos do hero após feedback.
+- Validar visualmente a nova faixa branca no desktop e mobile.
+- Refinar conteúdo ou proporções da faixa após feedback do proprietário.
 
 ## BLOQUEIOS
 
@@ -42,4 +42,4 @@
 
 ## RESUMO PARA O PRÓXIMO AGENTE
 
-> O CTA do hero está aprovado e não deve ser alterado sem novo pedido. Para eliminar o atraso residual nos cards 3 e 4, o hover de qualquer card visível força `transition-delay: 0ms` no card, no glow e na imagem. A entrada escalonada continua existindo, mas não deve interferir no hover.
+> Entre o hero escuro e os cards foi criada uma faixa clara editorial grande, com a frase “NÃO É SOBRE ACOMPANHAR O FUTURO. É SOBRE CRIAR COM ELE.” Os três textos antigos acima dos cards foram removidos. O CTA aprovado e os hovers/glows dos cards não foram alterados.

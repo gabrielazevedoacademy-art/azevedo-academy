@@ -889,3 +889,151 @@ html { scroll-behavior: smooth; }
 .card-grid.has-card-reveal .access-card.is-visible:hover .access-card-image {
   transition-delay: 0ms !important;
 }
+
+
+/* Editorial transition between hero and cards — 2026-09-30 */
+.transition-manifesto {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  min-height: clamp(360px, 44vw, 560px);
+  padding: clamp(72px, 9vw, 128px) var(--space-6);
+  overflow: hidden;
+  background: #f2eee8;
+  color: #11100f;
+}
+.transition-manifesto::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -8vw;
+  width: min(34vw, 480px);
+  aspect-ratio: 1;
+  border: clamp(38px, 5vw, 72px) solid rgba(220,40,27,.055);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.transition-manifesto::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 42%;
+  height: 1px;
+  background: linear-gradient(90deg, #dc281b, rgba(220,40,27,0));
+  opacity: .72;
+}
+.transition-manifesto-inner {
+  position: relative;
+  width: min(100%, var(--home-wide));
+  margin: 0 auto;
+}
+.transition-eyebrow {
+  max-width: 760px;
+  margin-bottom: clamp(28px, 4vw, 54px);
+  color: rgba(17,16,15,.55);
+  font-size: clamp(.7rem, .9vw, .82rem);
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.transition-manifesto h2 {
+  display: grid;
+  max-width: 1120px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 7.5rem);
+  font-weight: 800;
+  line-height: .88;
+  letter-spacing: -.055em;
+}
+.transition-manifesto h2 span,
+.transition-manifesto h2 strong {
+  display: block;
+}
+.transition-manifesto h2 span {
+  color: #171513;
+  font-weight: 700;
+}
+.transition-manifesto h2 strong {
+  margin-top: .08em;
+  color: #dc281b;
+  font-weight: 800;
+}
+.transition-signature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(34px, 5vw, 64px);
+  color: rgba(17,16,15,.64);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.transition-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #dc281b;
+  box-shadow: 0 0 0 6px rgba(220,40,27,.08);
+}
+
+/* Cards now enter directly after the editorial divider. */
+.destinations {
+  padding-top: clamp(68px, 7vw, 96px);
+}
+.destinations .section-heading {
+  display: none;
+}
+.destinations .card-grid {
+  margin-top: 0;
+}
+
+@media (max-width: 860px) {
+  .transition-manifesto {
+    min-height: 410px;
+    padding-inline: var(--space-5);
+  }
+  .transition-manifesto h2 {
+    font-size: clamp(3.1rem, 10vw, 5.8rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .transition-manifesto {
+    min-height: 0;
+    padding: 82px 20px 88px;
+  }
+  .transition-manifesto::before {
+    right: -28vw;
+    width: 82vw;
+    border-width: 42px;
+  }
+  .transition-eyebrow {
+    max-width: 28ch;
+    margin-bottom: 30px;
+    font-size: .65rem;
+    line-height: 1.6;
+  }
+  .transition-manifesto h2 {
+    max-width: 9ch;
+    font-size: clamp(3rem, 15vw, 4.7rem);
+    line-height: .9;
+  }
+  .transition-signature {
+    margin-top: 38px;
+  }
+  .destinations {
+    padding-top: 62px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transition-manifesto,
+  .transition-manifesto * {
+    scroll-behavior: auto;
+  }
+}
