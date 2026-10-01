@@ -7,6 +7,9 @@
   const destinations = document.querySelector('[data-destinations]');
   const cardGrid = document.querySelector('.card-grid');
   const cards = document.querySelectorAll('.access-card');
+  const youtubeSection = document.querySelector('[data-youtube-section]');
+  const youtubeGrid = document.querySelector('[data-youtube-grid]');
+  const youtubeStatus = document.querySelector('[data-youtube-status]');
   const year = document.querySelector('[data-year]');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -108,6 +111,105 @@
         console.warn('Destination reveal disabled; showing static cards.', error);
       }
     }
+  }
+
+  if (youtubeSection) {
+    if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+      youtubeSection.classList.add('is-video-visible');
+    } else {
+      youtubeSection.classList.add('has-video-reveal');
+      const videoObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          youtubeSection.classList.add('is-video-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.14, rootMargin: '0px 0px -5% 0px' });
+      videoObserver.observe(youtubeSection);
+    }
+  }
+
+  const formatVideoDate = (value) => {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return 'Vídeo recente';
+    return new Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    }).format(date).replace(/\./g, '');
+  };
+
+  const renderYoutubeVideos = (videos) => {
+    if (!youtubeGrid) return;
+    youtubeGrid.replaceChildren();
+
+    videos.forEach((video, index) => {
+      const card = document.createElement('a');
+      card.className = 'video-card';
+      card.href = video.url;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+      card.setAttribute('aria-label', `Assistir no YouTube: ${video.title}`);
+      card.style.setProperty('--video-delay', `${140 + (index * 110)}ms`);
+
+      const media = document.createElement('span');
+      media.className = 'video-card-media';
+
+      const image = document.createElement('img');
+      image.src = video.thumbnail;
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.addEventListener('error', () => {
+        if (image.dataset.fallback === 'true') return;
+        image.dataset.fallback = 'true';
+        image.src = video.thumbnailFallback;
+      }, { once: true });
+
+      const play = document.createElement('span');
+      play.className = 'video-card-play';
+      play.setAttribute('aria-hidden', 'true');
+      play.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+
+      const body = document.createElement('span');
+      body.className = 'video-card-body';
+
+      const meta = document.createElement('span');
+      meta.className = 'video-card-meta';
+      meta.textContent = `YouTube · ${formatVideoDate(video.publishedAt)}`;
+
+      const title = document.createElement('strong');
+      title.className = 'video-card-title';
+      title.textContent = video.title;
+
+      media.append(image, play);
+      body.append(meta, title);
+      card.append(media, body);
+      youtubeGrid.append(card);
+    });
+
+    youtubeGrid.setAttribute('aria-busy', 'false');
+  };
+
+  if (youtubeGrid) {
+    fetch('/api/youtube?limit=3', { headers: { Accept: 'application/json' } })
+      .then((response) => {
+        if (!response.ok) throw new Error(`YouTube feed returned ${response.status}`);
+        return response.json();
+      })
+      .then((payload) => {
+        if (!Array.isArray(payload.videos) || !payload.videos.length) {
+          throw new Error('YouTube feed returned no videos');
+        }
+        renderYoutubeVideos(payload.videos);
+      })
+      .catch((error) => {
+        youtubeGrid.setAttribute('aria-busy', 'false');
+        if (youtubeStatus) {
+          youtubeStatus.textContent = 'Os vídeos não puderam ser carregados agora. Use “Ver todos os vídeos” para abrir o canal.';
+        }
+        console.warn('Latest YouTube videos unavailable.', error);
+      });
   }
 
   let scheduled = false;
