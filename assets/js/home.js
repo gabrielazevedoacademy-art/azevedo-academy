@@ -3,6 +3,7 @@
   const toggle = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-menu]');
   const hero = document.querySelector('.hero');
+  const creativePath = document.querySelector('[data-creative-path]');
   const cardGrid = document.querySelector('.card-grid');
   const cards = document.querySelectorAll('.access-card');
   const year = document.querySelector('[data-year]');
@@ -29,6 +30,21 @@
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && menu?.classList.contains('is-open')) closeMenu(true);
   });
+
+  if (creativePath) {
+    if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+      creativePath.classList.add('is-path-visible');
+    } else {
+      const pathObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-path-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.28 });
+      pathObserver.observe(creativePath);
+    }
+  }
 
   if (cardGrid && cards.length && !reduceMotion.matches && 'IntersectionObserver' in window) {
     try {
@@ -67,6 +83,10 @@
   const updateScrollEffects = () => {
     const scrollY = window.scrollY;
     header?.classList.toggle('is-scrolled', scrollY > 24);
+    if (header) {
+      const desktop = window.matchMedia('(min-width: 861px)').matches;
+      header.classList.toggle('is-away', desktop && scrollY > 64);
+    }
     if (!reduceMotion.matches && hero && scrollY < hero.offsetHeight * 1.15) {
       const progress = Math.min(scrollY, hero.offsetHeight * 1.15);
       document.documentElement.style.setProperty('--hero-image-shift', `${progress * 0.16}px`);

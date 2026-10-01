@@ -2,26 +2,28 @@
 
 ## STATUS GERAL
 
-**Estado atual:** estável; nova transição editorial entre hero e cards implementada  
+**Estado atual:** estável; transição criativa animada implementada  
 **Última atualização:** 2026-09-30  
 **Último estado seguro conhecido:** commit desta tarefa na `main`
 
 ## FUNCIONANDO
 
 - Cabeçalho transparente com logo + “Azevedo Academy”.
+- No desktop, o header aparece no topo e desaparece suavemente após o início do scroll; no mobile o comportamento anterior foi preservado.
 - Hero sem kicker; título, texto principal e CTA aprovado preservados.
-- Nova faixa clara entre o hero e os cards, com linguagem editorial de alto contraste.
-- Mensagem da faixa: “NÃO É SOBRE ACOMPANHAR O FUTURO. É SOBRE CRIAR COM ELE.”
-- Textos antigos “Acessos — Descubra”, “Escolha por onde começar” e o parágrafo explicativo foram removidos.
-- Cards entram diretamente após a faixa clara.
-- Quatro cards, glows e hover uniformizado permanecem intactos.
-- Layout 4/2/1 e `prefers-reduced-motion` continuam tratados.
+- Faixa branca mantém a mensagem “NÃO É SOBRE ACOMPANHAR O FUTURO. É SOBRE CRIAR COM ELE.”
+- Frase pequena superior, círculo abstrato e assinatura com bolinha foram removidos.
+- A faixa branca agora contém um caminho curvo animado que é desenhado quando entra na viewport.
+- Etapas do caminho: IDEIA → PROMPT → CRIAÇÃO → IMPACTO, surgindo em sequência.
+- A animação usa SVG/CSS/IntersectionObserver, sem biblioteca externa e sem peso adicional relevante.
+- Cards, glows e hover uniformizado permanecem intactos.
+- `prefers-reduced-motion` mantém uma versão estática acessível.
 - `/biblioteca-de-prompts/` não foi alterada.
 
 ## PENDÊNCIAS
 
-- Validar visualmente a nova faixa branca no desktop e mobile.
-- Refinar conteúdo ou proporções da faixa após feedback do proprietário.
+- Validar visualmente o caminho animado e as posições das quatro etapas em desktop e mobile.
+- Ajustar somente proporções/ritmo caso o proprietário peça.
 
 ## BLOQUEIOS
 
@@ -30,7 +32,7 @@
 ## VALIDAÇÃO MAIS RECENTE
 
 **Build:** estrutura estática e configuração Vercel preservadas  
-**Lint:** JavaScript não alterado nesta tarefa  
+**Lint:** sintaxe do JavaScript alterado validada  
 **Typecheck:** não disponível  
 **Testes:** não existem testes automatizados adicionais  
 **Validação visual:** aguardando inspeção do site publicado  
@@ -42,4 +44,4 @@
 
 ## RESUMO PARA O PRÓXIMO AGENTE
 
-> Entre o hero escuro e os cards foi criada uma faixa clara editorial grande, com a frase “NÃO É SOBRE ACOMPANHAR O FUTURO. É SOBRE CRIAR COM ELE.” Os três textos antigos acima dos cards foram removidos. O CTA aprovado e os hovers/glows dos cards não foram alterados.
+> A faixa branca usa um SVG curvo animado como narrativa de processo: IDEIA → PROMPT → CRIAÇÃO → IMPACTO. O caminho é desenhado ao entrar na tela e os nós surgem em sequência; reduced motion mostra tudo estático. No desktop, o header agora é visível apenas no topo e some após 64px de scroll. O CTA aprovado e os cards não foram alterados.
