@@ -3053,3 +3053,113 @@ html { scroll-behavior: smooth; }
     display: none;
   }
 }
+
+
+/* Final hero CTA color treatment — 2026-10-01 */
+.hero-cta {
+  border: 0;
+  background: #f6f1eb;
+  color: #17110e;
+  box-shadow:
+    0 14px 38px rgba(0,0,0,.26),
+    inset 0 1px rgba(255,255,255,.72);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition:
+    transform 520ms cubic-bezier(.16,1,.3,1),
+    box-shadow 520ms ease;
+}
+
+.hero-cta::before,
+.hero-cta::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  clip-path: circle(22px at calc(100% - 29px) 50%);
+  transition: clip-path 760ms cubic-bezier(.2,.72,.2,1);
+}
+
+.hero-cta::before {
+  content: "";
+  z-index: 1;
+  top: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+  background: linear-gradient(135deg, #ffb15f 0%, #f47724 44%, #dc281b 100%);
+  box-shadow: none;
+  opacity: 1;
+  filter: none;
+}
+
+.hero-cta::after {
+  content: attr(data-label);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  border: 0;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.hero-cta > span {
+  position: relative;
+  z-index: 2;
+  color: #17110e;
+}
+
+.hero-cta > svg {
+  position: relative;
+  z-index: 4;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  stroke: #fff;
+}
+
+.hero-cta:hover {
+  border: 0;
+  background: #f6f1eb;
+  color: #17110e;
+  transform: translateY(-4px);
+  translate: none;
+  scale: none;
+  box-shadow:
+    0 22px 54px rgba(0,0,0,.34),
+    0 0 34px rgba(233,89,29,.16);
+  filter: none;
+}
+
+.hero-cta:hover::before,
+.hero-cta:hover::after {
+  top: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+  clip-path: circle(165% at calc(100% - 29px) 50%);
+}
+
+.hero-cta:hover > span {
+  color: #17110e;
+  transform: none;
+  letter-spacing: .01em;
+}
+
+.hero-cta:hover > svg {
+  color: #fff;
+  stroke: #fff;
+  transform: translateX(3px) rotate(-6deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cta::before,
+  .hero-cta::after {
+    transition: none;
+  }
+}
