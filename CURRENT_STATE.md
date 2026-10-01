@@ -6,8 +6,8 @@
 
 ## Estado atual
 
-- Home preservada, incluindo desktop e responsividade mobile/tablet já aprovados. O CTA do hero parte de fundo branco e texto preto; o círculo laranja da seta ocupa o botão no hover e revela o texto branco na mesma área. A segunda linha do título recebe um pulso visual lento em looping depois da entrada.
-- `/ferramentas` possui hero próprio alinhado à identidade preta, branca e laranja; os círculos decorativos do fundo foram removidos. O título recebe um pulso visual lento em looping depois da entrada. O CTA segue o mesmo tratamento branco e laranja da Home. Os textos editoriais permanecem em linguagem natural.
+- Home preservada, incluindo desktop e responsividade mobile/tablet já aprovados. O CTA do hero parte de fundo branco e texto preto; o círculo laranja da seta ocupa o botão no hover e revela o texto branco na mesma área. A segunda linha do título recebe um glitch digital intermitente depois da entrada, com cortes horizontais e pequenos deslocamentos.
+- `/ferramentas` possui hero próprio alinhado à identidade preta, branca e laranja; os círculos decorativos do fundo foram removidos. O título recebe um glitch digital intermitente depois da entrada, com cortes horizontais e pequenos deslocamentos. O CTA segue o mesmo tratamento branco e laranja da Home. Os textos editoriais permanecem em linguagem natural.
 - Catálogo contém 11 ferramentas: ChatGPT, Claude, Gemini, Magnific, Higgsfield, HeyGen, ElevenLabs, Google Flow, Musicful, Suno e Flow Music.
 - Cada ferramenta aparece uma única vez e usa tags internas para múltiplas categorias.
 - Filtros: Todas, Texto e ideias, Criação de conteúdo, Imagem, Vídeo, Narração e Música.
