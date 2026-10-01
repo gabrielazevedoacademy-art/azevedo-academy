@@ -27,8 +27,8 @@ PR #19 foi integrada na `main`.
 - O título entra primeiro e os cards aparecem em stagger progressivo.
 - O fallback antigo que podia revelar os cards antes do usuário chegar à seção foi removido.
 - Hover, glow individual e foco dos cards foram preservados.
-- A rolagem com wheel em desktop/mouse responde imediatamente e recebe apenas uma cauda curta de suavização, sem acumular atraso.
-- Trackpad permanece nativo; touch/mobile, teclado e `prefers-reduced-motion` também mantêm comportamento nativo/acessível.
+- A rolagem da Home voltou a ser totalmente nativa do navegador; não há interceptação customizada de `wheel`.
+- Desktop, trackpad, touch/mobile, teclado e `prefers-reduced-motion` seguem comportamento nativo/acessível.
 
 ## Validação
 
@@ -42,7 +42,7 @@ PR #19 foi integrada na `main`.
 ## Pendente
 
 - Inspeção visual pelo proprietário da nova seção de cards em desktop e mobile.
-- Ajustar apenas a intensidade da cauda suave do wheel ou o ritmo do stagger se o resultado visual pedir refinamento.
+- Ajustar apenas o ritmo do stagger ou outros detalhes visuais se o resultado pedir refinamento; manter o scroll nativo.
 
 ## Área protegida
 
@@ -53,5 +53,5 @@ PR #19 foi integrada na `main`.
 Abrir a Home publicada e avaliar:
 - hierarquia do título dos cards;
 - timing do reveal;
-- resposta imediata + fluidez curta da rolagem em desktop;
+- comportamento normal da rolagem nativa;
 - leitura e espaçamento no mobile.
