@@ -15,7 +15,7 @@
 - Claude usa o ícone próprio da marca. O catálogo sobrepõe suavemente o final do hero para eliminar a linha entre as seções.
 - Não existem links externos/afiliados nos cards ainda.
 - Página responsiva: 4 colunas desktop amplo, 3 em telas intermediárias e 2 colunas no tablet e no celular.
-- Mobile possui menu hambúrguer com painel lateral, backdrop e fechamento acessível. Na página de Ferramentas, o header mobile não usa fundo desfocado ao rolar e o bloco de conteúdo do hero fica mais alto.
+- Mobile possui menu hambúrguer com painel lateral, backdrop e fechamento acessível. Na Home e em Ferramentas, o header mobile usa fundo desfocado ao rolar, sem borda inferior. Em Ferramentas, o bloco de conteúdo do hero permanece mais alto.
 - Filtros mobile usam rolagem horizontal própria sem causar overflow da página.
 - `prefers-reduced-motion` é respeitado.
 - `/biblioteca-de-prompts/` permanece protegida e não foi modificada.
