@@ -184,7 +184,7 @@ html {
   height: 34%;
   background:
     radial-gradient(ellipse 44% 22% at 72% 100%, rgba(255,92,31,.08), transparent 72%),
-    linear-gradient(180deg, transparent 0%, rgba(21,16,13,.55) 10%, #15100d 100%);
+    linear-gradient(180deg, transparent 0%, rgba(21,16,13,.55) 58%, #15100d 100%);
   pointer-events: none;
 }
 
@@ -905,7 +905,7 @@ html {
     overflow-y: auto;
     border-left: 1px solid rgba(255,255,255,.08);
     background:
-      radial-gradient(circle at 52.4% 8%, rgba(255,105,43,.14), transparent 30%),
+      radial-gradient(circle at 82% 8%, rgba(255,105,43,.14), transparent 30%),
       linear-gradient(165deg, rgba(20,16,14,.99), rgba(7,6,5,.998) 72%);
     box-shadow: -28px 0 70px rgba(0,0,0,.44);
     opacity: 0;
