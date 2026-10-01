@@ -412,8 +412,10 @@ html {
   padding: clamp(96px, 9vw, 138px) 32px clamp(110px, 11vw, 160px);
   overflow: hidden;
   background:
-    radial-gradient(ellipse 50% 24% at 88% 8%, rgba(255,90,31,.07), transparent 72%),
-    linear-gradient(180deg, var(--tools-bg), #090706 100%);
+    radial-gradient(ellipse 52% 26% at 86% 8%, rgba(255,90,31,.065), transparent 72%),
+    radial-gradient(ellipse 42% 28% at 10% 72%, rgba(255,145,82,.035), transparent 74%),
+    linear-gradient(180deg, #15100d 0%, #0f0c0a 48%, #120d0a 100%);
+  box-shadow: inset 0 1px rgba(255,255,255,.035);
 }
 
 .tools-catalog-glow {
@@ -537,27 +539,31 @@ html {
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-width: 0;
-  min-height: 285px;
-  padding: 24px;
+  min-height: 220px;
+  padding: 22px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,.075);
-  border-radius: 26px;
+  border: 0;
+  border-radius: 24px;
   background:
-    linear-gradient(155deg, rgba(255,255,255,.035), transparent 42%),
-    rgba(15,12,10,.78);
-  box-shadow: 0 18px 48px rgba(0,0,0,.18);
+    linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.012) 46%, transparent 74%),
+    #1a1512;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.2),
+    inset 0 1px rgba(255,255,255,.045);
   opacity: 0;
   transform: translateY(28px) scale(.975);
   filter: blur(3px);
   cursor: pointer;
+  text-align: center;
   transition:
-    transform 520ms cubic-bezier(.16,1,.3,1),
+    transform 650ms cubic-bezier(.16,1,.3,1),
     opacity 420ms ease,
     filter 420ms ease,
-    border-color 320ms ease,
-    box-shadow 520ms cubic-bezier(.16,1,.3,1),
-    background-color 320ms ease;
+    box-shadow 650ms cubic-bezier(.16,1,.3,1),
+    background-color 420ms ease;
 }
 
 .tool-card::before,
@@ -574,12 +580,13 @@ html {
 
 .tool-card:hover {
   z-index: 2;
-  transform: scale(1.025);
-  border-color: rgba(255,137,76,.2);
+  transform: translateY(-8px) scale(1.025);
   background:
-    linear-gradient(155deg, rgba(255,255,255,.048), transparent 42%),
-    rgba(17,13,11,.84);
-  box-shadow: 0 26px 58px rgba(0,0,0,.3);
+    linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.016) 46%, transparent 74%),
+    #1d1714;
+  box-shadow:
+    0 28px 58px rgba(0,0,0,.32),
+    inset 0 1px rgba(255,255,255,.055);
   transition-delay: 0ms;
 }
 
@@ -599,36 +606,25 @@ html {
   animation: tool-filter-in 620ms cubic-bezier(.16,1,.3,1) both;
 }
 
-.tool-card-index {
-  position: absolute;
-  top: 20px;
-  right: 22px;
-  color: rgba(245,240,235,.19);
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .14em;
-}
 
 .tool-logo-shell {
   position: relative;
   display: grid;
   place-items: center;
-  width: 72px;
-  height: 72px;
-  margin-bottom: auto;
-  border: 1px solid rgba(255,255,255,.09);
-  border-radius: 21px;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 18px;
+  border: 0;
+  border-radius: 18px;
   background:
     radial-gradient(circle at 30% 24%, rgba(255,255,255,.1), transparent 42%),
-    rgba(255,255,255,.035);
+    rgba(255,255,255,.045);
   box-shadow:
-    inset 0 1px rgba(255,255,255,.06),
-    0 16px 32px rgba(0,0,0,.16);
+    inset 0 1px rgba(255,255,255,.055),
+    0 10px 24px rgba(0,0,0,.14);
   transition:
-    transform 620ms cubic-bezier(.16,1,.3,1),
-    border-color 380ms ease,
-    box-shadow 620ms ease;
+    transform 650ms cubic-bezier(.16,1,.3,1),
+    box-shadow 650ms cubic-bezier(.16,1,.3,1);
 }
 
 .tool-logo-shell::after {
@@ -636,16 +632,15 @@ html {
 }
 
 .tool-card:hover .tool-logo-shell {
-  transform: scale(1.06);
-  border-color: rgba(255,139,78,.18);
+  transform: translateY(-2px) scale(1.07);
   box-shadow:
-    inset 0 1px rgba(255,255,255,.08),
-    0 18px 34px rgba(0,0,0,.2);
+    inset 0 1px rgba(255,255,255,.07),
+    0 16px 30px rgba(0,0,0,.2);
 }
 
 .tool-logo {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
@@ -669,40 +664,26 @@ html {
 .tool-card-copy {
   position: relative;
   z-index: 2;
-  margin-top: 44px;
+  width: 100%;
+  margin-top: 0;
+  text-align: center;
 }
 
 .tool-card-copy h3 {
   color: #faf7f4;
-  font-size: clamp(1.65rem, 2vw, 2.15rem);
+  font-size: clamp(1.42rem, 1.7vw, 1.8rem);
   font-weight: 750;
-  letter-spacing: -.035em;
+  letter-spacing: -.03em;
 }
 
 .tool-card-copy p {
-  max-width: 28ch;
-  margin-top: 9px;
+  max-width: 30ch;
+  margin: 7px auto 0;
   color: rgba(245,240,235,.43);
-  font-size: 11px;
-  line-height: 1.58;
+  font-size: 10.5px;
+  line-height: 1.52;
 }
 
-.tool-card-line {
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
-  width: 34px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--tools-orange-light));
-  opacity: .5;
-  transform-origin: right;
-  transition: width 560ms cubic-bezier(.16,1,.3,1), opacity 300ms ease;
-}
-
-.tool-card:hover .tool-card-line {
-  width: 72px;
-  opacity: .9;
-}
 
 
 /* Footer */
@@ -1182,32 +1163,29 @@ html {
   }
 
   .tool-card {
-    min-height: 245px;
-    padding: 22px;
-    border-radius: 23px;
+    min-height: 205px;
+    padding: 20px;
+    border-radius: 22px;
   }
 
   .tool-logo-shell {
-    width: 66px;
-    height: 66px;
-    border-radius: 19px;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 16px;
+    border-radius: 17px;
   }
 
   .tool-logo {
-    width: 34px;
-    height: 34px;
-  }
-
-  .tool-card-copy {
-    margin-top: 36px;
+    width: 30px;
+    height: 30px;
   }
 
   .tool-card-copy h3 {
-    font-size: 1.85rem;
+    font-size: 1.6rem;
   }
 
   .tool-card-copy p {
-    max-width: 34ch;
+    max-width: 32ch;
   }
 
 
