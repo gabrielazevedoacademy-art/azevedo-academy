@@ -12,11 +12,11 @@
 - Seção **Explore o ecossistema.** preservada com os quatro cards e reveal em stagger.
 - Scroll continua 100% nativo; não há interceptação de `wheel`.
 - Nova seção **Últimos vídeos** foi adicionada antes do footer.
-- A seção consulta `/api/youtube`, que busca o feed público do canal Azevedo Academy no servidor.
-- Canal: `@Azevedo.Academy`; ID: `UCal4KF4mgJCUrFXu4Qw5aog`.
-- São exibidos 3 vídeos recentes com thumbnail, título e data, mais link para ver todos os vídeos.
-- A integração não depende de chave da YouTube Data API no frontend.
-- Há fallback do feed long-form para o feed geral do canal e fallback visual para abrir o canal se a consulta falhar.
+- A seção usa a YouTube IFrame Player API no navegador para ler a playlist oficial de uploads do canal.
+- Canal: `@Azevedo.Academy`; ID: `UCal4KF4mgJCUrFXu4Qw5aog`; playlist de uploads: `UUal4KF4mgJCUrFXu4Qw5aog`.
+- São exibidas 3 thumbnails recentes, cada uma com link direto para o respectivo vídeo, mais o link para ver todos os vídeos.
+- A integração não depende de chave da YouTube Data API nem de uma função serverless própria.
+- Se a API oficial do player não carregar, a Home continua funcional e mantém o link para o canal.
 - A seção de vídeos tem animação de entrada sutil, hover, responsividade e respeito a `prefers-reduced-motion`.
 - `/biblioteca-de-prompts/` permanece protegida e não foi modificada.
 
