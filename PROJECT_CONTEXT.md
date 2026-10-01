@@ -1,341 +1,145 @@
-# PROJECT_CONTEXT.md — Contexto do Projeto
+# PROJECT_CONTEXT.md — Azevedo Academy
 
-> Este arquivo descreve o projeto de forma relativamente estável.
-> Ele não é um diário de desenvolvimento.
-> Atualize somente quando houver mudança relevante de objetivo, estrutura, regra de negócio, arquitetura, identidade, integração ou restrição.
+## Projeto
 
----
+**Nome:** Azevedo Academy  
+**Tipo:** site institucional estático  
+**Status:** produção e evolução contínua  
+**Branch principal:** `main`  
+**Deploy:** Vercel, acionado por push na `main`
 
-## 1. IDENTIFICAÇÃO
+O site apresenta a Azevedo Academy e direciona visitantes para conteúdos, ferramentas, produtos e contato.
 
-**Nome do projeto:**  
-[preencher]
+A marca trabalha com inteligência artificial aplicada à criação de conteúdo, design, edição de vídeo, marketing e tecnologia.
 
-**Tipo de projeto:**  
-[site / sistema web / aplicativo / API / ferramenta interna / outro]
+## Objetivo atual
 
-**Status atual:**  
-[ideia / protótipo / desenvolvimento / produção / manutenção]
+Construir uma Home visualmente forte, profissional, responsiva e com sensação premium, funcionando como porta de entrada para o ecossistema da Azevedo Academy.
 
-**Responsável pelo produto:**  
-[preencher]
+O proprietário não é desenvolvedor. O agente deve implementar e validar tecnicamente as alterações sem depender dele para revisar código.
 
----
+## Stack
 
-## 2. RESUMO EM UMA FRASE
+- HTML
+- CSS
+- JavaScript
+- sem framework na Home
+- assets versionados no repositório
+- Vercel em produção
 
-[Explique em uma frase simples o que este projeto faz.]
-
-Exemplo:
-
-> Plataforma web para organizar e disponibilizar uma biblioteca de prompts de inteligência artificial para assinantes.
-
----
-
-## 3. OBJETIVO PRINCIPAL
-
-[Explique qual problema este projeto resolve e qual resultado deve entregar.]
-
-Perguntas que este bloco deve responder:
-
-- Por que este projeto existe?
-- Quem ele ajuda?
-- Qual é o principal resultado esperado?
-- O que precisa funcionar bem para o projeto cumprir sua função?
-
----
-
-## 4. PÚBLICO / USUÁRIOS
-
-**Usuário principal:**  
-[preencher]
-
-**Usuários secundários:**  
-[preencher, se houver]
-
-**Nível técnico esperado do usuário:**  
-[iniciante / intermediário / avançado / misto]
-
-**Necessidades principais:**  
-- [necessidade 1]
-- [necessidade 2]
-- [necessidade 3]
-
----
-
-## 5. ESCOPO PRINCIPAL
-
-O projeto deve possuir:
-
-- [funcionalidade principal 1]
-- [funcionalidade principal 2]
-- [funcionalidade principal 3]
-- [funcionalidade principal 4]
-
-### Fora de escopo neste momento
-
-- [item 1]
-- [item 2]
-
-Não implementar itens fora de escopo sem solicitação explícita.
-
----
-
-## 6. REGRAS DE NEGÓCIO IMPORTANTES
-
-- [regra 1]
-- [regra 2]
-- [regra 3]
-
-Exemplos:
-
-- apenas usuários autenticados podem acessar determinada área;
-- determinada página é pública e outra é privada;
-- pagamentos confirmados liberam determinado recurso;
-- determinado dado nunca pode ser apagado automaticamente.
-
----
-
-## 7. ÁREAS PROTEGIDAS / NÃO ALTERAR
-
-Estas áreas não devem ser modificadas sem pedido explícito:
-
-- [rota, página, componente, integração ou recurso protegido]
-- [outro item]
-
-Se uma tarefa parecer exigir alteração em uma área protegida, interromper essa parte da implementação e sinalizar.
-
----
-
-## 8. STACK ATUAL
-
-Preencher somente com tecnologias realmente usadas no projeto.
-
-**Frontend:**  
-[ex.: Next.js, React, Vue, HTML/CSS/JS]
-
-**Backend:**  
-[preencher]
-
-**Banco de dados:**  
-[preencher]
-
-**Autenticação:**  
-[preencher]
-
-**Hospedagem / deploy:**  
-[preencher]
-
-**Storage / arquivos:**  
-[preencher]
-
-**APIs / serviços externos:**  
-- [serviço 1]
-- [serviço 2]
-
----
-
-## 9. ESTRUTURA RELEVANTE DO PROJETO
-
-Registrar apenas a estrutura que ajuda outro agente a se localizar.
-
-Exemplo:
+Arquivos principais:
 
 ```text
-/app
-/components
-/lib
-/public
-/api
+index.html
+assets/
+  css/
+    tokens.css
+    global.css
+    home.css
+  images/
+  js/
+    home.js
+biblioteca-de-prompts/
+  index.html
+scripts/
+  build.js
+package.json
+vercel.json
 ```
 
-Explicação curta:
+## Validação disponível
 
-- `/app`: páginas e rotas;
-- `/components`: componentes reutilizáveis;
-- `/lib`: serviços e funções compartilhadas;
-- `/public`: arquivos estáticos.
+`package.json` possui:
 
-Não transformar esta seção em listagem completa do repositório.
+- `npm run lint`: valida a sintaxe de `assets/js/home.js`
+- `npm run build`: valida a estrutura estática necessária para o deploy
 
----
+O build não gera bundle. O site é servido diretamente da raiz do repositório.
 
-## 10. ARQUITETURA E PADRÕES
+## Home
 
-- [padrão importante 1]
-- [padrão importante 2]
-- [padrão importante 3]
+A Home atual possui:
 
-Exemplos:
+- header/nav;
+- hero cinematográfico;
+- transição narrativa animada entre hero e cards;
+- quatro cards de acesso feitos com imagens;
+- footer.
 
-- componentes de UI devem ser reutilizáveis;
-- chamadas externas passam por uma camada de serviço;
-- não duplicar lógica de autenticação;
-- preferir Server Components onde já for padrão do projeto;
-- validação de entrada ocorre antes de salvar dados.
+### Direção visual
 
----
+- fundo predominantemente escuro;
+- preto, branco e laranja como identidade principal;
+- verde pode aparecer pontualmente como cor funcional/energética em efeitos específicos;
+- League Spartan em títulos;
+- Montserrat no corpo;
+- movimento elegante e controlado;
+- evitar animação gratuita ou excesso de elementos;
+- respeitar `prefers-reduced-motion`.
 
-## 11. IDENTIDADE VISUAL / INTERFACE
+### Transição narrativa
 
-**Estilo geral:**  
-[preencher]
+A seção entre hero e cards representa um fluxo criativo com IA.
 
-**Cores principais:**  
-[preencher]
+Conceito atual:
 
-**Tipografia:**  
-[preencher]
+**IDEIA → PROMPT → CRIAÇÃO → IMPACTO**
 
-**Características importantes:**  
-- [ex.: minimalista]
-- [ex.: dark mode]
-- [ex.: cards com bordas suaves]
-- [ex.: animações discretas]
+A direção aprovada é:
 
-**Evitar:**  
-- [item 1]
-- [item 2]
+- fundo escuro e atmosférico;
+- caminho mais elaborado ocupando bem a área;
+- linha verde com glow percorrendo o trajeto;
+- conexão direta entre o caminho e cada texto;
+- textos surgindo em sequência conforme o caminho avança;
+- acabamento de motion graphics;
+- título atual: **O CAMINHO DA CRIAÇÃO.**
 
-Se já existir um sistema visual separado, referenciar o arquivo em vez de duplicar regras extensas aqui.
+## Cards da Home
 
----
+Quatro acessos:
 
-## 12. RESPONSIVIDADE
+1. Biblioteca de Prompts → `/biblioteca-de-prompts`
+2. Ferramentas recomendadas → `/ferramentas`
+3. Super Pack de Edição & Design → `/produtos#super-pack`
+4. Entre em contato → `/contato`
 
-Regras gerais:
+Layout desejado:
 
-- desktop: [preencher]
-- tablet: [preencher]
-- mobile: [preencher]
+- desktop amplo: 4 cards;
+- intermediário: 2 × 2;
+- mobile: 1 por linha.
 
-Registrar apenas comportamentos importantes que não podem ser perdidos.
+Preservar animação de entrada, hover, glow individual e acessibilidade.
 
----
+## Área protegida
 
-## 13. INTEGRAÇÕES
+### `/biblioteca-de-prompts/`
 
-### [Nome da integração]
+Não modificar sem pedido explícito.
 
-**Função:**  
-[para que serve]
+`biblioteca-de-prompts/index.html` é um export grande gerado externamente. Não reformatar, refatorar ou alterar incidentalmente durante tarefas da Home.
 
-**Área do projeto:**  
-[onde é usada]
+## Design system
 
-**Observações importantes:**  
-[limites, dependências, comportamento relevante]
+`assets/css/tokens.css` contém tokens da marca.
 
-Repetir este bloco apenas para integrações importantes.
+`global.css` concentra estilos compartilhados e acessibilidade base.
 
----
+Mudanças específicas da Home devem preferencialmente ficar em `home.css` e `home.js`.
 
-## 14. DADOS IMPORTANTES
+## Deploy
 
-Principais entidades do sistema:
+Push na `main` dispara deploy de produção na Vercel.
 
-- [entidade 1]
-- [entidade 2]
-- [entidade 3]
+`vercel.json` deve manter `outputDirectory: "."`.
 
-Relações importantes:
+Não alterar domínio, infraestrutura ou pipeline sem pedido explícito.
 
-- [ex.: usuário possui projetos]
-- [ex.: projeto possui arquivos]
+## Regras de escopo
 
-Não colocar dados reais de usuários, senhas, tokens ou segredos neste arquivo.
-
----
-
-## 15. AMBIENTES
-
-**Desenvolvimento:**  
-[preencher]
-
-**Produção:**  
-[preencher]
-
-**Branch principal:**  
-[ex.: main]
-
-**Fluxo de deploy:**  
-[ex.: push na main dispara deploy automático]
-
-Nunca registrar valores secretos.
-
----
-
-## 16. DECISÕES IMPORTANTES JÁ TOMADAS
-
-Registrar decisões duradouras e o motivo, de forma curta.
-
-### [Decisão]
-
-**Escolha:**  
-[preencher]
-
-**Motivo:**  
-[preencher]
-
-**Data aproximada:**  
-[opcional]
-
-Exemplo:
-
-### Hero da Home
-
-**Escolha:** imagem estática com movimento via CSS/JS.
-
-**Motivo:** abordagem anterior com vídeo/scroll foi descartada por complexidade e resultado visual inferior.
-
----
-
-## 17. RESTRIÇÕES
-
-- [restrição técnica]
-- [restrição de negócio]
-- [restrição de custo]
-- [restrição de segurança]
-
-Exemplos:
-
-- não adicionar serviços pagos sem autorização;
-- não alterar domínio;
-- não remover autenticação;
-- não modificar área privada ao trabalhar na Home.
-
----
-
-## 18. CRITÉRIOS DE QUALIDADE
-
-O projeto deve priorizar:
-
-- estabilidade;
-- clareza;
-- responsividade;
-- acessibilidade;
-- segurança;
-- performance adequada;
-- manutenção simples;
-- mudanças pequenas e reversíveis.
-
-Adicionar critérios específicos do projeto quando necessário.
-
----
-
-## 19. DEFINIÇÃO DE SUCESSO
-
-O projeto estará cumprindo seu objetivo quando:
-
-- [critério 1]
-- [critério 2]
-- [critério 3]
-
----
-
-## 20. NOTAS PARA O AGENTE
-
-- Consulte também `AGENTS.md`.
-- Consulte `CURRENT_STATE.md` para saber o estado operacional atual.
-- Não presuma que este arquivo está 100% atualizado se o código mostrar algo diferente.
-- Se encontrar divergência relevante, valide o estado real e atualize este arquivo somente quando a mudança for estrutural e duradoura.
+- Não alterar áreas não solicitadas.
+- Não reescrever a Home inteira para uma mudança localizada.
+- Não tocar na Biblioteca durante mudanças da Home.
+- Não adicionar dependência pesada para efeitos que CSS/SVG/JS nativo resolvem.
+- O código atual é a fonte de verdade técnica.
