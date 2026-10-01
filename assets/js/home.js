@@ -32,21 +32,29 @@
 
   if (cardGrid && cards.length && !reduceMotion.matches && 'IntersectionObserver' in window) {
     try {
-      const revealAllCards = () => cards.forEach((card) => card.classList.add('is-visible'));
+      const revealCard = (card, index) => {
+        const delay = index * 90;
+        card.classList.add('is-visible');
+        window.setTimeout(() => card.classList.add('is-interactive'), delay + 950);
+      };
+
+      const revealAllCards = () => cards.forEach((card, index) => revealCard(card, index));
       const cardObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-visible');
+          const index = Number(entry.target.dataset.cardIndex || 0);
+          revealCard(entry.target, index);
           observer.unobserve(entry.target);
         });
       }, { threshold: 0.08, rootMargin: '0px 0px 8% 0px' });
 
       cards.forEach((card, index) => {
+        card.dataset.cardIndex = String(index);
         card.style.setProperty('--card-delay', `${index * 90}ms`);
         cardObserver.observe(card);
       });
 
-      // The hidden reveal state only exists after every card is being observed.
+      // Entrance staggering is temporary; hover is synchronized after reveal.
       cardGrid.classList.add('has-card-reveal');
       window.setTimeout(revealAllCards, 2400);
     } catch (error) {

@@ -835,3 +835,45 @@ html { scroll-behavior: smooth; }
     transform: none;
   }
 }
+
+
+/* Synchronized card hover + borderless CTA — 2026-09-30 */
+
+/* Once each entrance reveal is complete, hover uses one identical zero-delay transition. */
+.card-grid.has-card-reveal .access-card.is-visible.is-interactive {
+  transition:
+    transform 600ms cubic-bezier(.16,1,.3,1),
+    filter 400ms ease;
+}
+.card-grid.has-card-reveal .access-card.is-visible.is-interactive:hover {
+  transform: translateY(-8px) scale(1.015);
+  transition-delay: 0ms;
+}
+.card-grid.has-card-reveal .access-card.is-visible.is-interactive::before,
+.card-grid.has-card-reveal .access-card.is-visible.is-interactive:hover::before {
+  transition-delay: 0ms;
+}
+
+/* CTA keeps the expanding-orb idea but removes the competing outer contour. */
+.hero-cta {
+  border: 0;
+  box-shadow:
+    0 14px 38px rgba(0,0,0,.28),
+    inset 0 1px rgba(255,255,255,.055);
+}
+.hero-cta::after {
+  display: none;
+}
+.hero-cta:hover {
+  border: 0;
+  box-shadow:
+    0 22px 54px rgba(0,0,0,.34),
+    0 0 34px rgba(233,89,29,.17);
+}
+.hero-cta:hover::before {
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
