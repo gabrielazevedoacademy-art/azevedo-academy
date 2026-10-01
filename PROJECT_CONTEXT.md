@@ -66,6 +66,12 @@ A Home atual possui:
 - quatro cards de acesso feitos com imagens;
 - footer.
 
+Comportamento do header no desktop:
+- anima na entrada inicial da página;
+- ao sair da região superior durante o scroll, sobe e desaparece suavemente;
+- ao voltar ao topo, reaparece com transição equivalente;
+- a animação inicial deve terminar antes de o estado de scroll assumir, evitando conflito entre animação e transição.
+
 ### Direção visual
 
 - fundo predominantemente escuro;
