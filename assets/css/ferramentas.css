@@ -1014,20 +1014,6 @@ html {
     max-width: 42ch;
   }
 
-  .tools-hero-orbit {
-    right: -34vw;
-  }
-
-  .orbit-one {
-    top: 25%;
-    width: 74vw;
-  }
-
-  .orbit-two {
-    top: 34%;
-    right: -15vw;
-    width: 52vw;
-  }
 
   .tools-signal {
     right: 24px;
@@ -1265,7 +1251,6 @@ html {
   .tools-hero-cta,
   .tools-hero-grid,
   .tools-hero-glow,
-  .tools-hero-orbit,
   .tools-signal span,
   .tool-card,
   .tool-card.is-visible,
