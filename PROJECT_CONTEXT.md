@@ -147,13 +147,13 @@ Direção atual:
 - hero próprio, com grid/orbitas/glows animados;
 - cards compactos por ferramenta, sem numeração, com logo + nome + descrição curta centralizados;
 - as categorias ficam em `data-tags` invisíveis nos cards e alimentam filtros visíveis;
-- filtros atuais: Todas, LLMs, Criação de conteúdo, Imagem, Vídeo, Narração e Música;
+- filtros atuais: Todas, Texto e ideias, Criação de conteúdo, Imagem, Vídeo, Narração e Música;
 - a mesma ferramenta pode pertencer a várias categorias sem duplicar o card;
 - cards não possuem links externos por enquanto; links serão adicionados quando os afiliados forem definidos;
-- hover é simples: o card flutua para cima e cresce levemente, sem contorno; o logo acompanha com crescimento sutil, cursor em formato de mão e sombra discreta; entrada usa stagger;
+- hover move o card inteiro para cima com crescimento leve e curva suave, sem contorno e sem animação isolada no logo; entrada usa stagger;
 - em mobile, filtros viram uma faixa horizontal rolável, grid vira uma coluna e a navegação usa menu lateral off-canvas;
 - logos usam fontes públicas externas com fallback visual por iniciais caso a imagem falhe; Claude usa o ícone próprio da marca, não o símbolo corporativo da Anthropic;
-- a seção do catálogo usa um fundo quente/escuro distinto do fundo geral da página para criar separação visual;
+- a seção do catálogo usa um fundo quente/escuro distinto do fundo geral e recebe uma transição gradual a partir do hero, sem corte visual seco;
 - respeitar `prefers-reduced-motion` e evitar overflow horizontal.
 
 Ferramentas atuais:
