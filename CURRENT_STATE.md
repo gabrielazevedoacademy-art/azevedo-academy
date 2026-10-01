@@ -2,19 +2,19 @@
 
 ## STATUS GERAL
 
-**Estado atual:** estável; refinamento visual da Home implementado  
+**Estado atual:** estável; correção de glow e novo conceito de CTA implementados  
 **Última atualização:** 2026-09-30  
 **Último estado seguro conhecido:** commit desta tarefa na `main`
 
 ## FUNCIONANDO
 
-- Hero existente preservado, com o kicker “Inteligência para quem cria” removido.
-- Título “O FUTURO / JÁ CHEGOU.” e texto principal mantidos.
-- CTA “Explorar ferramentas” recebeu refinamento visual sem mudar o destino.
-- Cabeçalho transparente mantém a logo oficial e voltou a exibir “Azevedo Academy” ao lado.
+- Cabeçalho transparente com logo + “Azevedo Academy”.
+- Hero sem o kicker antigo; título e texto principal preservados.
+- CTA “Explorar ferramentas” usa conceito de ação expansiva: o círculo da seta se abre e preenche o botão no hover.
 - Quatro cards continuam usando as artes PNG e os links existentes.
-- Glows dos cards agora seguem as artes: azul, roxo, amarelo e ciano.
-- Layout 4/2/1, animações, foco visível e `prefers-reduced-motion` permanecem tratados.
+- Estilos antigos vermelhos dos cards foram neutralizados para não aparecerem antes do glow correto.
+- Glows fixos por card: azul, roxo, amarelo e ciano.
+- Layout 4/2/1, foco visível e `prefers-reduced-motion` permanecem tratados.
 - `/biblioteca-de-prompts/` não foi alterada.
 
 ## EM DESENVOLVIMENTO
@@ -27,8 +27,8 @@
 
 ## PENDÊNCIAS
 
-- Conferir visualmente o novo hero, cabeçalho e glows no deploy de produção.
-- Aguardar os próximos ajustes visuais solicitados pelo proprietário.
+- Validar visualmente o comportamento dos glows e o novo CTA no deploy.
+- Continuar os próximos refinamentos do hero após feedback.
 
 ## BLOQUEIOS
 
@@ -36,12 +36,12 @@
 
 ## VALIDAÇÃO MAIS RECENTE
 
-**Build:** estrutura do site estático preservada; nenhum arquivo exigido pelo build foi removido  
+**Build:** estrutura do site estático e configuração Vercel preservadas  
 **Lint:** JavaScript não foi alterado nesta tarefa  
 **Typecheck:** não disponível neste projeto estático  
 **Testes:** não existem testes automatizados adicionais  
 **Validação visual:** aguardando inspeção do site publicado  
-**Deploy:** push para `main` aciona o fluxo existente da Vercel
+**Deploy:** push para `main` aciona a Vercel
 
 ## ÁREA SENSÍVEL
 
@@ -49,4 +49,4 @@
 
 ## RESUMO PARA O PRÓXIMO AGENTE
 
-> O cabeçalho transparente agora exibe logo + texto Azevedo Academy. O kicker acima do hero foi removido e o CTA recebeu visual mais refinado. Os quatro cards mantêm imagens e links, com glows azul, roxo, amarelo e ciano respectivamente. A Biblioteca de Prompts permaneceu intacta. O próximo passo é validar visualmente e continuar os ajustes do hero conforme feedback.
+> O bug de flash vermelho nos cards vinha de estilos antigos com maior especificidade. Eles foram neutralizados e os glows agora permanecem azul, roxo, amarelo e ciano desde o primeiro frame. O CTA do hero foi redesenhado sem biblioteca externa: a esfera da seta expande para preencher o botão no hover. A Biblioteca de Prompts permaneceu intacta.
