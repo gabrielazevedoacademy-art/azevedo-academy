@@ -60,39 +60,60 @@
     </section>
 
     <section class="transition-manifesto" aria-labelledby="transition-title" data-creative-path>
-      <div class="creative-path" aria-hidden="true">
-        <svg class="creative-path-svg" viewBox="0 0 1440 520" preserveAspectRatio="none">
-          <path class="creative-path-shadow" d="M-80 360 C 160 120, 370 120, 520 280 S 830 470, 1000 245 S 1280 80, 1520 245" />
-          <path class="creative-path-line" d="M-80 360 C 160 120, 370 120, 520 280 S 830 470, 1000 245 S 1280 80, 1520 245" />
-        </svg>
-
-        <div class="creative-node creative-node-idea">
-          <span class="creative-node-dot"></span>
-          <span class="creative-node-index">01</span>
-          <strong>IDEIA</strong>
-        </div>
-        <div class="creative-node creative-node-prompt">
-          <span class="creative-node-dot"></span>
-          <span class="creative-node-index">02</span>
-          <strong>PROMPT</strong>
-        </div>
-        <div class="creative-node creative-node-create">
-          <span class="creative-node-dot"></span>
-          <span class="creative-node-index">03</span>
-          <strong>CRIAÇÃO</strong>
-        </div>
-        <div class="creative-node creative-node-impact">
-          <span class="creative-node-dot"></span>
-          <span class="creative-node-index">04</span>
-          <strong>IMPACTO</strong>
-        </div>
+      <div class="journey-atmosphere" aria-hidden="true">
+        <span></span><span></span><span></span>
       </div>
 
-      <div class="transition-manifesto-inner">
-        <h2 id="transition-title">
-          <span>NÃO É SOBRE ACOMPANHAR O FUTURO.</span>
-          <strong>É SOBRE CRIAR COM ELE.</strong>
-        </h2>
+      <div class="transition-manifesto-inner journey-intro">
+        <p class="journey-kicker">Processo criativo</p>
+        <h2 id="transition-title">O CAMINHO<br /><strong>DA CRIAÇÃO.</strong></h2>
+        <p class="journey-copy">Da ideia ao impacto, cada etapa transforma intenção em algo que merece ser visto.</p>
+      </div>
+
+      <div class="creative-path" aria-hidden="true">
+        <svg class="creative-path-svg" viewBox="0 0 1600 760" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="journey-green" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#5ee86e" />
+              <stop offset="48%" stop-color="#9cff78" />
+              <stop offset="100%" stop-color="#64f6a4" />
+            </linearGradient>
+            <filter id="journey-glow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="7" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <path class="creative-path-rail" pathLength="1" d="M-60 610 C 180 490, 255 650, 410 510 S 610 240, 760 360 S 990 650, 1150 450 S 1360 160, 1660 270" />
+          <path class="creative-path-line" pathLength="1" d="M-60 610 C 180 490, 255 650, 410 510 S 610 240, 760 360 S 990 650, 1150 450 S 1360 160, 1660 270" />
+          <path class="creative-path-flow" pathLength="1" d="M-60 610 C 180 490, 255 650, 410 510 S 610 240, 760 360 S 990 650, 1150 450 S 1360 160, 1660 270" />
+        </svg>
+
+        <div class="creative-node creative-node-idea node-above">
+          <span class="creative-node-anchor"></span>
+          <span class="creative-node-connector"></span>
+          <span class="creative-node-label"><strong>IDEIA</strong><small>O ponto de partida</small></span>
+        </div>
+
+        <div class="creative-node creative-node-prompt node-below">
+          <span class="creative-node-anchor"></span>
+          <span class="creative-node-connector"></span>
+          <span class="creative-node-label"><strong>PROMPT</strong><small>Direção para a IA</small></span>
+        </div>
+
+        <div class="creative-node creative-node-create node-above">
+          <span class="creative-node-anchor"></span>
+          <span class="creative-node-connector"></span>
+          <span class="creative-node-label"><strong>CRIAÇÃO</strong><small>A ideia ganha forma</small></span>
+        </div>
+
+        <div class="creative-node creative-node-impact node-below">
+          <span class="creative-node-anchor"></span>
+          <span class="creative-node-connector"></span>
+          <span class="creative-node-label"><strong>IMPACTO</strong><small>Conteúdo que chega às pessoas</small></span>
+        </div>
       </div>
     </section>
 
