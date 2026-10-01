@@ -36,9 +36,13 @@ assets/
     tokens.css
     global.css
     home.css
+    ferramentas.css
   images/
   js/
     home.js
+    ferramentas.js
+ferramentas/
+  index.html
 biblioteca-de-prompts/
   index.html
 scripts/
@@ -133,6 +137,36 @@ Direção atual da seção:
 - touch/mobile, desktop, teclado e `prefers-reduced-motion` preservam o comportamento nativo/acessível.
 
 Preservar animação de entrada, hover, glow individual e acessibilidade.
+
+## Página de Ferramentas
+
+A rota `/ferramentas` é um catálogo curado de ferramentas de IA.
+
+Direção atual:
+- mesma identidade premium da Home: preto, branco e laranja;
+- hero próprio, com grid/orbitas/glows animados;
+- cards únicos por ferramenta, com logo + nome + descrição curta;
+- as categorias ficam em `data-tags` invisíveis nos cards e alimentam filtros visíveis;
+- filtros atuais: Todas, LLMs, Criação de conteúdo, Imagem, Vídeo, Narração e Música;
+- a mesma ferramenta pode pertencer a várias categorias sem duplicar o card;
+- cards não possuem links externos por enquanto; links serão adicionados quando os afiliados forem definidos;
+- hover usa spotlight, brilho e movimento leve; entrada usa stagger;
+- em mobile, filtros viram uma faixa horizontal rolável, grid vira uma coluna e a navegação usa menu lateral off-canvas;
+- logos usam fontes públicas externas com fallback visual por iniciais caso a imagem falhe;
+- respeitar `prefers-reduced-motion` e evitar overflow horizontal.
+
+Ferramentas atuais:
+- ChatGPT;
+- Claude;
+- Gemini;
+- Magnific;
+- Higgsfield;
+- HeyGen;
+- ElevenLabs;
+- Google Flow;
+- Musicful;
+- Suno;
+- Flow Music.
 
 ## Área protegida
 

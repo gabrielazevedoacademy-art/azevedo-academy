@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0e0e0e" />
+  <title>Ferramentas recomendadas — Azevedo Academy</title>
+  <meta name="description" content="Uma curadoria de ferramentas de inteligência artificial para texto, imagem, vídeo, narração, música e criação de conteúdo." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.simpleicons.org" />
+  <link rel="preconnect" href="https://www.google.com" />
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;600;700;800;900&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/tokens.css" />
+  <link rel="stylesheet" href="/assets/css/global.css" />
+  <link rel="stylesheet" href="/assets/css/ferramentas.css" />
+  <script src="/assets/js/ferramentas.js" defer></script>
+</head>
+<body class="tools-page">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="tools-header" data-header>
+    <nav class="tools-navbar" aria-label="Navegação principal">
+      <a class="tools-brand" href="/" aria-label="Azevedo Academy — página inicial">
+        <img class="tools-brand-logo" src="/assets/images/azevedo-logo-original.svg" alt="" width="46" height="48" aria-hidden="true" />
+        <span class="tools-brand-name">Azevedo <strong>Academy</strong></span>
+      </a>
+
+      <div class="tools-menu-shell">
+        <button class="tools-menu-toggle" type="button" aria-expanded="false" aria-controls="tools-main-menu" aria-haspopup="true" data-menu-toggle>
+          <span class="sr-only">Abrir menu</span>
+          <span class="tools-menu-icon" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+
+        <div class="tools-nav-links" id="tools-main-menu" data-menu>
+          <a href="/">Home</a>
+          <a class="is-active" href="/ferramentas" aria-current="page">Ferramentas</a>
+          <a href="/produtos">Produtos</a>
+          <a href="/sobre">Sobre</a>
+          <a href="/contato">Contato</a>
+        </div>
+
+        <div class="tools-menu-backdrop" aria-hidden="true" data-menu-overlay></div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <section class="tools-hero" aria-labelledby="tools-title">
+      <div class="tools-hero-grid" aria-hidden="true"></div>
+      <div class="tools-hero-orbit orbit-one" aria-hidden="true"></div>
+      <div class="tools-hero-orbit orbit-two" aria-hidden="true"></div>
+      <div class="tools-hero-glow" aria-hidden="true"></div>
+
+      <div class="tools-hero-inner">
+        <p class="tools-kicker">Curadoria Azevedo Academy</p>
+        <h1 id="tools-title">FERRAMENTAS QUE<br /><strong>AMPLIFICAM O QUE VOCÊ CRIA.</strong></h1>
+        <p class="tools-hero-copy">Uma seleção de IAs que vale a pena conhecer — organizada pelo que você quer fazer, não pelo tamanho da lista.</p>
+
+        <a class="tools-hero-cta" href="#catalogo">
+          <span>Explorar catálogo</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" /></svg>
+        </a>
+      </div>
+
+      <div class="tools-signal" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </section>
+
+    <section class="tools-catalog" id="catalogo" aria-labelledby="catalog-title" data-catalog>
+      <div class="tools-catalog-glow" aria-hidden="true"></div>
+      <div class="tools-catalog-inner">
+        <div class="tools-catalog-heading">
+          <div>
+            <p class="tools-section-kicker">Encontre pelo objetivo</p>
+            <h2 id="catalog-title">Escolha o que você quer criar.</h2>
+            <p>As mesmas ferramentas podem aparecer em diferentes fluxos. Os filtros usam categorias internas para mostrar somente o que faz sentido para cada tarefa.</p>
+          </div>
+          <span class="tools-count" data-count aria-live="polite">11 ferramentas</span>
+        </div>
+
+        <div class="tools-filters" role="group" aria-label="Filtrar ferramentas por categoria" data-filters>
+          <button class="tool-filter is-active" type="button" data-filter="all" aria-pressed="true">Todas</button>
+          <button class="tool-filter" type="button" data-filter="llm" aria-pressed="false">LLMs</button>
+          <button class="tool-filter" type="button" data-filter="content" aria-pressed="false">Criação de conteúdo</button>
+          <button class="tool-filter" type="button" data-filter="image" aria-pressed="false">Imagem</button>
+          <button class="tool-filter" type="button" data-filter="video" aria-pressed="false">Vídeo</button>
+          <button class="tool-filter" type="button" data-filter="narration" aria-pressed="false">Narração</button>
+          <button class="tool-filter" type="button" data-filter="music" aria-pressed="false">Música</button>
+        </div>
+
+        <div class="tools-grid" data-tools-grid>
+          <article class="tool-card" data-tool="chatgpt" data-tags="llm image">
+            <div class="tool-card-index">01</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://cdn.simpleicons.org/openai/FAFAFA" data-fallback="https://www.google.com/s2/favicons?domain=chatgpt.com&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">CG</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>ChatGPT</h3>
+              <p>Texto, raciocínio e criação de imagens.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+
+          <article class="tool-card" data-tool="claude" data-tags="llm">
+            <div class="tool-card-index">02</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://cdn.simpleicons.org/anthropic/FAFAFA" data-fallback="https://www.google.com/s2/favicons?domain=claude.ai&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">CL</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>Claude</h3>
+              <p>Texto, análise e desenvolvimento de ideias.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+
+          <article class="tool-card" data-tool="gemini" data-tags="llm image video">
+            <div class="tool-card-index">03</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://cdn.simpleicons.org/googlegemini/FAFAFA" data-fallback="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">GM</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>Gemini</h3>
+              <p>IA multimodal para texto, imagem e vídeo.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+
+          <article class="tool-card" data-tool="magnific" data-tags="content image video">
+            <div class="tool-card-index">04</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://www.google.com/s2/favicons?domain=magnific.ai&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">MG</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>Magnific</h3>
+              <p>Imagem, aprimoramento visual e criação generativa.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+
+          <article class="tool-card" data-tool="higgsfield" data-tags="content image video">
+            <div class="tool-card-index">05</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://www.google.com/s2/favicons?domain=higgsfield.ai&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">HF</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>Higgsfield</h3>
+              <p>Criação visual com foco em imagem e vídeo.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+
+          <article class="tool-card" data-tool="heygen" data-tags="content">
+            <div class="tool-card-index">06</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://www.google.com/s2/favicons?domain=heygen.com&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">HG</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>HeyGen</h3>
+              <p>Avatares, apresentação e conteúdo em vídeo.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+
+          <article class="tool-card" data-tool="elevenlabs" data-tags="content narration">
+            <div class="tool-card-index">07</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://www.google.com/s2/favicons?domain=elevenlabs.io&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">11</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>ElevenLabs</h3>
+              <p>Voz, narração e produção de áudio com IA.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+
+          <article class="tool-card" data-tool="google-flow" data-tags="content image video">
+            <div class="tool-card-index">08</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://cdn.simpleicons.org/google/FAFAFA" data-fallback="https://www.google.com/s2/favicons?domain=labs.google&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">GF</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>Google Flow</h3>
+              <p>Criação multimodal para imagem e vídeo.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+
+          <article class="tool-card" data-tool="musicful" data-tags="music">
+            <div class="tool-card-index">09</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://www.google.com/s2/favicons?domain=musicful.ai&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">MF</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>Musicful</h3>
+              <p>Geração de músicas a partir de ideias e prompts.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+
+          <article class="tool-card" data-tool="suno" data-tags="music">
+            <div class="tool-card-index">10</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://www.google.com/s2/favicons?domain=suno.com&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">SN</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>Suno</h3>
+              <p>Música generativa com vocais e composição completa.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+
+          <article class="tool-card" data-tool="flow-music" data-tags="music">
+            <div class="tool-card-index">11</div>
+            <div class="tool-logo-shell">
+              <img class="tool-logo" src="https://cdn.simpleicons.org/google/FAFAFA" data-fallback="https://www.google.com/s2/favicons?domain=google.com&sz=128" alt="" loading="lazy" decoding="async" />
+              <span class="tool-logo-fallback" aria-hidden="true">FM</span>
+            </div>
+            <div class="tool-card-copy">
+              <h3>Flow Music</h3>
+              <p>Criação musical e exploração de ideias sonoras.</p>
+            </div>
+            <span class="tool-card-line" aria-hidden="true"></span>
+          </article>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="tools-footer">
+    <div class="tools-footer-inner">
+      <div class="tools-footer-brand">
+        <a class="tools-brand" href="/" aria-label="Azevedo Academy — página inicial">
+          <span class="tools-brand-name">Azevedo <strong>Academy</strong></span>
+        </a>
+        <p>Inteligência artificial, criação e tecnologia.</p>
+      </div>
+
+      <nav class="tools-footer-links" aria-label="Navegação do rodapé">
+        <a href="/">Home</a>
+        <a href="/ferramentas">Ferramentas</a>
+        <a href="/produtos">Produtos</a>
+        <a href="/sobre">Sobre</a>
+        <a href="/contato">Contato</a>
+      </nav>
+    </div>
+
+    <div class="tools-footer-bottom">
+      <span>© <span data-year>2026</span> Azevedo Academy</span>
+      <span>Ideias que movem o futuro.</span>
+    </div>
+  </footer>
+</body>
+</html>
