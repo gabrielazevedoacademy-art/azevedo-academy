@@ -796,10 +796,14 @@ html {
 
   .tools-header {
     padding-inline: clamp(16px, 4vw, 24px);
+    border-bottom: 0;
   }
 
   .tools-header.is-scrolled {
+    border-bottom: 0;
     background: linear-gradient(180deg, rgba(7,6,5,.9), rgba(7,6,5,.66) 72%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .tools-navbar {
@@ -1058,13 +1062,6 @@ html {
 }
 
 @media (max-width: 620px) {
-  .tools-header.is-scrolled {
-    border-bottom: 0;
-    background: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
   .tools-hero {
     align-items: flex-end;
     min-height: max(720px, 100svh);
