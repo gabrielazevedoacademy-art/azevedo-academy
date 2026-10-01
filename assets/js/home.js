@@ -12,6 +12,28 @@
 
   if (year) year.textContent = new Date().getFullYear();
 
+  if (header) {
+    const finishHeaderIntro = () => {
+      header.classList.add('is-intro-complete');
+      const desktop = window.matchMedia('(min-width: 861px)').matches;
+      header.classList.toggle('is-away', desktop && window.scrollY > 64);
+      header.removeEventListener('animationend', handleHeaderIntroEnd);
+    };
+
+    const handleHeaderIntroEnd = (event) => {
+      if (event.target === header && event.animationName === 'header-in') {
+        finishHeaderIntro();
+      }
+    };
+
+    if (reduceMotion.matches) {
+      finishHeaderIntro();
+    } else {
+      header.addEventListener('animationend', handleHeaderIntroEnd);
+      window.setTimeout(finishHeaderIntro, 1000);
+    }
+  }
+
   const closeMenu = (restoreFocus = false) => {
     if (!toggle || !menu) return;
     toggle.setAttribute('aria-expanded', 'false');
@@ -94,7 +116,8 @@
     header?.classList.toggle('is-scrolled', scrollY > 24);
     if (header) {
       const desktop = window.matchMedia('(min-width: 861px)').matches;
-      header.classList.toggle('is-away', desktop && scrollY > 64);
+      const introComplete = header.classList.contains('is-intro-complete') || reduceMotion.matches;
+      header.classList.toggle('is-away', desktop && introComplete && scrollY > 64);
     }
     if (!reduceMotion.matches && hero && scrollY < hero.offsetHeight * 1.15) {
       const progress = Math.min(scrollY, hero.offsetHeight * 1.15);
