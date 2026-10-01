@@ -145,14 +145,15 @@ A rota `/ferramentas` é um catálogo curado de ferramentas de IA.
 Direção atual:
 - mesma identidade premium da Home: preto, branco e laranja;
 - hero próprio, com grid/orbitas/glows animados;
-- cards únicos por ferramenta, com logo + nome + descrição curta;
+- cards compactos por ferramenta, sem numeração, com logo + nome + descrição curta centralizados;
 - as categorias ficam em `data-tags` invisíveis nos cards e alimentam filtros visíveis;
 - filtros atuais: Todas, LLMs, Criação de conteúdo, Imagem, Vídeo, Narração e Música;
 - a mesma ferramenta pode pertencer a várias categorias sem duplicar o card;
 - cards não possuem links externos por enquanto; links serão adicionados quando os afiliados forem definidos;
-- hover é simples: crescimento sutil do card e do logo, cursor em formato de mão e sombra discreta; entrada usa stagger;
+- hover é simples: o card flutua para cima e cresce levemente, sem contorno; o logo acompanha com crescimento sutil, cursor em formato de mão e sombra discreta; entrada usa stagger;
 - em mobile, filtros viram uma faixa horizontal rolável, grid vira uma coluna e a navegação usa menu lateral off-canvas;
-- logos usam fontes públicas externas com fallback visual por iniciais caso a imagem falhe;
+- logos usam fontes públicas externas com fallback visual por iniciais caso a imagem falhe; Claude usa o ícone próprio da marca, não o símbolo corporativo da Anthropic;
+- a seção do catálogo usa um fundo quente/escuro distinto do fundo geral da página para criar separação visual;
 - respeitar `prefers-reduced-motion` e evitar overflow horizontal.
 
 Ferramentas atuais:
