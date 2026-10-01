@@ -7,11 +7,11 @@
 ## Estado atual
 
 - Home preservada, incluindo desktop e responsividade mobile/tablet já aprovados.
-- `/ferramentas` possui hero próprio alinhado à identidade preta, branca e laranja.
+- `/ferramentas` possui hero próprio alinhado à identidade preta, branca e laranja; o microtítulo atual é **Ferramentas recomendadas** e o espaçamento do título foi ajustado para evitar colisão entre linhas.
 - Catálogo contém 11 ferramentas: ChatGPT, Claude, Gemini, Magnific, Higgsfield, HeyGen, ElevenLabs, Google Flow, Musicful, Suno e Flow Music.
 - Cada ferramenta aparece uma única vez e usa tags internas para múltiplas categorias.
 - Filtros: Todas, LLMs, Criação de conteúdo, Imagem, Vídeo, Narração e Música.
-- Cards exibem logo, nome e descrição curta, com reveal em stagger, spotlight e hover.
+- Cards exibem logo, nome e descrição curta, com reveal em stagger e hover simples por crescimento; o spotlight que seguia o mouse foi removido.
 - Não existem links externos/afiliados nos cards ainda.
 - Página responsiva: 4 colunas desktop amplo, 3 em telas intermediárias, 2 no tablet e 1 no celular.
 - Mobile possui menu hambúrguer com painel lateral, backdrop e fechamento acessível.
