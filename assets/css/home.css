@@ -471,3 +471,150 @@ html { scroll-behavior: smooth; }
     transition: none;
   }
 }
+
+
+/* Hero/header/card glow refinements — 2026-09-30 */
+.header-brand {
+  gap: 12px;
+  min-width: 0;
+  justify-content: flex-start;
+}
+.brand-logo {
+  height: 46px;
+}
+.header-brand-name {
+  font-size: 21px;
+  text-shadow: 0 2px 14px rgba(0,0,0,.34);
+}
+
+/* The kicker and its decorative rule were intentionally removed from the hero. */
+.hero-content {
+  padding-top: 138px;
+}
+.hero h1 {
+  margin-top: 0;
+}
+
+/* Cleaner premium CTA: darker glass body, warm edge and a brighter directional icon. */
+.hero-cta {
+  position: relative;
+  gap: 18px;
+  padding: 8px 9px 8px 22px;
+  border: 1px solid rgba(255, 157, 76, .5);
+  background:
+    linear-gradient(115deg, rgba(255,255,255,.055), rgba(255,255,255,.012)),
+    rgba(24, 14, 10, .58);
+  box-shadow:
+    0 14px 38px rgba(0,0,0,.24),
+    0 0 0 1px rgba(255, 126, 49, .045) inset,
+    0 1px rgba(255,255,255,.08) inset;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 15px;
+  letter-spacing: .01em;
+}
+.hero-cta::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(110deg, rgba(255,149,66,.16), transparent 46%, rgba(220,40,27,.12));
+  filter: blur(12px);
+  opacity: .55;
+  transition: opacity var(--transition-base), filter var(--transition-base);
+}
+.hero-cta svg {
+  width: 42px;
+  height: 42px;
+  padding: 11px;
+  background: linear-gradient(145deg, #f68c34, #dc281b);
+  box-shadow: 0 8px 20px rgba(220,40,27,.28), inset 0 1px rgba(255,255,255,.28);
+}
+.hero-cta:hover {
+  translate: 0 -3px;
+  scale: 1.018;
+  border-color: rgba(255, 184, 126, .78);
+  background:
+    linear-gradient(115deg, rgba(255,255,255,.08), rgba(255,255,255,.018)),
+    rgba(28, 15, 10, .7);
+  box-shadow:
+    0 20px 48px rgba(0,0,0,.32),
+    0 0 28px rgba(226,72,27,.13),
+    0 1px rgba(255,255,255,.12) inset;
+  filter: none;
+}
+.hero-cta:hover::before {
+  opacity: .9;
+  filter: blur(16px);
+}
+.hero-cta:hover svg {
+  transform: translateX(4px);
+}
+
+/* Each image card gets a glow derived from the dominant artwork color. */
+.access-card::before {
+  z-index: 0;
+  inset: 5% 0%;
+  border-radius: 34%;
+  background: radial-gradient(
+    ellipse at 50% 52%,
+    rgba(var(--card-glow-rgb), .9) 0%,
+    rgba(var(--card-glow-rgb), .52) 34%,
+    rgba(var(--card-glow-rgb), .16) 58%,
+    rgba(var(--card-glow-rgb), 0) 78%
+  );
+  filter: blur(42px);
+  opacity: .62;
+  transform: scale(.97);
+}
+.card-prompts { --card-glow-rgb: 38, 119, 255; }
+.card-tools { --card-glow-rgb: 149, 79, 255; }
+.card-pack { --card-glow-rgb: 255, 190, 47; }
+.card-contact { --card-glow-rgb: 0, 214, 230; }
+
+.access-card:hover::before {
+  opacity: .9;
+  transform: scale(1.08);
+}
+.card-prompts:hover .access-card-image {
+  box-shadow: 0 28px 66px rgba(38,119,255,.22), 0 22px 54px rgba(0,0,0,.34);
+}
+.card-tools:hover .access-card-image {
+  box-shadow: 0 28px 66px rgba(149,79,255,.2), 0 22px 54px rgba(0,0,0,.34);
+}
+.card-pack:hover .access-card-image {
+  box-shadow: 0 28px 66px rgba(255,190,47,.18), 0 22px 54px rgba(0,0,0,.34);
+}
+.card-contact:hover .access-card-image {
+  box-shadow: 0 28px 66px rgba(0,214,230,.2), 0 22px 54px rgba(0,0,0,.34);
+}
+
+@media (max-width: 600px) {
+  .header-brand {
+    gap: 9px;
+  }
+  .brand-logo {
+    height: 40px;
+  }
+  .header-brand-name {
+    font-size: 18px;
+  }
+  .hero-content {
+    padding-top: 360px;
+  }
+  .hero-cta {
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cta,
+  .hero-cta::before,
+  .hero-cta svg,
+  .access-card::before {
+    transition: none;
+  }
+}

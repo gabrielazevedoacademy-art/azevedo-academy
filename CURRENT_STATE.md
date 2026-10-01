@@ -2,19 +2,19 @@
 
 ## STATUS GERAL
 
-**Estado atual:** estável; atualização visual da Home implementada  
+**Estado atual:** estável; refinamento visual da Home implementado  
 **Última atualização:** 2026-09-30  
 **Último estado seguro conhecido:** commit desta tarefa na `main`
 
 ## FUNCIONANDO
 
-- Hero existente preservado.
-- Quatro acessos da Home usam as artes PNG do repositório.
-- Links dos quatro cards permanecem funcionais.
-- Grid: 4 cards no desktop, 2x2 em tablet e 1 por linha no mobile.
-- Logo oficial SVG aparece no cabeçalho.
-- Faixa de fundo do cabeçalho foi removida.
-- Hover, glow, entrada escalonada, foco visível e `prefers-reduced-motion` permanecem tratados.
+- Hero existente preservado, com o kicker “Inteligência para quem cria” removido.
+- Título “O FUTURO / JÁ CHEGOU.” e texto principal mantidos.
+- CTA “Explorar ferramentas” recebeu refinamento visual sem mudar o destino.
+- Cabeçalho transparente mantém a logo oficial e voltou a exibir “Azevedo Academy” ao lado.
+- Quatro cards continuam usando as artes PNG e os links existentes.
+- Glows dos cards agora seguem as artes: azul, roxo, amarelo e ciano.
+- Layout 4/2/1, animações, foco visível e `prefers-reduced-motion` permanecem tratados.
 - `/biblioteca-de-prompts/` não foi alterada.
 
 ## EM DESENVOLVIMENTO
@@ -27,7 +27,8 @@
 
 ## PENDÊNCIAS
 
-- Conferir visualmente o deploy de produção.
+- Conferir visualmente o novo hero, cabeçalho e glows no deploy de produção.
+- Aguardar os próximos ajustes visuais solicitados pelo proprietário.
 
 ## BLOQUEIOS
 
@@ -35,17 +36,12 @@
 
 ## VALIDAÇÃO MAIS RECENTE
 
-**Build:** condições do `scripts/build.js` verificadas com sucesso; arquivos obrigatórios existem e `outputDirectory: "."` foi preservado  
-**Lint:** sintaxe de `assets/js/home.js` validada; arquivo não foi alterado  
+**Build:** estrutura do site estático preservada; nenhum arquivo exigido pelo build foi removido  
+**Lint:** JavaScript não foi alterado nesta tarefa  
 **Typecheck:** não disponível neste projeto estático  
 **Testes:** não existem testes automatizados adicionais  
 **Validação visual:** aguardando inspeção do site publicado  
 **Deploy:** push para `main` aciona o fluxo existente da Vercel
-
-## PRÓXIMOS PASSOS
-
-1. Conferir o resultado no site publicado.
-2. Ajustar somente detalhes visuais que forem apontados.
 
 ## ÁREA SENSÍVEL
 
@@ -53,4 +49,4 @@
 
 ## RESUMO PARA O PRÓXIMO AGENTE
 
-> A Home agora usa quatro PNGs como cards clicáveis, com links preservados e layout 4/2/1. A logo SVG oficial substituiu o texto no cabeçalho e o fundo do cabeçalho foi removido. Hero e Biblioteca de Prompts permaneceram intactos. O próximo passo é validar visualmente o deploy.
+> O cabeçalho transparente agora exibe logo + texto Azevedo Academy. O kicker acima do hero foi removido e o CTA recebeu visual mais refinado. Os quatro cards mantêm imagens e links, com glows azul, roxo, amarelo e ciano respectivamente. A Biblioteca de Prompts permaneceu intacta. O próximo passo é validar visualmente e continuar os ajustes do hero conforme feedback.
