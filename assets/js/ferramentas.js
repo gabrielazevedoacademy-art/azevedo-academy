@@ -110,6 +110,16 @@
 
   const revealCards = () => {
     cards.forEach((card) => card.classList.add('is-visible'));
+
+    if (reduceMotion.matches) {
+      cards.forEach((card) => card.classList.add('is-interactive'));
+      return;
+    }
+
+    const revealDuration = Math.min((cards.length - 1) * 65, 520) + 900;
+    window.setTimeout(() => {
+      cards.forEach((card) => card.classList.add('is-interactive'));
+    }, revealDuration);
   };
 
   if (!catalog || reduceMotion.matches || !('IntersectionObserver' in window)) {
