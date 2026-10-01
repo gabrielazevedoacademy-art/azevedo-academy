@@ -1805,3 +1805,32 @@ html { scroll-behavior: smooth; }
     top: 59%;
   }
 }
+
+/* Align creative journey nodes to the current SVG curve — 2026-09-30 */
+.creative-node-idea {
+  top: 75.4%;
+}
+
+.creative-node-create {
+  top: 67.6%;
+}
+
+@media (max-width: 860px) {
+  .creative-node-idea {
+    top: 75.1%;
+  }
+
+  .creative-node-create {
+    top: 66.8%;
+  }
+}
+
+@media (max-width: 600px) {
+  .creative-node-idea {
+    top: 73%;
+  }
+
+  .creative-node-create {
+    top: 68%;
+  }
+}
