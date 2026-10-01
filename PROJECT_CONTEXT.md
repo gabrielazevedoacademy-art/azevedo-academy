@@ -153,7 +153,7 @@ Direção atual:
 - a mesma ferramenta pode pertencer a várias categorias sem duplicar o card;
 - cards não possuem links externos por enquanto; links serão adicionados quando os afiliados forem definidos;
 - no desktop, o hover move o card inteiro para cima e aumenta o card de forma perceptível e fluida; o logo não recebe uma animação separada; no mobile o hover de crescimento fica desativado; entrada usa stagger;
-- em mobile, filtros viram uma faixa horizontal rolável, o catálogo usa duas colunas de cards por linha e a navegação usa menu lateral off-canvas;
+- em mobile, filtros viram uma faixa horizontal rolável, o catálogo usa duas colunas de cards por linha e a navegação usa menu lateral off-canvas; o header fica sem fundo desfocado ao rolar e o conteúdo do hero sobe para ganhar mais respiro vertical;
 - logos usam fontes públicas externas com fallback visual por iniciais caso a imagem falhe; Claude usa o ícone próprio da marca, não o símbolo corporativo da Anthropic;
 - a seção do catálogo usa um fundo quente/escuro distinto do fundo geral e sobrepõe suavemente o final do hero para eliminar qualquer linha de corte entre as duas áreas;
 - respeitar `prefers-reduced-motion` e evitar overflow horizontal.
