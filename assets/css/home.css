@@ -308,3 +308,166 @@ html { scroll-behavior: smooth; }
   .card-grid.has-card-reveal .access-card .card-art, .card-grid.has-card-reveal .access-card.is-visible .card-art { opacity: 1; transform: none; transition: none; }
   .access-card:hover { transform: none; }
 }
+
+
+/* Image cards + transparent header — 2026-09-30 */
+.site-header,
+.site-header.is-scrolled {
+  border-bottom-color: transparent;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.header-brand {
+  min-width: 52px;
+  min-height: 58px;
+  justify-content: center;
+}
+.brand-logo {
+  display: block;
+  width: auto;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 14px rgba(0,0,0,.22));
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: none;
+  gap: clamp(16px, 2vw, 28px);
+  align-items: stretch;
+  margin-top: 42px;
+}
+.access-card,
+.card-prompts,
+.card-tools,
+.card-pack,
+.card-contact {
+  grid-column: auto;
+  grid-row: auto;
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: clamp(20px, 2vw, 28px);
+  background: transparent;
+  box-shadow: none;
+  isolation: isolate;
+  transform: translateZ(0);
+  transition: transform 600ms cubic-bezier(.16,1,.3,1), filter 400ms ease;
+}
+.access-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 8% 7%;
+  border-radius: 32%;
+  background: radial-gradient(circle at 50% 48%, rgba(var(--card-glow-rgb), .72) 0%, rgba(var(--card-glow-rgb), .34) 38%, rgba(var(--card-glow-rgb), 0) 74%);
+  filter: blur(34px);
+  opacity: .48;
+  transform: scale(.94);
+  transition: opacity 500ms ease, transform 650ms cubic-bezier(.16,1,.3,1);
+  pointer-events: none;
+}
+.access-card::after { display: none; }
+.card-prompts { --card-glow-rgb: 229, 55, 36; }
+.card-tools { --card-glow-rgb: 244, 157, 67; }
+.card-pack { --card-glow-rgb: 211, 42, 30; }
+.card-contact { --card-glow-rgb: 240, 105, 44; }
+
+.access-card-image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: contain;
+  box-shadow: 0 20px 48px rgba(0,0,0,.28);
+  transition: box-shadow 600ms cubic-bezier(.16,1,.3,1), filter 400ms ease;
+}
+.access-card:hover {
+  background: transparent;
+  transform: translateY(-8px) scale(1.015);
+  filter: saturate(1.04);
+}
+.access-card:hover::before {
+  opacity: .75;
+  transform: scale(1.07);
+}
+.access-card:hover .access-card-image {
+  box-shadow: 0 30px 66px rgba(0,0,0,.38);
+}
+.access-card:focus-visible {
+  outline: 2px solid var(--home-amber);
+  outline-offset: 6px;
+}
+
+.card-grid.has-card-reveal .access-card {
+  opacity: 0;
+  transform: translateY(28px) scale(.975);
+  filter: blur(2px);
+}
+.card-grid.has-card-reveal .access-card.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: none;
+  transition:
+    opacity 520ms ease var(--card-delay, 0ms),
+    transform 850ms cubic-bezier(.16,1,.3,1) var(--card-delay, 0ms),
+    filter 520ms ease var(--card-delay, 0ms);
+}
+.card-grid.has-card-reveal .access-card.is-visible:hover {
+  transform: translateY(-8px) scale(1.015);
+}
+
+@media (max-width: 1050px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+  }
+}
+@media (max-width: 600px) {
+  .header-brand {
+    min-width: 44px;
+    min-height: 50px;
+  }
+  .brand-logo { height: 45px; }
+  .card-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 420px);
+    justify-content: center;
+    gap: 20px;
+  }
+  .access-card,
+  .card-prompts,
+  .card-tools,
+  .card-pack,
+  .card-contact {
+    width: 100%;
+    min-height: 0;
+    padding: 0;
+    border-radius: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-grid.has-card-reveal .access-card,
+  .card-grid.has-card-reveal .access-card.is-visible,
+  .card-grid.has-card-reveal .access-card.is-visible:hover,
+  .access-card,
+  .access-card:hover {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+  .access-card::before,
+  .access-card-image {
+    transition: none;
+  }
+}

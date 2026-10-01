@@ -1,211 +1,56 @@
 # CURRENT_STATE.md — Estado Atual do Projeto
 
-> Este arquivo representa somente o estado atual do projeto.
-> Ele deve ser curto, objetivo e atualizado pelo agente ao final de tarefas relevantes.
-> Não acumular histórico antigo.
-> Quando algo deixar de ser verdade, substituir ou remover.
+## STATUS GERAL
 
----
+**Estado atual:** estável; atualização visual da Home implementada  
+**Última atualização:** 2026-09-30  
+**Último estado seguro conhecido:** commit desta tarefa na `main`
 
-## 1. STATUS GERAL
+## FUNCIONANDO
 
-**Estado atual:**  
-[estável / em desenvolvimento / com bug / aguardando validação / bloqueado]
+- Hero existente preservado.
+- Quatro acessos da Home usam as artes PNG do repositório.
+- Links dos quatro cards permanecem funcionais.
+- Grid: 4 cards no desktop, 2x2 em tablet e 1 por linha no mobile.
+- Logo oficial SVG aparece no cabeçalho.
+- Faixa de fundo do cabeçalho foi removida.
+- Hover, glow, entrada escalonada, foco visível e `prefers-reduced-motion` permanecem tratados.
+- `/biblioteca-de-prompts/` não foi alterada.
 
-**Última atualização:**  
-[AAAA-MM-DD]
+## EM DESENVOLVIMENTO
 
-**Último estado seguro conhecido:**  
-[commit, branch, deploy ou descrição curta]
+> Nenhuma implementação parcialmente concluída.
 
----
+## BUGS CONHECIDOS
 
-## 2. O QUE ESTÁ FUNCIONANDO
+> Nenhum bug novo conhecido introduzido por esta tarefa.
 
-- [funcionalidade 1]
-- [funcionalidade 2]
-- [funcionalidade 3]
+## PENDÊNCIAS
 
-Registrar somente funcionalidades relevantes para continuidade do trabalho.
+- Conferir visualmente o deploy de produção.
 
----
-
-## 3. O QUE ESTÁ EM DESENVOLVIMENTO
-
-### [Tarefa ou funcionalidade]
-
-**Objetivo:**  
-[preencher]
-
-**Estado:**  
-[não iniciada / em andamento / implementada aguardando validação]
-
-**Arquivos/áreas principais:**  
-- [arquivo ou área]
-
-**Observação:**  
-[preencher somente se realmente ajudar o próximo agente]
-
-Se não houver tarefa em andamento:
-
-> Nenhuma implementação parcialmente concluída no momento.
-
----
-
-## 4. BUGS CONHECIDOS
-
-### [Bug]
-
-**Sintoma:**  
-[o que acontece]
-
-**Impacto:**  
-[baixo / médio / alto / crítico]
-
-**Status:**  
-[identificado / investigando / corrigido aguardando validação]
-
-**Evidência conhecida:**  
-[erro, tela, comportamento ou teste relacionado]
-
-Não registrar hipótese como causa confirmada.
-
-Se não houver bugs conhecidos:
-
-> Nenhum bug conhecido relevante no momento.
-
----
-
-## 5. PENDÊNCIAS
-
-- [pendência 1]
-- [pendência 2]
-
-Manter somente itens realmente pendentes.
-
-Remover o item assim que for concluído ou deixar de ser necessário.
-
----
-
-## 6. BLOQUEIOS
-
-- [bloqueio atual]
-
-Exemplos:
-
-- falta de credencial;
-- permissão ausente;
-- decisão do proprietário;
-- API externa indisponível.
-
-Se não houver:
+## BLOQUEIOS
 
 > Nenhum bloqueio atual.
 
----
+## VALIDAÇÃO MAIS RECENTE
 
-## 7. ÚLTIMAS ALTERAÇÕES RELEVANTES
+**Build:** condições do `scripts/build.js` verificadas com sucesso; arquivos obrigatórios existem e `outputDirectory: "."` foi preservado  
+**Lint:** sintaxe de `assets/js/home.js` validada; arquivo não foi alterado  
+**Typecheck:** não disponível neste projeto estático  
+**Testes:** não existem testes automatizados adicionais  
+**Validação visual:** aguardando inspeção do site publicado  
+**Deploy:** push para `main` aciona o fluxo existente da Vercel
 
-Registrar no máximo algumas mudanças recentes que alterem o entendimento atual.
+## PRÓXIMOS PASSOS
 
-- [alteração relevante 1]
-- [alteração relevante 2]
-- [alteração relevante 3]
+1. Conferir o resultado no site publicado.
+2. Ajustar somente detalhes visuais que forem apontados.
 
-Não transformar esta seção em changelog permanente.
+## ÁREA SENSÍVEL
 
----
+- `biblioteca-de-prompts/index.html` — preservado e não alterado.
 
-## 8. VALIDAÇÃO MAIS RECENTE
+## RESUMO PARA O PRÓXIMO AGENTE
 
-**Build:**  
-[passou / falhou / não disponível / não executado]
-
-**Lint:**  
-[passou / falhou / não disponível / não executado]
-
-**Typecheck:**  
-[passou / falhou / não disponível / não executado]
-
-**Testes:**  
-[passaram / falharam / não existem / não executados]
-
-**Validação visual:**  
-[desktop / tablet / mobile / não aplicável / não realizada]
-
-**Deploy:**  
-[produção atualizada / aguardando / falhou / não aplicável]
-
-Nunca marcar uma verificação como concluída se ela não foi realmente executada.
-
----
-
-## 9. PROBLEMAS PREEXISTENTES
-
-Problemas encontrados que não foram causados pela tarefa atual:
-
-- [problema preexistente]
-
-Não corrigir automaticamente problemas fora do escopo, a menos que impeçam diretamente a tarefa.
-
-Se não houver:
-
-> Nenhum problema preexistente relevante identificado.
-
----
-
-## 10. PRÓXIMOS PASSOS PROVÁVEIS
-
-1. [próximo passo]
-2. [próximo passo]
-3. [próximo passo]
-
-Esta lista é orientação, não autorização automática para executar tudo.
-
----
-
-## 11. DECISÕES RECENTES AINDA RELEVANTES
-
-### [Decisão]
-
-**Decidido:**  
-[preencher]
-
-**Impacto atual:**  
-[preencher]
-
-Mover decisões duradouras para `PROJECT_CONTEXT.md`.
-Remover daqui quando deixarem de ser recentes ou operacionais.
-
----
-
-## 12. ARQUIVOS / ÁREAS SENSÍVEIS NO MOMENTO
-
-- [arquivo, rota, componente ou serviço]
-
-Use esta seção somente quando houver risco real durante o trabalho atual.
-
----
-
-## 13. RESUMO PARA O PRÓXIMO AGENTE
-
-[Escreva de 3 a 8 linhas dizendo apenas o que outra IA precisa saber para continuar imediatamente.]
-
-Exemplo:
-
-> A Home está estável em produção. A tarefa atual é substituir quatro cards codificados por quatro imagens PNG mantendo os links existentes. O header não deve ser alterado. A área `/biblioteca-de-prompts/` continua protegida. Depois da alteração, validar responsividade em 4/2/1 colunas, build e deploy.
-
----
-
-## REGRA DE MANUTENÇÃO
-
-Ao finalizar uma tarefa relevante:
-
-1. remova informações obsoletas;
-2. atualize o estado real;
-3. registre somente pendências que continuam existindo;
-4. atualize a validação;
-5. mantenha o resumo curto;
-6. não acumule histórico.
-
-O objetivo deste arquivo é permitir que um novo agente entenda o ponto atual do projeto rapidamente, usando poucos tokens.
+> A Home agora usa quatro PNGs como cards clicáveis, com links preservados e layout 4/2/1. A logo SVG oficial substituiu o texto no cabeçalho e o fundo do cabeçalho foi removido. Hero e Biblioteca de Prompts permaneceram intactos. O próximo passo é validar visualmente o deploy.
