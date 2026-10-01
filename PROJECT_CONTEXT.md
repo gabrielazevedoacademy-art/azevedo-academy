@@ -70,7 +70,7 @@ A Home atual possui:
 
 - fundo predominantemente escuro;
 - preto, branco e laranja como identidade principal;
-- verde pode aparecer pontualmente como cor funcional/energética em efeitos específicos;
+- verde não é cor de destaque padrão; usar somente quando houver necessidade funcional ou pedido explícito;
 - League Spartan em títulos;
 - Montserrat no corpo;
 - movimento elegante e controlado;
@@ -89,8 +89,9 @@ A direção aprovada é:
 
 - fundo escuro e atmosférico;
 - caminho mais elaborado ocupando bem a área;
-- linha verde com glow percorrendo o trajeto;
+- linha laranja com glow percorrendo o trajeto;
 - conexão direta entre o caminho e cada texto;
+- o trajeto deve preservar uma área de respiro clara ao redor do título e da copy introdutória, sem atravessar texto;
 - textos surgindo em sequência conforme o caminho avança;
 - acabamento de motion graphics;
 - título atual: **O CAMINHO DA CRIAÇÃO.**
