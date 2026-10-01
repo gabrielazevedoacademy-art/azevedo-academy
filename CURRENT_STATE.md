@@ -2,7 +2,7 @@
 
 ## STATUS GERAL
 
-**Estado atual:** estável; hover dos cards sincronizado e CTA refinado  
+**Estado atual:** estável; hover dos quatro cards uniformizado  
 **Última atualização:** 2026-09-30  
 **Último estado seguro conhecido:** commit desta tarefa na `main`
 
@@ -10,25 +10,17 @@
 
 - Cabeçalho transparente com logo + “Azevedo Academy”.
 - Hero sem kicker; título e texto principal preservados.
-- CTA “Explorar ferramentas” mantém o conceito de esfera expansiva, agora sem contorno externo competindo com o preenchimento.
+- CTA “Explorar ferramentas” aprovado pelo proprietário e deve ser mantido como está.
 - Quatro cards usam as artes PNG e mantêm seus links.
 - Entrada dos cards continua com stagger.
-- Depois da entrada, os quatro cards respondem ao hover com o mesmo tempo e sem atraso residual.
+- Qualquer card já visível responde ao hover sem `transition-delay`, inclusive os cards 3 e 4.
 - Glows permanecem azul, roxo, amarelo e ciano.
 - Layout 4/2/1, foco visível e `prefers-reduced-motion` permanecem tratados.
 - `/biblioteca-de-prompts/` não foi alterada.
 
-## EM DESENVOLVIMENTO
-
-> Nenhuma implementação parcialmente concluída.
-
-## BUGS CONHECIDOS
-
-> Nenhum bug novo conhecido introduzido por esta tarefa.
-
 ## PENDÊNCIAS
 
-- Validar visualmente a sincronia do hover e o CTA sem contorno.
+- Validar visualmente se os quatro hovers agora têm resposta idêntica.
 - Continuar os próximos refinamentos do hero após feedback.
 
 ## BLOQUEIOS
@@ -37,9 +29,9 @@
 
 ## VALIDAÇÃO MAIS RECENTE
 
-**Build:** estrutura do site estático e configuração Vercel preservadas  
-**Lint:** sintaxe do JavaScript alterado validada  
-**Typecheck:** não disponível neste projeto estático  
+**Build:** estrutura estática e configuração Vercel preservadas  
+**Lint:** JavaScript não alterado nesta tarefa  
+**Typecheck:** não disponível  
 **Testes:** não existem testes automatizados adicionais  
 **Validação visual:** aguardando inspeção do site publicado  
 **Deploy:** push para `main` aciona a Vercel
@@ -50,4 +42,4 @@
 
 ## RESUMO PARA O PRÓXIMO AGENTE
 
-> O stagger agora existe apenas na animação de entrada. Após o reveal, todos os cards recebem a classe `is-interactive` e o hover fica sincronizado, sem atraso crescente nos cards 3 e 4. O CTA expansivo perdeu o contorno externo e o preenchimento laranja passa a ocupar a cápsula inteira no hover. A Biblioteca de Prompts permaneceu intacta.
+> O CTA do hero está aprovado e não deve ser alterado sem novo pedido. Para eliminar o atraso residual nos cards 3 e 4, o hover de qualquer card visível força `transition-delay: 0ms` no card, no glow e na imagem. A entrada escalonada continua existindo, mas não deve interferir no hover.

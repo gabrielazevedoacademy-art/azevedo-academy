@@ -877,3 +877,15 @@ html { scroll-behavior: smooth; }
   height: 100%;
   border-radius: inherit;
 }
+
+
+/* Force immediate hover response on all visible cards — 2026-09-30 */
+.card-grid.has-card-reveal .access-card.is-visible:hover {
+  transition-delay: 0ms !important;
+}
+.card-grid.has-card-reveal .access-card.is-visible:hover::before {
+  transition-delay: 0ms !important;
+}
+.card-grid.has-card-reveal .access-card.is-visible:hover .access-card-image {
+  transition-delay: 0ms !important;
+}
