@@ -11,13 +11,12 @@
 - Jornada criativa preservada em preto, branco e laranja.
 - Seção **Explore o ecossistema.** preservada com os quatro cards e reveal em stagger.
 - Scroll continua 100% nativo; não há interceptação de `wheel`.
-- Nova seção **Últimos vídeos** foi adicionada antes do footer.
-- A seção usa a YouTube IFrame Player API no navegador para ler a playlist oficial de uploads do canal.
-- Canal: `@Azevedo.Academy`; ID: `UCal4KF4mgJCUrFXu4Qw5aog`; playlist de uploads: `UUal4KF4mgJCUrFXu4Qw5aog`.
-- São exibidas 3 thumbnails recentes, cada uma com link direto para o respectivo vídeo, mais o link para ver todos os vídeos.
-- A integração não depende de chave da YouTube Data API nem de uma função serverless própria.
-- Se a API oficial do player não carregar, a Home continua funcional e mantém o link para o canal.
-- A seção de vídeos tem animação de entrada sutil, hover, responsividade e respeito a `prefers-reduced-motion`.
+- A seção **Últimos vídeos** fica antes do footer.
+- Ela usa 4 embeds fixos do YouTube em grade 2 × 2 no desktop e 1 coluna no mobile.
+- Não há mais tentativa de carregar feed, playlist ou endpoint automaticamente.
+- Os vídeos atuais são: Influenciadora de Dança com IA, Vídeos com IA sem Limite de Duração, ASMR com IA e Ferramenta para Criar Conteúdo no YouTube.
+- O botão para acessar o canal fica centralizado abaixo da grade e usa animação inspirada no CTA do hero.
+- A seção mantém responsividade e respeito a `prefers-reduced-motion`.
 - `/biblioteca-de-prompts/` permanece protegida e não foi modificada.
 
 ## Validação esperada

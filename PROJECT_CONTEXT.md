@@ -143,17 +143,16 @@ Não modificar sem pedido explícito.
 
 Mudanças específicas da Home devem preferencialmente ficar em `home.css` e `home.js`.
 
-## Vídeos recentes do YouTube
+## Vídeos em destaque do YouTube
 
-A Home possui uma seção de vídeos recentes antes do footer.
+A Home possui uma seção fixa de vídeos em destaque antes do footer.
 
-- Fonte: canal público `@Azevedo.Academy`, ID `UCal4KF4mgJCUrFXu4Qw5aog`.
-- A seção não depende mais de feed RSS/serverless. Ela usa a YouTube IFrame Player API no navegador para ler a playlist oficial de uploads do canal e obter os IDs dos vídeos recentes.
-- Playlist de uploads usada: `UUal4KF4mgJCUrFXu4Qw5aog`.
-- A Home monta thumbnails 16:9 e links diretos para os 3 vídeos mais recentes a partir desses IDs.
-- Não usa chave da YouTube Data API.
-- Se o player/API do YouTube estiver indisponível, a Home continua funcional e mantém o link direto para o canal.
-- Preservar responsividade, acessibilidade e `prefers-reduced-motion`.
+- A seção usa 4 embeds oficiais do YouTube em grade 2 × 2 no desktop e 1 coluna no mobile.
+- Os vídeos são escolhidos manualmente para priorizar conteúdos relevantes e de bom desempenho; não há carregamento automático nem dependência de feed/API.
+- Os embeds usam o modo com privacidade aprimorada do YouTube (`youtube-nocookie.com`).
+- A seção mantém animação de entrada discreta, responsividade e `prefers-reduced-motion`.
+- O CTA para o canal fica centralizado abaixo da grade e segue a linguagem visual do CTA do hero.
+- Trocar um vídeo exige somente substituir o ID do embed em `index.html`.
 
 ## Deploy
 
