@@ -6,13 +6,13 @@
 
 ## Estado atual
 
-- Home preservada, incluindo desktop e responsividade mobile/tablet já aprovados.
-- `/ferramentas` possui hero próprio alinhado à identidade preta, branca e laranja; o microtítulo atual é **Ferramentas recomendadas**. Os textos editoriais foram simplificados para uma linguagem mais natural, sem travessões decorativos.
+- Home preservada, incluindo desktop e responsividade mobile/tablet já aprovados. O CTA do hero agora parte de fundo branco e texto preto; o círculo laranja da seta ocupa o botão no hover e revela o texto branco na mesma área.
+- `/ferramentas` possui hero próprio alinhado à identidade preta, branca e laranja; o microtítulo atual é **Ferramentas recomendadas**. O CTA segue o mesmo tratamento branco e laranja da Home. Os textos editoriais permanecem em linguagem natural.
 - Catálogo contém 11 ferramentas: ChatGPT, Claude, Gemini, Magnific, Higgsfield, HeyGen, ElevenLabs, Google Flow, Musicful, Suno e Flow Music.
 - Cada ferramenta aparece uma única vez e usa tags internas para múltiplas categorias.
 - Filtros: Todas, Texto e ideias, Criação de conteúdo, Imagem, Vídeo, Narração e Música.
-- Cards estão compactos e centralizados, sem numeração; exibem logo, nome e descrição curta. O hover agora move o card inteiro para cima e cresce de forma suave, sem contorno e sem depender da animação do logo.
-- Claude usa o ícone próprio da marca. O catálogo tem fundo quente/escuro distinto do restante da página e uma transição gradual com o hero.
+- Cards estão compactos e centralizados, sem numeração; exibem logo, nome e descrição curta. No desktop, o hover move e aumenta o card inteiro de forma mais lenta e visível. No mobile, esse crescimento fica desativado.
+- Claude usa o ícone próprio da marca. O catálogo sobrepõe suavemente o final do hero para eliminar a linha entre as seções.
 - Não existem links externos/afiliados nos cards ainda.
 - Página responsiva: 4 colunas desktop amplo, 3 em telas intermediárias, 2 no tablet e 1 no celular.
 - Mobile possui menu hambúrguer com painel lateral, backdrop e fechamento acessível.
