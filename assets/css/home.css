@@ -1834,3 +1834,93 @@ html { scroll-behavior: smooth; }
     top: 68%;
   }
 }
+
+/* Cards section heading + viewport reveal — 2026-09-30 */
+.destinations {
+  padding-top: clamp(84px, 8vw, 118px);
+}
+
+.destinations-heading {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin-bottom: clamp(36px, 5vw, 58px);
+}
+
+.destinations-kicker {
+  margin: 0 0 14px;
+  color: var(--color-orange-light);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.destinations-heading h2 {
+  margin: 0;
+  color: #f5f0eb;
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 4.4vw, 4.6rem);
+  font-weight: 800;
+  line-height: .94;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+.destinations-copy {
+  max-width: 580px;
+  margin: 16px 0 0;
+  color: rgba(244,238,231,.58);
+  font-size: clamp(.82rem, 1vw, .96rem);
+  line-height: 1.7;
+}
+
+.destinations .card-grid {
+  margin-top: 0;
+}
+
+.destinations.has-destination-reveal .destinations-heading {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(22px);
+}
+
+.destinations.has-destination-reveal.is-destination-visible .destinations-heading {
+  animation: destinations-heading-in 820ms cubic-bezier(.16,1,.3,1) forwards;
+}
+
+@keyframes destinations-heading-in {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .destinations {
+    padding-top: 72px;
+  }
+
+  .destinations-heading {
+    margin-bottom: 30px;
+  }
+
+  .destinations-heading h2 {
+    font-size: clamp(2.35rem, 12vw, 3.45rem);
+  }
+
+  .destinations-copy {
+    max-width: 32ch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .destinations.has-destination-reveal .destinations-heading,
+  .destinations.has-destination-reveal.is-destination-visible .destinations-heading {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    animation: none;
+  }
+}
