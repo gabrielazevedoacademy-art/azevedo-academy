@@ -145,7 +145,8 @@ A rota `/ferramentas` é um catálogo curado de ferramentas de IA.
 
 Direção atual:
 - mesma identidade premium da Home: preto, branco e laranja;
-- hero próprio, com grid/orbitas/glows animados;
+- os títulos dos heros da Home e de Ferramentas recebem um pulso visual lento em looping depois da animação de entrada;
+- hero próprio, com grid e luz ambiente animados, sem círculos ou órbitas decorativas;
 - cards compactos por ferramenta, sem numeração, com logo + nome + descrição curta centralizados;
 - as categorias ficam em `data-tags` invisíveis nos cards e alimentam filtros visíveis;
 - filtros atuais: Todas, Texto e ideias, Criação de conteúdo, Imagem, Vídeo, Narração e Música;
