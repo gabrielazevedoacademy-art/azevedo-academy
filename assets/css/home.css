@@ -2241,3 +2241,19 @@ html { scroll-behavior: smooth; }
     transition: none;
   }
 }
+
+
+/* YouTube client-side playlist discovery fix */
+.youtube-playlist-probe {
+  position: absolute;
+  left: -10000px;
+  top: 0;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.video-card-title {
+  font-size: clamp(1rem, 1.35vw, 1.28rem);
+}
