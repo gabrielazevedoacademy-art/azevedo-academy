@@ -106,15 +106,6 @@
 
   cards.forEach((card, index) => {
     card.style.setProperty('--card-delay', `${Math.min(index * 65, 520)}ms`);
-
-    card.addEventListener('pointermove', (event) => {
-      if (event.pointerType === 'touch') return;
-      const rect = card.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-      card.style.setProperty('--mouse-x', `${x}%`);
-      card.style.setProperty('--mouse-y', `${y}%`);
-    });
   });
 
   const revealCards = () => {

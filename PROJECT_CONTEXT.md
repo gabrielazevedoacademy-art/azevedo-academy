@@ -150,7 +150,7 @@ Direção atual:
 - filtros atuais: Todas, LLMs, Criação de conteúdo, Imagem, Vídeo, Narração e Música;
 - a mesma ferramenta pode pertencer a várias categorias sem duplicar o card;
 - cards não possuem links externos por enquanto; links serão adicionados quando os afiliados forem definidos;
-- hover usa spotlight, brilho e movimento leve; entrada usa stagger;
+- hover é simples: crescimento sutil do card e do logo, cursor em formato de mão e sombra discreta; entrada usa stagger;
 - em mobile, filtros viram uma faixa horizontal rolável, grid vira uma coluna e a navegação usa menu lateral off-canvas;
 - logos usam fontes públicas externas com fallback visual por iniciais caso a imagem falhe;
 - respeitar `prefers-reduced-motion` e evitar overflow horizontal.

@@ -284,6 +284,7 @@ html {
 .tools-hero h1 strong {
   margin-top: .04em;
   color: transparent;
+  line-height: 1;
   -webkit-text-stroke: 1.5px rgba(255,122,71,.86);
   text-shadow: 0 0 42px rgba(255,90,31,.08);
 }
@@ -533,8 +534,6 @@ html {
 }
 
 .tool-card {
-  --mouse-x: 50%;
-  --mouse-y: 50%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -551,35 +550,19 @@ html {
   opacity: 0;
   transform: translateY(28px) scale(.975);
   filter: blur(3px);
+  cursor: pointer;
   transition:
-    transform 650ms cubic-bezier(.16,1,.3,1),
+    transform 520ms cubic-bezier(.16,1,.3,1),
     opacity 420ms ease,
     filter 420ms ease,
-    border-color 420ms ease,
-    box-shadow 650ms cubic-bezier(.16,1,.3,1);
+    border-color 320ms ease,
+    box-shadow 520ms cubic-bezier(.16,1,.3,1),
+    background-color 320ms ease;
 }
 
-.tool-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle 210px at var(--mouse-x) var(--mouse-y), rgba(255,104,43,.16), transparent 68%);
-  opacity: 0;
-  transition: opacity 420ms ease;
-  pointer-events: none;
-}
-
+.tool-card::before,
 .tool-card::after {
-  content: "";
-  position: absolute;
-  top: -60%;
-  left: -34%;
-  width: 36%;
-  height: 220%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.095), transparent);
-  transform: rotate(18deg) translateX(-180%);
-  transition: transform 900ms cubic-bezier(.16,1,.3,1);
-  pointer-events: none;
+  display: none;
 }
 
 .tool-card.is-visible {
@@ -591,20 +574,13 @@ html {
 
 .tool-card:hover {
   z-index: 2;
-  transform: translateY(-8px) scale(1.012);
-  border-color: rgba(255,137,76,.25);
-  box-shadow:
-    0 30px 72px rgba(0,0,0,.34),
-    0 0 46px rgba(255,90,31,.055);
+  transform: scale(1.025);
+  border-color: rgba(255,137,76,.2);
+  background:
+    linear-gradient(155deg, rgba(255,255,255,.048), transparent 42%),
+    rgba(17,13,11,.84);
+  box-shadow: 0 26px 58px rgba(0,0,0,.3);
   transition-delay: 0ms;
-}
-
-.tool-card:hover::before {
-  opacity: 1;
-}
-
-.tool-card:hover::after {
-  transform: rotate(18deg) translateX(430%);
 }
 
 .tool-card.is-filtering-out {
@@ -656,27 +632,15 @@ html {
 }
 
 .tool-logo-shell::after {
-  content: "";
-  position: absolute;
-  inset: -12px;
-  border-radius: 28px;
-  background: radial-gradient(circle, rgba(255,100,39,.14), transparent 67%);
-  opacity: 0;
-  filter: blur(8px);
-  transition: opacity 400ms ease;
-  z-index: -1;
+  display: none;
 }
 
 .tool-card:hover .tool-logo-shell {
-  transform: translateY(-3px) rotate(-2deg) scale(1.04);
-  border-color: rgba(255,139,78,.22);
+  transform: scale(1.06);
+  border-color: rgba(255,139,78,.18);
   box-shadow:
     inset 0 1px rgba(255,255,255,.08),
-    0 20px 40px rgba(0,0,0,.23);
-}
-
-.tool-card:hover .tool-logo-shell::after {
-  opacity: 1;
+    0 18px 34px rgba(0,0,0,.2);
 }
 
 .tool-logo {
@@ -1306,12 +1270,7 @@ html {
 
 @media (hover: none) and (pointer: coarse) {
   .tool-card:hover {
-    transform: translateY(0) scale(1);
-  }
-
-  .tool-card:hover::before,
-  .tool-card:hover::after {
-    opacity: 0;
+    transform: none;
   }
 }
 
