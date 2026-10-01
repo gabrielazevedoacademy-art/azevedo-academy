@@ -2703,6 +2703,11 @@ html { scroll-behavior: smooth; }
 }
 
 @media (max-width: 700px) {
+  /* Mobile-only hero framing: move the image slightly right without touching desktop/tablet. */
+  .hero-background::before {
+    background-position: 58% center;
+  }
+
   /* Convert the cinematic path into a clean vertical mobile timeline. */
   .transition-manifesto {
     min-height: 0;
