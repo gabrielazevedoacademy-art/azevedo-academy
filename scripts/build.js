@@ -4,6 +4,9 @@ const fs = require('node:fs');
 
 const required = [
   'index.html',
+  'ferramentas/index.html',
+  'assets/css/ferramentas.css',
+  'assets/js/ferramentas.js',
   'biblioteca-de-prompts/index.html'
 ];
 
