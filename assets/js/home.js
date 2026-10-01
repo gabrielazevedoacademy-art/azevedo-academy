@@ -4,6 +4,7 @@
   const menu = document.querySelector('[data-menu]');
   const hero = document.querySelector('.hero');
   const creativePath = document.querySelector('[data-creative-path]');
+  const destinations = document.querySelector('[data-destinations]');
   const cardGrid = document.querySelector('.card-grid');
   const cards = document.querySelectorAll('.access-card');
   const year = document.querySelector('[data-year]');
@@ -46,37 +47,114 @@
     }
   }
 
-  if (cardGrid && cards.length && !reduceMotion.matches && 'IntersectionObserver' in window) {
-    try {
-      const revealCard = (card, index) => {
-        const delay = index * 90;
-        card.classList.add('is-visible');
-        window.setTimeout(() => card.classList.add('is-interactive'), delay + 950);
-      };
+  if (destinations && cardGrid && cards.length) {
+    if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+      destinations.classList.add('is-destination-visible');
+      cards.forEach((card) => card.classList.add('is-visible', 'is-interactive'));
+    } else {
+      try {
+        destinations.classList.add('has-destination-reveal');
+        cardGrid.classList.add('has-card-reveal');
 
-      const revealAllCards = () => cards.forEach((card, index) => revealCard(card, index));
-      const cardObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const index = Number(entry.target.dataset.cardIndex || 0);
-          revealCard(entry.target, index);
-          observer.unobserve(entry.target);
+        const firstCardDelay = 140;
+        const cardStep = 110;
+        cards.forEach((card, index) => {
+          card.style.setProperty('--card-delay', `${firstCardDelay + (index * cardStep)}ms`);
         });
-      }, { threshold: 0.08, rootMargin: '0px 0px 8% 0px' });
 
-      cards.forEach((card, index) => {
-        card.dataset.cardIndex = String(index);
-        card.style.setProperty('--card-delay', `${index * 90}ms`);
-        cardObserver.observe(card);
-      });
+        const destinationObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
 
-      // Entrance staggering is temporary; hover is synchronized after reveal.
-      cardGrid.classList.add('has-card-reveal');
-      window.setTimeout(revealAllCards, 2400);
-    } catch (error) {
-      cardGrid.classList.remove('has-card-reveal');
-      console.warn('Card reveal disabled; showing static cards.', error);
+            destinations.classList.add('is-destination-visible');
+            cards.forEach((card) => card.classList.add('is-visible'));
+
+            const interactiveDelay = firstCardDelay + ((cards.length - 1) * cardStep) + 950;
+            window.setTimeout(() => {
+              cards.forEach((card) => card.classList.add('is-interactive'));
+            }, interactiveDelay);
+
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0.16, rootMargin: '0px 0px -4% 0px' });
+
+        destinationObserver.observe(destinations);
+      } catch (error) {
+        destinations.classList.remove('has-destination-reveal');
+        cardGrid.classList.remove('has-card-reveal');
+        cards.forEach((card) => card.classList.add('is-visible', 'is-interactive'));
+        console.warn('Destination reveal disabled; showing static cards.', error);
+      }
     }
+  }
+
+  const finePointer = window.matchMedia('(pointer: fine)');
+  let smoothWheelFrame = 0;
+  let smoothWheelCurrent = window.scrollY;
+  let smoothWheelTarget = window.scrollY;
+
+  const stopSmoothWheel = () => {
+    if (smoothWheelFrame) window.cancelAnimationFrame(smoothWheelFrame);
+    smoothWheelFrame = 0;
+    smoothWheelCurrent = window.scrollY;
+    smoothWheelTarget = window.scrollY;
+  };
+
+  const hasScrollableAncestor = (target) => {
+    let element = target instanceof Element ? target : null;
+    while (element && element !== document.body) {
+      const styles = window.getComputedStyle(element);
+      const canScroll = /(auto|scroll)/.test(styles.overflowY) && element.scrollHeight > element.clientHeight;
+      if (canScroll) return true;
+      element = element.parentElement;
+    }
+    return false;
+  };
+
+  const animateSmoothWheel = () => {
+    const distance = smoothWheelTarget - smoothWheelCurrent;
+    smoothWheelCurrent += distance * 0.16;
+
+    if (Math.abs(distance) < 0.6) {
+      window.scrollTo(0, smoothWheelTarget);
+      smoothWheelFrame = 0;
+      smoothWheelCurrent = smoothWheelTarget;
+      return;
+    }
+
+    window.scrollTo(0, smoothWheelCurrent);
+    smoothWheelFrame = window.requestAnimationFrame(animateSmoothWheel);
+  };
+
+  if (!reduceMotion.matches && finePointer.matches) {
+    window.addEventListener('wheel', (event) => {
+      if (event.ctrlKey || event.defaultPrevented || event.deltaY === 0 || hasScrollableAncestor(event.target)) return;
+
+      const multiplier = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+      const delta = event.deltaY * multiplier;
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+      event.preventDefault();
+
+      if (!smoothWheelFrame) {
+        smoothWheelCurrent = window.scrollY;
+        smoothWheelTarget = window.scrollY;
+      }
+
+      smoothWheelTarget = Math.min(maxScroll, Math.max(0, smoothWheelTarget + (delta * 0.92)));
+
+      if (!smoothWheelFrame) {
+        smoothWheelFrame = window.requestAnimationFrame(animateSmoothWheel);
+      }
+    }, { passive: false });
+
+    window.addEventListener('mousedown', stopSmoothWheel, { passive: true });
+    window.addEventListener('keydown', (event) => {
+      if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) {
+        stopSmoothWheel();
+      }
+    });
+    window.addEventListener('resize', stopSmoothWheel, { passive: true });
   }
 
   let scheduled = false;

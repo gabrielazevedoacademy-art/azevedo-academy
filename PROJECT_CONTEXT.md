@@ -111,6 +111,14 @@ Layout desejado:
 - intermediário: 2 × 2;
 - mobile: 1 por linha.
 
+Direção atual da seção:
+- título: **Explore o ecossistema.**
+- linha de apoio curta explicando prompts, ferramentas, recursos e caminhos;
+- título e cards entram quando a seção realmente chega à viewport;
+- cards usam stagger progressivo, preservando hover e glow individual;
+- a Home usa amortecimento leve de wheel no desktop com mouse para sensação mais premium;
+- touch/mobile, teclado e `prefers-reduced-motion` preservam comportamento nativo/acessível.
+
 Preservar animação de entrada, hover, glow individual e acessibilidade.
 
 ## Área protegida
