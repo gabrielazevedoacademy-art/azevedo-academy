@@ -14,7 +14,7 @@
 - Cards estão compactos e centralizados, sem numeração; exibem logo, nome e descrição curta. No desktop, o hover move e aumenta o card inteiro de forma mais lenta e visível. No mobile, esse crescimento fica desativado.
 - Claude usa o ícone próprio da marca. O catálogo sobrepõe suavemente o final do hero para eliminar a linha entre as seções.
 - Não existem links externos/afiliados nos cards ainda.
-- Página responsiva: 4 colunas desktop amplo, 3 em telas intermediárias, 2 no tablet e 1 no celular.
+- Página responsiva: 4 colunas desktop amplo, 3 em telas intermediárias e 2 colunas no tablet e no celular.
 - Mobile possui menu hambúrguer com painel lateral, backdrop e fechamento acessível.
 - Filtros mobile usam rolagem horizontal própria sem causar overflow da página.
 - `prefers-reduced-motion` é respeitado.
