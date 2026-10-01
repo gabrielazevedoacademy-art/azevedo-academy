@@ -2254,9 +2254,11 @@ html { scroll-behavior: smooth; }
   .site-header {
     z-index: 80;
     padding-inline: clamp(16px, 4vw, 24px);
+    border-bottom: 0;
   }
 
   .site-header.is-scrolled {
+    border-bottom: 0;
     background: linear-gradient(180deg, rgba(8,7,6,.86), rgba(8,7,6,.62) 72%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
