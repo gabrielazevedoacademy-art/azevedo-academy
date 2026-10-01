@@ -2,34 +2,33 @@
 
 **Atualizado em:** 2026-09-30  
 **Branch:** `main` após integração da tarefa atual  
-**Estado geral:** Home funcional em produção, com hero, jornada criativa, ecossistema, header animado e seção automática de vídeos.
+**Estado geral:** Home funcional em produção, com desktop preservado e responsividade mobile/tablet refinada.
 
 ## Estado atual
 
-- Header/nav preservado; anima na entrada, saída durante scroll e retorno ao topo.
-- Hero cinematográfico preservado.
-- Jornada criativa preservada em preto, branco e laranja.
-- Seção **Explore o ecossistema.** preservada com os quatro cards e reveal em stagger.
-- Scroll continua 100% nativo; não há interceptação de `wheel`.
-- A seção **Últimos vídeos** fica antes do footer.
-- Ela usa 4 embeds fixos do YouTube em grade 2 × 2 no desktop e 1 coluna no mobile.
-- Não há mais tentativa de carregar feed, playlist ou endpoint automaticamente.
-- Os vídeos atuais são: Influenciadora de Dança com IA, Vídeos com IA sem Limite de Duração, ASMR com IA e Ferramenta para Criar Conteúdo no YouTube.
-- O botão para acessar o canal fica centralizado abaixo da grade e usa animação inspirada no CTA do hero.
-- A seção mantém responsividade e respeito a `prefers-reduced-motion`.
+- Desktop acima de 860px foi preservado.
+- Header/nav desktop mantém entrada, saída no scroll e retorno ao topo.
+- Em até 860px, a navegação usa botão hambúrguer com menu lateral off-canvas pela direita.
+- Menu mobile possui backdrop com blur, animação dos links em sequência, fechamento por backdrop/Escape/link e bloqueio do scroll de fundo.
+- Hero mobile usa espaçamento fluido, tipografia responsiva e parallax de scroll desativado para evitar jitter/posicionamento instável.
+- A jornada criativa preserva o layout cinematográfico no desktop; em telas estreitas vira timeline vertical animada para impedir sobreposição.
+- Seção **Explore o ecossistema.** usa 2 colunas no tablet e 1 coluna no celular, mantendo proporção 4:5 dos cards.
+- Seção **Últimos vídeos** mantém embeds fixos; em telas estreitas passa para 1 coluna e CTA centralizado.
+- Footer reorganizado para tablet/celular sem overflow lateral.
+- A Home mantém scroll nativo, foco acessível e suporte a `prefers-reduced-motion`.
 - `/biblioteca-de-prompts/` permanece protegida e não foi modificada.
 
-## Validação esperada
+## Validação
 
-- `npm run lint`
-- `npm run build`
-- sintaxe de `api/youtube.js`
-- revisão do diff
-- status do deploy Vercel após merge na `main`
+- Sintaxe do JavaScript verificada.
+- Estrutura de blocos CSS verificada.
+- Condições equivalentes do build estático verificadas: `index.html`, Biblioteca e `vercel.json` permanecem válidos.
+- Preview da Vercel na branch: **success**.
+- Diff restrito a `index.html`, `assets/js/home.js`, `assets/css/home.css` e arquivos de contexto.
 
 ## Pendente
 
-- Inspeção visual do proprietário no site publicado e refinamento apenas se necessário.
+- Inspeção visual final no site publicado em aparelhos/tamanhos reais.
 
 ## Área protegida
 

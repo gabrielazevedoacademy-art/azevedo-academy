@@ -28,9 +28,13 @@
       </a>
 
       <div class="nav-menu-shell">
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu" data-menu-toggle>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu" aria-haspopup="true" data-menu-toggle>
           <span class="sr-only">Abrir menu</span>
-          <span aria-hidden="true">Menu</span>
+          <span class="menu-toggle-icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
         </button>
 
         <div class="nav-links" id="main-menu" data-menu>
@@ -40,6 +44,8 @@
           <a href="/sobre">Sobre</a>
           <a href="/contato">Contato</a>
         </div>
+
+        <div class="menu-backdrop" aria-hidden="true" data-menu-overlay></div>
       </div>
     </nav>
   </header>

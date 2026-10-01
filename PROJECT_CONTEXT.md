@@ -72,6 +72,13 @@ Comportamento do header no desktop:
 - ao voltar ao topo, reaparece com transição equivalente;
 - a animação inicial deve terminar antes de o estado de scroll assumir, evitando conflito entre animação e transição.
 
+Comportamento mobile/tablet:
+- em até 860px, a navegação usa botão hambúrguer e menu lateral off-canvas pela direita;
+- o menu possui backdrop, animação escalonada dos links, fechamento por backdrop/Escape/link e bloqueio do scroll do fundo;
+- o desktop acima de 860px deve permanecer visual e funcionalmente inalterado durante refinamentos mobile;
+- em telas estreitas, a jornada criativa vira uma timeline vertical para evitar sobreposição e overflow horizontal;
+- cards passam de 2 colunas no tablet para 1 coluna no celular; vídeos passam para 1 coluna em telas estreitas.
+
 ### Direção visual
 
 - fundo predominantemente escuro;
