@@ -1469,21 +1469,85 @@
     justify-content: center;
   }
 
-  /* Botões: largura total, mais altos e com o texto centralizado. */
+  /* Botões no celular: sem seta, largura total, azul cheio, brilho passando e resposta ao toque. */
   .ic-cta {
     width: 100%;
     max-width: none;
-    min-height: 62px;
+    min-height: 60px;
     justify-content: center;
-    padding-left: 58px;
-    font-size: 1.08rem;
+    padding: 0 24px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--ic-blue-bright) 0%, var(--ic-blue) 50%, var(--ic-blue-deep) 100%);
+    color: #ffffff;
+    font-size: 1.1rem;
+    letter-spacing: .01em;
+    box-shadow:
+      0 14px 34px rgba(31, 91, 255, .45),
+      inset 0 1px rgba(255, 255, 255, .35),
+      inset 0 -2px rgba(0, 0, 0, .18);
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+  }
+  .ic-cta > svg {
+    display: none;
   }
   .ic-cta > span {
-    flex: 1;
-    text-align: center;
+    color: #ffffff;
+  }
+  /* Faixa de brilho que atravessa o botão de tempos em tempos. */
+  .ic-cta::before {
+    top: 0;
+    right: auto;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+    border-radius: 0;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .35), transparent);
+    box-shadow: none;
+    transform: skewX(-20deg);
+    transition: none;
+    animation: ic-cta-shine 3.6s ease-in-out infinite;
+  }
+  .ic-cta:hover,
+  .ic-cta:focus-visible {
+    transform: none;
+    box-shadow:
+      0 14px 34px rgba(31, 91, 255, .45),
+      inset 0 1px rgba(255, 255, 255, .35),
+      inset 0 -2px rgba(0, 0, 0, .18);
+  }
+  .ic-cta:hover::before {
+    top: 0;
+    right: auto;
+    width: 45%;
+    height: 100%;
+  }
+  .ic-cta:hover > span {
+    transform: none;
+  }
+  .ic-cta:active {
+    transform: scale(.97);
+    box-shadow: 0 6px 18px rgba(31, 91, 255, .4), inset 0 2px 6px rgba(0, 0, 0, .25);
   }
 
-  /* Seção "Muito prazer": textos maiores e números/lista centralizados. */
+  /* Hero: título, texto e botão no centro da tela. */
+  .ic-hero-content {
+    text-align: center;
+  }
+  .ic-title {
+    align-items: center;
+  }
+  .ic-hero-copy {
+    margin-inline: auto;
+  }
+
+  /* Seção "Muito prazer": tudo centralizado, textos maiores e números/lista em destaque. */
+  .ic-about-content {
+    text-align: center;
+  }
+  .ic-about-title {
+    align-items: center;
+  }
   .ic-about-copy {
     font-size: 1.05rem;
     line-height: 1.7;
@@ -1526,6 +1590,11 @@
   }
 }
 
+@keyframes ic-cta-shine {
+  0%, 55% { left: -60%; }
+  100% { left: 130%; }
+}
+
 /* ---------- Movimento reduzido ---------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1550,6 +1619,9 @@
     transition: none;
   }
   .ic-guarantee-seal {
+    animation: none;
+  }
+  .ic-cta::before {
     animation: none;
   }
   .ic-price-frame::before {
