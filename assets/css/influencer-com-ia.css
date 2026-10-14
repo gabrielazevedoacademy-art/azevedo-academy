@@ -466,6 +466,225 @@
   transform: scale(1.04);
 }
 
+/* ---------- Galeria em mosaico: cada foto "é tirada" ao aparecer (revelação + flash) ---------- */
+
+.ic-gallery {
+  position: relative;
+  padding-block: clamp(48px, 7vw, 96px) clamp(80px, 10vw, 130px);
+}
+
+.ic-gallery-head {
+  max-width: 780px;
+  margin: 0 auto clamp(36px, 5vw, 60px);
+  padding-inline: 20px;
+  text-align: center;
+}
+.ic-gallery-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 400;
+  line-height: 1;
+}
+.ic-gallery .ic-title-serif {
+  font-size: clamp(1.9rem, 3.6vw, 3.2rem);
+  animation: none;
+}
+.ic-gallery .ic-title-sans {
+  font-size: clamp(2.2rem, 5vw, 4.6rem);
+  white-space: nowrap;
+  animation: none;
+}
+.ic-gallery-copy {
+  max-width: 560px;
+  margin: clamp(18px, 2.4vw, 26px) auto 0;
+  font-size: clamp(.98rem, 1.2vw, 1.06rem);
+  line-height: 1.7;
+  color: var(--ic-muted);
+}
+
+/* Mosaico estilo Pinterest: as fotos mantêm a proporção original. */
+.ic-gallery-grid {
+  width: min(100% - 40px, 1160px);
+  margin-inline: auto;
+  columns: 3;
+  column-gap: clamp(14px, 1.8vw, 22px);
+}
+
+.ic-gallery-cell {
+  margin-bottom: clamp(14px, 1.8vw, 22px);
+  break-inside: avoid;
+}
+.ic-gallery-item {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(219, 231, 255, .1);
+  border-radius: 20px;
+  background: var(--ic-navy);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+}
+.ic-gallery-item img {
+  width: 100%;
+  height: auto;
+  transition: transform 1000ms var(--ic-ease);
+}
+.ic-gallery-item:hover img {
+  transform: scale(1.05);
+}
+/* Degradê para dar leitura à legenda. */
+.ic-gallery-item::before {
+  content: "";
+  position: absolute;
+  inset: 55% 0 0;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent, rgba(3, 5, 11, .85));
+  pointer-events: none;
+}
+/* Flash de câmera, disparado na revelação. */
+.ic-gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ic-gallery-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(3, 5, 11, .55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ic-white);
+}
+.ic-gallery-item.is-pro .ic-gallery-tag {
+  background: rgba(31, 91, 255, .7);
+}
+.ic-gallery-item figcaption {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 16px;
+  z-index: 2;
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 1.7vw, 1.5rem);
+  font-style: italic;
+  line-height: 1.1;
+  color: var(--ic-white);
+}
+
+/* Bloco de texto dentro do mosaico. */
+.ic-gallery-note {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: clamp(280px, 30vw, 420px);
+  padding: clamp(22px, 2.4vw, 32px);
+  border: 1px solid rgba(77, 141, 255, .3);
+  border-radius: 20px;
+  background:
+    radial-gradient(90% 70% at 100% 0%, rgba(77, 141, 255, .45), transparent 60%),
+    linear-gradient(160deg, var(--ic-blue-deep) 0%, var(--ic-navy) 60%, #040817 100%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+}
+.ic-gallery-note-serif {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  line-height: 1;
+  color: var(--ic-white);
+}
+.ic-gallery-note-sans {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.4vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  color: var(--ic-white);
+}
+.ic-gallery-note-copy {
+  margin-top: 14px;
+  font-size: .95rem;
+  line-height: 1.6;
+  color: var(--ic-ice);
+}
+
+/* Revelação: a foto aparece de baixo para cima e o flash apaga em seguida.
+   O observador fica na célula; o recorte, na foto (recorte no alvo atrapalharia a detecção). */
+.ic-js-reveal .ic-gallery-cell[data-reveal]:has(.ic-gallery-item) {
+  opacity: 1;
+  transform: none;
+}
+.ic-js-reveal .ic-gallery-cell[data-reveal] .ic-gallery-item {
+  clip-path: inset(100% 0 0 0 round 20px);
+  transition: clip-path 1100ms var(--ic-ease);
+  transition-delay: calc(mod(var(--i), 3) * 140ms);
+}
+.ic-js-reveal .ic-gallery-cell[data-reveal].is-visible .ic-gallery-item {
+  clip-path: inset(0 0 0 0 round 20px);
+}
+.ic-js-reveal .ic-gallery-cell[data-reveal].is-visible .ic-gallery-item::after {
+  animation: ic-flash 900ms ease-out both;
+  animation-delay: calc(mod(var(--i), 3) * 140ms + 500ms);
+}
+@keyframes ic-flash {
+  0% { opacity: 0; }
+  12% { opacity: .85; }
+  100% { opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .ic-gallery-grid {
+    columns: 2;
+  }
+}
+@media (max-width: 600px) {
+  .ic-gallery .ic-title-sans {
+    white-space: normal;
+  }
+  .ic-gallery-item {
+    border-radius: 14px;
+  }
+  .ic-gallery-tag {
+    top: 10px;
+    left: 10px;
+    padding: 5px 9px;
+    font-size: .62rem;
+  }
+  .ic-gallery-item figcaption {
+    left: 12px;
+    right: 12px;
+    bottom: 10px;
+    font-size: 1.05rem;
+  }
+  .ic-gallery-note {
+    min-height: 0;
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
+  .ic-gallery-note-serif {
+    font-size: 1.2rem;
+  }
+  .ic-gallery-note-sans {
+    font-size: 1.35rem;
+  }
+  .ic-gallery-note-copy {
+    margin-top: 10px;
+    font-size: .8rem;
+    line-height: 1.5;
+  }
+}
+
 /* ---------- Seção de autoridade: texto à esquerda, professor à direita ---------- */
 
 .ic-about {
@@ -1269,6 +1488,12 @@
   }
   .ic-price-frame::before {
     animation: none;
+  }
+  .ic-gallery-item img {
+    transition: none;
+  }
+  .ic-gallery-item:hover img {
+    transform: none;
   }
   .ic-shot {
     transition: none;
