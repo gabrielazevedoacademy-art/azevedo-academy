@@ -116,28 +116,23 @@ A direção aprovada é:
 
 ## Cards da Home
 
+Os cards da seção **Explore o ecossistema.** são feitos em código (HTML + CSS), sem imagens. Os antigos cards em imagem e todo o CSS deles foram removidos.
+
 Quatro acessos:
 
-1. Biblioteca de Prompts → `/biblioteca-de-prompts`
-2. Ferramentas recomendadas → `/ferramentas`
-3. Super Pack de Edição & Design → `/produtos#super-pack`
-4. Entre em contato → `/contato`
+1. Biblioteca de Prompts → `/biblioteca-de-prompts` (azul)
+2. Ferramentas Recomendadas → `/ferramentas` (roxo)
+3. Super Pack de Edição & Design → `/produtos#super-pack` (laranja)
+4. Entre em Contato → `/contato` (ciano)
 
-Layout desejado:
+Estrutura e comportamento:
 
-- desktop amplo: 4 cards;
-- intermediário: 2 × 2;
-- mobile: 1 por linha.
-
-Direção atual da seção:
-- título: **Explore o ecossistema.**
-- linha de apoio curta explicando prompts, ferramentas, recursos e caminhos;
-- título e cards entram quando a seção realmente chega à viewport;
-- cards usam stagger progressivo, preservando hover e glow individual;
-- a Home usa rolagem nativa do navegador; não interceptar nem customizar eventos de `wheel`;
-- touch/mobile, desktop, teclado e `prefers-reduced-motion` preservam o comportamento nativo/acessível.
-
-Preservar animação de entrada, hover, glow individual e acessibilidade.
+- classes `.eco-grid` e `.eco-card` (`index.html`, estilos no final de `home.css`); cada card define a própria cor com `--c1` (luz), `--c2` (cor principal), `--c3` (fundo) e `--glow`. Para adicionar um card novo, copiar um `<a class="eco-card ...">` e criar a variação de cor;
+- fundo em degradê na cor do card, número + categoria no topo, título, descrição curta e linha "Acessar" com seta;
+- hover/foco: o card sobe, aparece um glow na cor do card atrás dele, uma faixa de luz atravessa a superfície, os anéis decorativos se expandem e a seta vira um círculo branco;
+- entrada em sequência (stagger) controlada por `home.js` (`has-card-reveal`, `is-visible`, `--card-delay`);
+- layout: 4 colunas no desktop, 2 × 2 até 1100px e 1 coluna no celular;
+- telas de toque não mantêm o card levantado; `prefers-reduced-motion` desativa as animações.
 
 ## Página de Ferramentas
 

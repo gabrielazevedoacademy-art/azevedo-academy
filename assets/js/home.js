@@ -6,8 +6,8 @@
   const hero = document.querySelector('.hero');
   const creativePath = document.querySelector('[data-creative-path]');
   const destinations = document.querySelector('[data-destinations]');
-  const cardGrid = document.querySelector('.card-grid');
-  const cards = document.querySelectorAll('.access-card');
+  const cardGrid = document.querySelector('.eco-grid');
+  const cards = document.querySelectorAll('.eco-card');
   const youtubeSection = document.querySelector('[data-youtube-section]');
   const year = document.querySelector('[data-year]');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');

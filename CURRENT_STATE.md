@@ -7,6 +7,7 @@
 ## Estado atual
 
 - Home preservada, incluindo desktop e responsividade mobile/tablet já aprovados. O CTA do hero parte de fundo branco e texto preto; o círculo laranja da seta ocupa o botão no hover e revela o texto branco na mesma área. A segunda linha do título recebe um glitch digital intermitente logo depois da entrada, com repetição mais frequente, com cortes horizontais e pequenos deslocamentos.
+- Home: os cards de "Explore o ecossistema." foram refeitos em código (degradê na cor de cada card, glow no hover, mesmos 4 links). Os PNGs antigos dos cards continuam em `assets/images/`, mas não são mais usados.
 - `/ferramentas` possui hero próprio alinhado à identidade preta, branca e laranja; os círculos decorativos do fundo foram removidos. O título recebe um glitch digital intermitente logo depois da entrada, com repetição mais frequente, com cortes horizontais e pequenos deslocamentos. O CTA segue o mesmo tratamento branco e laranja da Home. Os textos editoriais permanecem em linguagem natural.
 - Catálogo contém 11 ferramentas: ChatGPT, Claude, Gemini, Magnific, Higgsfield, HeyGen, ElevenLabs, Google Flow, Musicful, Suno e Flow Music.
 - Cada ferramenta aparece uma única vez e usa tags internas para múltiplas categorias.
