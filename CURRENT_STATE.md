@@ -19,7 +19,7 @@
 - Filtros mobile usam rolagem horizontal própria sem causar overflow da página.
 - `prefers-reduced-motion` é respeitado.
 - `/biblioteca-de-prompts/` permanece protegida e não foi modificada.
-- `/influencer-com-ia` (página de vendas do curso), nesta ordem: hero, looks (carrossel com 7 looks), autoridade do Gabriel, prova social (9 prints do YouTube em duas faixas opostas), garantia de 7 dias e oferta (`#oferta`, De R$ 497 por R$ 197 com preço animado). Copy do hero provisória, header só com a marca, rodapé provisório e `noindex` enquanto estiver em construção. Sem link no menu do site; acesso pelo link direto (em minúsculas). Mobile ainda será revisado pelo proprietário.
+- `/influencer-com-ia` (página de vendas do curso), nesta ordem: hero, looks (carrossel com 7 looks), autoridade do Gabriel, prova social (9 prints do YouTube em duas faixas opostas), garantia de 7 dias e oferta (`#oferta`, De R$ 497 por R$ 197 com preço animado). O CTA do hero rola até a oferta; o botão do cartão de preço leva ao checkout da Kiwify (https://pay.kiwify.com.br/UfYXlPl). Copy do hero provisória, header só com a marca, rodapé provisório e `noindex` enquanto estiver em construção. Sem link no menu do site; acesso pelo link direto (em minúsculas). Mobile ainda será revisado pelo proprietário.
 
 ## Validação esperada
 
@@ -33,7 +33,7 @@
 ## Pendente
 
 - Inspeção visual do proprietário no site publicado e refinamentos, se necessários.
-- `/influencer-com-ia`: link real de checkout nos botões (hoje levam para `#oferta`), revisão do mobile, próximas seções e remover o `noindex` no lançamento.
+- `/influencer-com-ia`: revisão do mobile, próximas seções e remover o `noindex` no lançamento.
 
 ## Área protegida
 
