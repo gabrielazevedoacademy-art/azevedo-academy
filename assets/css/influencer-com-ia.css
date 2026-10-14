@@ -711,70 +711,35 @@
   padding-block: 6px 10px;
 }
 .ic-reviews-marquee .ic-marquee-track {
-  align-items: stretch;
+  align-items: flex-start;
 }
 
-.ic-review {
+/* Prints reais exibidos no tamanho original (--w = largura do print), menores no celular. */
+.ic-shot {
+  --ic-shot-scale: 1;
   flex: none;
-  display: flex;
-  width: clamp(280px, 26vw, 380px);
-}
-.ic-review figure {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  width: 100%;
-  padding: 22px 24px 24px;
-  border: 1px solid rgba(219, 231, 255, .1);
-  border-radius: 20px;
-  background: linear-gradient(160deg, rgba(31, 91, 255, .1) 0%, rgba(255, 255, 255, .03) 55%, rgba(255, 255, 255, .02) 100%);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, .35), inset 0 1px rgba(255, 255, 255, .05);
+  overflow: hidden;
+  border: 1px solid rgba(219, 231, 255, .12);
+  border-radius: 16px;
+  background: #0f0f0f;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .4);
   transition: border-color 400ms ease, transform 600ms var(--ic-ease);
 }
-.ic-review figure:hover {
-  border-color: rgba(77, 141, 255, .45);
-  transform: translateY(-4px);
+.ic-shot:hover {
+  border-color: rgba(77, 141, 255, .5);
+  transform: translateY(-3px);
 }
-.ic-review-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
+.ic-shot img {
+  width: calc(var(--w) * var(--ic-shot-scale) * 1px);
+  max-width: none;
+  height: auto;
 }
-.ic-review-avatar {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #fff;
-}
-.ic-review-avatar-1 { background: linear-gradient(135deg, var(--ic-blue-bright), var(--ic-blue-deep)); }
-.ic-review-avatar-2 { background: linear-gradient(135deg, #8fb6ff, var(--ic-blue)); }
-.ic-review-avatar-3 { background: linear-gradient(135deg, #2a3a66, #0b1a44); }
-.ic-review-author {
-  overflow: hidden;
-  font-size: .9rem;
-  font-weight: 600;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: var(--ic-white);
-}
-.ic-review-source {
-  flex: none;
-  width: 22px;
-  height: 22px;
-  margin-left: auto;
-  fill: rgba(219, 231, 255, .5);
-}
-.ic-review blockquote {
-  font-size: .98rem;
-  line-height: 1.6;
-  color: var(--ic-ice);
+
+@media (max-width: 600px) {
+  .ic-shot {
+    --ic-shot-scale: .78;
+    border-radius: 12px;
+  }
 }
 
 /* ---------- Rodapé provisório ---------- */
@@ -919,10 +884,10 @@
   .ic-look img {
     transition: none;
   }
-  .ic-review figure {
+  .ic-shot {
     transition: none;
   }
-  .ic-review figure:hover {
+  .ic-shot:hover {
     transform: none;
   }
   .ic-look:hover img {

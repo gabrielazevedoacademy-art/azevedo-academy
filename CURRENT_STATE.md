@@ -19,7 +19,7 @@
 - Filtros mobile usam rolagem horizontal própria sem causar overflow da página.
 - `prefers-reduced-motion` é respeitado.
 - `/biblioteca-de-prompts/` permanece protegida e não foi modificada.
-- `/influencer-com-ia` (página de vendas do curso) possui o hero, a seção de looks (carrossel infinito com 7 looks) a seção de autoridade do Gabriel e a prova social com comentários do YouTube (faixa de cima pronta; a de baixo aguarda os próximos 5 comentários). Mobile ainda será revisado pelo proprietário. Hero: copy provisória, CTA ainda apontando para `#oferta` (seção futura), header só com a marca, rodapé provisório e `noindex` enquanto estiver em construção. Não há link para ela no menu do site; o acesso é pelo link direto (em minúsculas).
+- `/influencer-com-ia` (página de vendas do curso) possui o hero, a seção de looks (carrossel infinito com 7 looks) a seção de autoridade do Gabriel e a prova social com 10 prints de comentários do YouTube em duas faixas de direções opostas. Mobile ainda será revisado pelo proprietário. Hero: copy provisória, CTA ainda apontando para `#oferta` (seção futura), header só com a marca, rodapé provisório e `noindex` enquanto estiver em construção. Não há link para ela no menu do site; o acesso é pelo link direto (em minúsculas).
 
 ## Validação esperada
 
