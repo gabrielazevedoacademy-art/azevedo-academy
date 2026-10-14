@@ -184,6 +184,7 @@ A rota `/influencer-com-ia` é a página de vendas do curso Influencer com IA.
 - CTA segue o padrão dos heros (pílula branca com círculo da seta que se expande), aqui em azul;
 - seção "O mesmo rosto em INFINITOS LOOKS": título centralizado (serifada + sans) e carrossel infinito de looks da influenciadora, lento e contínuo, pausando no hover; o JS duplica os itens para cobrir qualquer largura. Para adicionar um look, colocar a imagem em `assets/images/influencer-com-ia/looks/` e copiar um `<li>` em `influencer-com-ia/index.html`. Com movimento reduzido, vira uma faixa rolável;
 - seção de autoridade "Muito prazer, eu sou o GABRIEL AZEVEDO": mesma distribuição do hero (texto à esquerda, foto do Gabriel com fundo transparente à direita, entrada animada ao rolar e degradê de divisão cobrindo a base da foto); números de autoridade (+10 anos, +22 mil alunos no YouTube) e lista de formas de monetização;
+- seção de prova social "Palavra de quem JÁ APRENDE COMIGO": comentários reais do YouTube recriados como cartões em HTML (não prints), em faixas infinitas; a de cima anda para a direita (`data-direction="right"`) e a de baixo, quando adicionada, anda para a esquerda;
 - arquivos: `influencer-com-ia/index.html`, `assets/css/influencer-com-ia.css`, `assets/js/influencer-com-ia.js`, `assets/images/influencer-com-ia/`;
 - respeitar `prefers-reduced-motion` e evitar overflow horizontal.
 
