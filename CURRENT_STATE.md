@@ -2,7 +2,7 @@
 
 **Atualizado em:** 2026-10-14  
 **Branch:** `main` após integração da tarefa atual  
-**Estado geral:** Home e Ferramentas em produção; página de vendas `/influencer-com-ia` em construção (somente o hero).
+**Estado geral:** Home e Ferramentas em produção; página de vendas `/influencer-com-ia` em construção.
 
 ## Estado atual
 
@@ -19,7 +19,7 @@
 - Filtros mobile usam rolagem horizontal própria sem causar overflow da página.
 - `prefers-reduced-motion` é respeitado.
 - `/biblioteca-de-prompts/` permanece protegida e não foi modificada.
-- `/influencer-com-ia` (página de vendas do curso) possui o hero, a seção de looks (carrossel infinito com 7 looks) a seção de autoridade do Gabriel e a prova social com 9 prints de comentários do YouTube em duas faixas de direções opostas (5 em cima, 4 embaixo) a seção de garantia de 7 dias e a oferta (De R$ 497 por R$ 197). Mobile ainda será revisado pelo proprietário. Hero: copy provisória, CTA do hero leva para a seção `#oferta`, header só com a marca, rodapé provisório e `noindex` enquanto estiver em construção. Não há link para ela no menu do site; o acesso é pelo link direto (em minúsculas).
+- `/influencer-com-ia` (página de vendas do curso), nesta ordem: hero, looks (carrossel com 7 looks), autoridade do Gabriel, prova social (9 prints do YouTube em duas faixas opostas), garantia de 7 dias e oferta (`#oferta`, De R$ 497 por R$ 197 com preço animado). Copy do hero provisória, header só com a marca, rodapé provisório e `noindex` enquanto estiver em construção. Sem link no menu do site; acesso pelo link direto (em minúsculas). Mobile ainda será revisado pelo proprietário.
 
 ## Validação esperada
 
