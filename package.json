@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "lint": "node --check assets/js/home.js && node --check assets/js/ferramentas.js",
+    "lint": "node --check assets/js/home.js && node --check assets/js/ferramentas.js && node --check assets/js/influencer-com-ia.js",
     "build": "node scripts/build.js"
   }
 }

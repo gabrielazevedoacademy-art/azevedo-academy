@@ -9,6 +9,7 @@ const required = [
   'assets/js/ferramentas.js',
   'influencer-com-ia/index.html',
   'assets/css/influencer-com-ia.css',
+  'assets/js/influencer-com-ia.js',
   'assets/images/influencer-com-ia/hero-influencer.webp',
   'assets/images/azevedo-logo-branco.svg',
   'biblioteca-de-prompts/index.html'
