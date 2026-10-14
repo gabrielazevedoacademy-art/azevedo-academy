@@ -1297,7 +1297,7 @@
   color: rgba(219, 231, 255, .55);
 }
 
-/* Animação do preço (JS): risco desenha, o valor desce de 497 até 197 e o cartão "acende". */
+/* Animação do preço (JS): o risco é desenhado sobre o valor antigo e o valor atual dá um pulso. */
 .ic-price-card.is-pending .ic-price-old-value::after {
   transform: translateY(-50%) rotate(-8deg) scaleX(0);
 }
@@ -1326,7 +1326,7 @@
   100% { transform: scale(1); filter: drop-shadow(0 12px 40px rgba(34, 211, 122, .35)); }
 }
 
-/* Preço final em verde (destaque de "bom negócio"). Enquanto a contagem roda, fica no azul da página. */
+/* Preço atual sempre em verde (destaque de "bom negócio"). */
 .ic-price-value {
   background: linear-gradient(180deg, #e9fff3 0%, #7dffb8 45%, #22d37a 100%);
   -webkit-background-clip: text;
@@ -1336,15 +1336,6 @@
 .ic-price-currency {
   color: #7dffb8;
   transition: color 500ms ease;
-}
-.ic-price-card.is-pending:not(.is-done) .ic-price-value {
-  background: linear-gradient(180deg, #ffffff 15%, #b9d0ff 60%, var(--ic-blue-bright) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  filter: drop-shadow(0 12px 40px rgba(31, 91, 255, .45));
-}
-.ic-price-card.is-pending:not(.is-done) .ic-price-currency {
-  color: var(--ic-ice);
 }
 
 @media (max-width: 600px) {

@@ -19,7 +19,7 @@
 - Filtros mobile usam rolagem horizontal própria sem causar overflow da página.
 - `prefers-reduced-motion` é respeitado.
 - `/biblioteca-de-prompts/` permanece protegida e não foi modificada.
-- `/influencer-com-ia` (página de vendas do curso), nesta ordem: hero, looks (carrossel com 7 looks), galeria em mosaico (5 fotos; mais fotos serão enviadas), autoridade do Gabriel, prova social (9 prints do YouTube em duas faixas opostas), garantia de 7 dias e oferta (`#oferta`, De R$ 497 por R$ 197 com preço animado). Os dois CTAs (hero e cartão de preço) levam ao checkout da Kiwify (https://pay.kiwify.com.br/UfYXlPl). Copy do hero provisória, header só com a marca, rodapé provisório e `noindex` enquanto estiver em construção. Sem link no menu do site; acesso pelo link direto (em minúsculas). Primeira revisão do mobile feita (topo, botões e seção do Gabriel); aguardando avaliação do proprietário.
+- `/influencer-com-ia` (página de vendas do curso), nesta ordem: hero, looks (carrossel com 7 looks), galeria em mosaico (5 fotos; mais fotos serão enviadas), autoridade do Gabriel, prova social (9 prints do YouTube em duas faixas opostas), garantia de 7 dias e oferta (`#oferta`, De R$ 497 por R$ 197, preço fixo em verde). Os dois CTAs (hero e cartão de preço) levam ao checkout da Kiwify (https://pay.kiwify.com.br/UfYXlPl). Copy do hero provisória, header só com a marca, rodapé provisório e `noindex` enquanto estiver em construção. Sem link no menu do site; acesso pelo link direto (em minúsculas). Primeira revisão do mobile feita (topo, botões e seção do Gabriel); aguardando avaliação do proprietário.
 
 ## Validação esperada
 
