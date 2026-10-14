@@ -4,6 +4,9 @@ const fs = require('node:fs');
 
 const required = [
   'index.html',
+  'favicon.ico',
+  'favicon.svg',
+  'apple-touch-icon.png',
   'ferramentas/index.html',
   'assets/css/ferramentas.css',
   'assets/js/ferramentas.js',

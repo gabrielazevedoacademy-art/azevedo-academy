@@ -219,6 +219,11 @@ A Home possui uma seção fixa de vídeos em destaque antes do footer.
 - O CTA para o canal fica centralizado abaixo da grade e segue a linguagem visual do CTA do hero.
 - Trocar um vídeo exige somente substituir o ID do embed em `index.html`.
 
+## Favicon
+
+- O favicon do site inteiro é o logo laranja original: `favicon.ico`, `favicon.svg` e `apple-touch-icon.png` na raiz.
+- Home, Ferramentas e Influencer com IA declaram os ícones no `<head>`; a Biblioteca de Prompts (área protegida) não foi alterada e usa o `/favicon.ico` da raiz, que os navegadores buscam automaticamente.
+
 ## Deploy
 
 Push na `main` dispara deploy de produção na Vercel.
