@@ -14,7 +14,7 @@
 - Filtros: Todas, Texto e ideias, Criação de conteúdo, Imagem, Vídeo, Narração e Música.
 - Cards estão compactos e centralizados, sem numeração; exibem logo, nome e descrição curta. No desktop, o hover move e aumenta o card inteiro de forma mais lenta e visível. No mobile, esse crescimento fica desativado.
 - Claude usa o ícone próprio da marca. O catálogo sobrepõe suavemente o final do hero para eliminar a linha entre as seções.
-- Não existem links externos/afiliados nos cards ainda.
+- Todos os 11 cards de ferramentas levam ao site da ferramenta (com links de indicação onde existem) e abrem em nova guia.
 - Página responsiva: 4 colunas desktop amplo, 3 em telas intermediárias e 2 colunas no tablet e no celular.
 - Mobile possui menu hambúrguer com painel lateral, backdrop e fechamento acessível. Na Home e em Ferramentas, o header mobile usa fundo desfocado ao rolar, sem borda inferior. Em Ferramentas, o bloco de conteúdo do hero permanece mais alto.
 - Filtros mobile usam rolagem horizontal própria sem causar overflow da página.

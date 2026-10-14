@@ -146,7 +146,7 @@ Direção atual:
 - as categorias ficam em `data-tags` invisíveis nos cards e alimentam filtros visíveis;
 - filtros atuais: Todas, Texto e ideias, Criação de conteúdo, Imagem, Vídeo, Narração e Música;
 - a mesma ferramenta pode pertencer a várias categorias sem duplicar o card;
-- cards não possuem links externos por enquanto; links serão adicionados quando os afiliados forem definidos;
+- cada card é um link (`<a class="tool-card">`) para a ferramenta, abrindo em nova guia (`target="_blank"`); links de indicação/afiliado usam `rel="noopener sponsored"` (Magnific, Higgsfield, HeyGen, ElevenLabs, Musicful, Suno, Flow Music) e os demais `rel="noopener"`; cada card tem um aviso invisível "(abre em uma nova guia)" para leitores de tela;
 - no desktop, o hover move o card inteiro para cima e aumenta o card de forma perceptível e fluida; o logo não recebe uma animação separada; no mobile o hover de crescimento fica desativado; entrada usa stagger;
 - em mobile, filtros viram uma faixa horizontal rolável, o catálogo usa duas colunas de cards por linha e a navegação usa menu lateral off-canvas; os headers da Home e de Ferramentas usam fundo desfocado ao rolar, sem borda inferior; o conteúdo do hero de Ferramentas permanece mais alto para ganhar respiro vertical;
 - logos usam fontes públicas externas com fallback visual por iniciais caso a imagem falhe; Claude usa o ícone próprio da marca, não o símbolo corporativo da Anthropic;
