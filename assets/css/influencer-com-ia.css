@@ -464,6 +464,196 @@
   transform: scale(1.04);
 }
 
+/* ---------- Seção de autoridade: texto à esquerda, professor à direita ---------- */
+
+.ic-about {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.ic-about-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 80% at 80% 70%, rgba(31, 91, 255, .32) 0%, rgba(11, 47, 158, .16) 40%, transparent 72%),
+    linear-gradient(180deg, var(--ic-bg) 0%, rgba(6, 19, 54, .6) 45%, var(--ic-bg) 100%);
+}
+.ic-about-blob {
+  width: 46vmax;
+  height: 46vmax;
+  right: -6vmax;
+  top: 12%;
+  background: radial-gradient(circle at 50% 50%, rgba(77, 141, 255, .4), rgba(31, 91, 255, .12) 50%, transparent 72%);
+  opacity: .55;
+  animation: ic-drift-3 24s ease-in-out infinite alternate;
+}
+
+.ic-about-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  align-items: center;
+  gap: clamp(16px, 3vw, 48px);
+  width: min(100%, 1280px);
+  margin-inline: auto;
+  padding: clamp(64px, 8vw, 110px) clamp(20px, 4vw, 48px) 0;
+}
+
+.ic-about-content {
+  position: relative;
+  z-index: 3;
+  max-width: 600px;
+  padding-bottom: clamp(110px, 16vh, 170px);
+}
+
+.ic-about-title {
+  display: flex;
+  flex-direction: column;
+  font-weight: 400;
+  line-height: 1;
+  margin-bottom: clamp(22px, 3vh, 30px);
+}
+.ic-about .ic-title-serif {
+  font-size: clamp(1.8rem, 3.2vw, 2.9rem);
+  animation: none;
+}
+.ic-about .ic-title-sans {
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  white-space: nowrap;
+  animation: none;
+}
+
+.ic-about-copy {
+  font-size: clamp(.98rem, 1.2vw, 1.06rem);
+  line-height: 1.75;
+  color: var(--ic-muted);
+}
+
+.ic-about-stats {
+  display: flex;
+  gap: clamp(28px, 4vw, 56px);
+  margin-block: clamp(24px, 3.4vh, 34px);
+  padding-block: clamp(18px, 2.6vh, 24px);
+  border-block: 1px solid rgba(219, 231, 255, .12);
+}
+.ic-about-stats > div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 4px;
+}
+.ic-about-stats dd {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 3.6vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.02em;
+  background: linear-gradient(100deg, #ffffff 0%, #b9d0ff 60%, var(--ic-blue-bright) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ic-about-stats dt {
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  font-style: italic;
+  color: var(--ic-ice);
+}
+
+.ic-about-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 10px 32px;
+  margin-top: 18px;
+}
+.ic-about-list li {
+  position: relative;
+  padding-left: 22px;
+  font-size: .98rem;
+  font-weight: 500;
+  color: var(--ic-white);
+}
+.ic-about-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .6em;
+  width: 10px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--ic-blue-bright);
+  box-shadow: 0 0 10px rgba(77, 141, 255, .8);
+}
+
+.ic-about-signoff {
+  margin-top: clamp(24px, 3.4vh, 32px);
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  font-style: italic;
+  line-height: 1.1;
+  color: var(--ic-blue-bright);
+}
+
+.ic-about-visual {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  display: flex;
+  justify-content: center;
+}
+.ic-about-visual::before {
+  content: "";
+  position: absolute;
+  inset: 14% 2% 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(77, 141, 255, .42), rgba(31, 91, 255, .12) 60%, transparent);
+  filter: blur(30px);
+}
+.ic-about-image {
+  width: min(115%, 680px);
+  max-width: none;
+  height: auto;
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, .45));
+}
+
+/* Mesma entrada da influenciadora do hero, disparada ao rolar até a seção. */
+.ic-js-reveal .ic-about-visual[data-reveal] {
+  transform: translate3d(40px, 30px, 0) scale(.97);
+  transition: opacity 1400ms var(--ic-ease), transform 1400ms var(--ic-ease);
+}
+.ic-js-reveal .ic-about-visual[data-reveal].is-visible {
+  transform: none;
+}
+
+@media (max-width: 900px), (max-width: 1180px) and (orientation: portrait) {
+  .ic-about-inner {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 0;
+  }
+  .ic-about-content {
+    max-width: 640px;
+    padding-bottom: 0;
+  }
+  .ic-about-visual {
+    margin-top: 40px;
+  }
+  .ic-about-image {
+    width: min(86vw, 520px);
+  }
+}
+
+@media (max-width: 600px) {
+  .ic-about .ic-title-sans {
+    white-space: normal;
+  }
+  .ic-about-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* ---------- Rodapé provisório ---------- */
 
 .ic-footer {
