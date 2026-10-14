@@ -70,7 +70,6 @@
 }
 .ic-brand-name strong {
   font-weight: 800;
-  color: var(--ic-blue-bright);
 }
 
 /* ---------- Hero ---------- */
@@ -171,32 +170,6 @@
   padding-block: 120px 18vh;
 }
 
-.ic-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: clamp(20px, 3vh, 32px);
-  padding: 8px 16px 8px 12px;
-  border: 1px solid rgba(219, 231, 255, .16);
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, .04);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  font-size: .78rem;
-  font-weight: 500;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ic-ice);
-  animation: ic-rise 900ms 200ms var(--ic-ease) both;
-}
-.ic-kicker-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--ic-blue-bright);
-  box-shadow: 0 0 0 4px rgba(77, 141, 255, .18), 0 0 14px rgba(77, 141, 255, .9);
-}
-
 /* Título: serifa editorial em cima, nome em sans pesada no meio, serifa itálica azul fechando. */
 .ic-title {
   display: flex;
@@ -217,9 +190,12 @@
   animation: ic-rise 1000ms 320ms var(--ic-ease) both;
 }
 .ic-title-sans {
+  /* Largura do próprio texto: o degradê recortado no texto nunca corta letras. */
+  width: fit-content;
+  max-width: none;
   margin-top: .02em;
   font-family: var(--font-display);
-  font-size: clamp(3.3rem, 7.6vw, 7.4rem);
+  font-size: clamp(3.3rem, 7.2vw, 6.6rem);
   font-weight: 800;
   letter-spacing: -.025em;
   line-height: .92;
@@ -457,6 +433,7 @@
     margin-inline: auto;
     text-align: center;
   }
+  .ic-title-sans,
   .ic-hero-copy {
     margin-inline: auto;
   }
@@ -475,10 +452,6 @@
 
   .ic-hero-content {
     padding-block: 96px 0;
-  }
-  .ic-kicker {
-    font-size: .68rem;
-    letter-spacing: .12em;
   }
   .ic-title-serif {
     font-size: clamp(1.9rem, 8.6vw, 2.6rem);
@@ -512,7 +485,6 @@
 @media (prefers-reduced-motion: reduce) {
   .ic-blob,
   .ic-header,
-  .ic-kicker,
   .ic-title > span,
   .ic-hero-copy,
   .ic-cta,
