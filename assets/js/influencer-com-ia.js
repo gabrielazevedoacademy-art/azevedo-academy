@@ -1,6 +1,7 @@
 /*
   Página de vendas Influencer com IA.
   - Revela blocos marcados com [data-reveal] ao entrarem na tela.
+  - Anima o preço da oferta (risco no valor antigo + contagem até o valor atual).
   - Carrosséis infinitos (looks e comentários): duplica os itens o suficiente para cobrir a tela
     e anima uma volta exata, sem emenda visível.
 */
@@ -21,6 +22,42 @@
       });
     }, { threshold: 0.2 });
     reveals.forEach((el) => observer.observe(el));
+  }
+
+  // Preço: ao aparecer na tela, risca o valor antigo e desce o número até o valor atual.
+  const priceCard = document.querySelector('[data-price]');
+  const priceValue = priceCard && priceCard.querySelector('[data-price-value]');
+  if (priceValue && 'IntersectionObserver' in window && !reduceMotion.matches) {
+    const from = Number(priceCard.dataset.priceFrom);
+    const to = Number(priceCard.dataset.priceTo);
+    priceCard.classList.add('is-pending');
+    priceValue.textContent = String(from);
+
+    const countDown = () => {
+      const duration = 1500;
+      const start = performance.now();
+      const step = (now) => {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        priceValue.textContent = String(Math.round(from + (to - from) * eased));
+        if (t < 1) {
+          requestAnimationFrame(step);
+        } else {
+          priceCard.classList.add('is-done');
+        }
+      };
+      requestAnimationFrame(step);
+    };
+
+    const priceObserver = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      priceObserver.disconnect();
+      setTimeout(() => {
+        priceCard.classList.add('is-striking');
+        setTimeout(countDown, 650);
+      }, 500);
+    }, { threshold: 0.45 });
+    priceObserver.observe(priceCard);
   }
 
   // Cada [data-marquee] é um carrossel independente (looks, comentários...).
