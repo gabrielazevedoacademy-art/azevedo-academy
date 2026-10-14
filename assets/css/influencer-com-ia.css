@@ -984,8 +984,8 @@
   top: 50%;
   height: 3px;
   border-radius: 3px;
-  background: linear-gradient(90deg, var(--ic-blue-bright), #ffffff);
-  box-shadow: 0 0 12px rgba(77, 141, 255, .9);
+  background: linear-gradient(90deg, #ff2d3d, #ff5a5f);
+  box-shadow: 0 0 12px rgba(255, 45, 61, .75);
   transform: translateY(-50%) rotate(-8deg);
   transform-origin: left center;
 }
