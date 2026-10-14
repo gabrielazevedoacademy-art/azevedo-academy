@@ -1,8 +1,8 @@
 # CURRENT_STATE.md — Azevedo Academy
 
-**Atualizado em:** 2026-10-01  
+**Atualizado em:** 2026-10-14  
 **Branch:** `main` após integração da tarefa atual  
-**Estado geral:** Home funcional em produção e nova página de ferramentas pronta para publicação.
+**Estado geral:** Home e Ferramentas em produção; página de vendas `/influencer-com-ia` em construção (somente o hero).
 
 ## Estado atual
 
@@ -19,6 +19,7 @@
 - Filtros mobile usam rolagem horizontal própria sem causar overflow da página.
 - `prefers-reduced-motion` é respeitado.
 - `/biblioteca-de-prompts/` permanece protegida e não foi modificada.
+- `/influencer-com-ia` (página de vendas do curso) possui apenas o hero: copy provisória, CTA ainda apontando para `#oferta` (seção futura), header só com a marca, rodapé provisório e `noindex` enquanto estiver em construção. Não há link para ela no menu do site; o acesso é pelo link direto (em minúsculas).
 
 ## Validação esperada
 
@@ -32,6 +33,7 @@
 ## Pendente
 
 - Inspeção visual do proprietário no site publicado e refinamentos, se necessários.
+- `/influencer-com-ia`: copy definitiva, próximas seções, destino real do CTA e remover o `noindex` no lançamento.
 
 ## Área protegida
 

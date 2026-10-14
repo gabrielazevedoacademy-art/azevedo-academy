@@ -1,0 +1,531 @@
+/*
+  Página de vendas: Influencer com IA.
+  Identidade própria da página: preto, azul e branco.
+  Depende de tokens.css e global.css.
+*/
+
+.ic-page {
+  --ic-bg: #03050b;
+  --ic-navy: #061336;
+  --ic-blue-deep: #0b2f9e;
+  --ic-blue: #1f5bff;
+  --ic-blue-bright: #4d8dff;
+  --ic-ice: #dbe7ff;
+  --ic-white: #f7f9ff;
+  --ic-muted: rgba(219, 231, 255, .72);
+  --ic-ease: cubic-bezier(.16, 1, .3, 1);
+  --font-serif: "Instrument Serif", "Times New Roman", Georgia, serif;
+
+  overflow-x: hidden;
+  background: var(--ic-bg);
+  color: var(--ic-white);
+}
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: var(--space-5);
+  z-index: 100;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-full);
+  background: var(--ic-white);
+  color: var(--ic-bg);
+  font-weight: var(--weight-semibold);
+}
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+.ic-page :focus-visible {
+  outline-color: var(--ic-blue-bright);
+}
+
+/* ---------- Header mínimo (sem menu: página única de vendas) ---------- */
+
+.ic-header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 10;
+  width: min(100%, 1280px);
+  margin-inline: auto;
+  padding: 28px clamp(20px, 4vw, 48px);
+  animation: ic-fade-in 900ms 100ms var(--ic-ease) both;
+}
+
+.ic-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.ic-brand-logo {
+  width: 38px;
+  height: auto;
+}
+.ic-brand-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+  color: var(--ic-white);
+}
+.ic-brand-name strong {
+  font-weight: 800;
+  color: var(--ic-blue-bright);
+}
+
+/* ---------- Hero ---------- */
+
+.ic-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+/* Degradê preto → azul com manchas de luz que se movem de forma fluida. */
+.ic-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 100% 100%, rgba(31, 91, 255, .55) 0%, rgba(11, 47, 158, .35) 32%, transparent 62%),
+    linear-gradient(118deg, #010207 0%, #02050f 34%, var(--ic-navy) 58%, #0a2779 82%, #123fc4 100%);
+}
+
+.ic-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: .75;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+.ic-blob-1 {
+  width: 62vmax;
+  height: 62vmax;
+  right: -18vmax;
+  top: -14vmax;
+  background: radial-gradient(circle at 40% 40%, rgba(31, 91, 255, .9), rgba(11, 47, 158, .35) 45%, transparent 70%);
+  animation: ic-drift-1 22s ease-in-out infinite alternate;
+}
+.ic-blob-2 {
+  width: 48vmax;
+  height: 48vmax;
+  left: 18vw;
+  bottom: -26vmax;
+  background: radial-gradient(circle at 50% 50%, rgba(77, 141, 255, .55), rgba(31, 91, 255, .2) 45%, transparent 70%);
+  animation: ic-drift-2 27s ease-in-out infinite alternate;
+}
+.ic-blob-3 {
+  width: 34vmax;
+  height: 34vmax;
+  right: 12vw;
+  top: 30%;
+  background: radial-gradient(circle at 50% 50%, rgba(120, 170, 255, .45), rgba(31, 91, 255, .12) 50%, transparent 72%);
+  opacity: .6;
+  animation: ic-drift-3 19s ease-in-out infinite alternate;
+}
+
+/* Granulado sutil para o degradê não parecer chapado. */
+.ic-hero-grain {
+  position: absolute;
+  inset: 0;
+  opacity: .07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes ic-drift-1 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-9vw, 7vh, 0) scale(1.12); }
+  100% { transform: translate3d(-3vw, 15vh, 0) scale(.94); }
+}
+@keyframes ic-drift-2 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(14vw, -8vh, 0) scale(1.18); }
+  100% { transform: translate3d(26vw, -2vh, 0) scale(1.04); }
+}
+@keyframes ic-drift-3 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-12vw, -10vh, 0) scale(.86); }
+  100% { transform: translate3d(5vw, -18vh, 0) scale(1.15); }
+}
+
+.ic-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  align-items: center;
+  gap: clamp(16px, 3vw, 48px);
+  width: min(100%, 1280px);
+  min-height: inherit;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 48px);
+}
+
+.ic-hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 640px;
+  padding-block: 120px 18vh;
+}
+
+.ic-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(20px, 3vh, 32px);
+  padding: 8px 16px 8px 12px;
+  border: 1px solid rgba(219, 231, 255, .16);
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, .04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ic-ice);
+  animation: ic-rise 900ms 200ms var(--ic-ease) both;
+}
+.ic-kicker-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ic-blue-bright);
+  box-shadow: 0 0 0 4px rgba(77, 141, 255, .18), 0 0 14px rgba(77, 141, 255, .9);
+}
+
+/* Título: serifa editorial em cima, nome em sans pesada no meio, serifa itálica azul fechando. */
+.ic-title {
+  display: flex;
+  flex-direction: column;
+  font-weight: 400;
+  line-height: 1;
+}
+.ic-title > span {
+  display: block;
+}
+.ic-title-serif {
+  font-family: var(--font-serif);
+  font-size: clamp(2.1rem, 4.2vw, 3.9rem);
+  font-weight: 400;
+  letter-spacing: -.01em;
+  line-height: 1.02;
+  color: var(--ic-white);
+  animation: ic-rise 1000ms 320ms var(--ic-ease) both;
+}
+.ic-title-sans {
+  margin-top: .02em;
+  font-family: var(--font-display);
+  font-size: clamp(3.3rem, 7.6vw, 7.4rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: .92;
+  text-transform: uppercase;
+  background: linear-gradient(100deg, #ffffff 0%, #ffffff 38%, #b9d0ff 68%, var(--ic-blue-bright) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 10px 40px rgba(31, 91, 255, .35));
+  animation: ic-rise 1100ms 440ms var(--ic-ease) both;
+}
+.ic-title-script {
+  margin-top: .18em;
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 3.3vw, 3rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--ic-blue-bright);
+  animation: ic-rise 1100ms 560ms var(--ic-ease) both;
+}
+
+.ic-hero-copy {
+  max-width: 470px;
+  margin-top: clamp(20px, 3.2vh, 30px);
+  font-size: clamp(.98rem, 1.2vw, 1.08rem);
+  line-height: 1.7;
+  color: var(--ic-muted);
+  animation: ic-rise 1000ms 700ms var(--ic-ease) both;
+}
+
+/* CTA: pílula branca; o círculo azul da seta se expande pelo botão no hover. */
+.ic-cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  min-height: 58px;
+  margin-top: clamp(26px, 4vh, 38px);
+  padding: 7px 7px 7px 26px;
+  border-radius: var(--radius-full);
+  background: var(--ic-white);
+  color: #05070d;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, .35), 0 0 0 1px rgba(255, 255, 255, .5) inset;
+  animation: ic-rise 1000ms 820ms var(--ic-ease) both;
+  transition: transform 520ms var(--ic-ease), box-shadow 520ms ease;
+}
+.ic-cta > span,
+.ic-cta > svg {
+  position: relative;
+  z-index: 2;
+}
+.ic-cta > span {
+  transition: color 360ms ease, transform 520ms var(--ic-ease);
+}
+.ic-cta::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 7px;
+  right: 7px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--ic-blue-bright) 0%, var(--ic-blue) 55%, var(--ic-blue-deep) 100%);
+  box-shadow: 0 8px 22px rgba(31, 91, 255, .4), inset 0 1px rgba(255, 255, 255, .35);
+  transition:
+    width 680ms var(--ic-ease),
+    height 680ms var(--ic-ease),
+    top 680ms var(--ic-ease),
+    right 680ms var(--ic-ease);
+}
+.ic-cta svg {
+  width: 44px;
+  height: 44px;
+  padding: 11px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 680ms var(--ic-ease);
+}
+.ic-cta:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, .4), 0 0 40px rgba(31, 91, 255, .35);
+}
+.ic-cta:hover::before {
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+.ic-cta:hover > span {
+  color: #fff;
+  transform: translateX(3px);
+}
+.ic-cta:hover svg {
+  transform: translateX(3px);
+}
+.ic-cta:active {
+  transform: translateY(-1px) scale(.99);
+}
+.ic-cta:focus-visible {
+  outline: 2px solid var(--ic-blue-bright);
+  outline-offset: 5px;
+}
+
+/* Influenciadora à direita, apoiada na base do hero. */
+.ic-hero-visual {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+.ic-hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: 18% 4% 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(77, 141, 255, .45), rgba(31, 91, 255, .12) 60%, transparent);
+  filter: blur(30px);
+}
+.ic-hero-image {
+  align-self: end;
+  width: auto;
+  height: min(94svh, 980px);
+  max-width: none;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, .45));
+  animation: ic-image-in 1400ms 300ms var(--ic-ease) both;
+}
+
+/* Degradê de divisão entre o hero e a próxima seção. */
+.ic-section-divider {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 4;
+  height: clamp(140px, 26vh, 260px);
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(3, 5, 11, 0) 0%, rgba(3, 5, 11, .55) 45%, rgba(3, 5, 11, .92) 78%, var(--ic-bg) 100%);
+}
+.ic-section-divider::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(70vw, 900px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(77, 141, 255, .6), transparent);
+  box-shadow: 0 0 24px 2px rgba(31, 91, 255, .35);
+  opacity: .7;
+}
+
+/* ---------- Rodapé provisório ---------- */
+
+.ic-footer {
+  padding: 40px 20px 48px;
+  text-align: center;
+  font-size: .82rem;
+  color: rgba(219, 231, 255, .45);
+}
+
+/* ---------- Animações de entrada ---------- */
+
+@keyframes ic-rise {
+  from { opacity: 0; transform: translateY(26px); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes ic-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes ic-image-in {
+  from { opacity: 0; transform: translate3d(40px, 30px, 0) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+
+/* O título sans tem drop-shadow próprio; a entrada não pode sobrescrevê-lo ao final. */
+.ic-title-sans {
+  animation-name: ic-rise-soft;
+}
+@keyframes ic-rise-soft {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Tablet deitado / notebook pequeno ---------- */
+
+@media (max-width: 1024px) {
+  .ic-hero-inner {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  }
+  .ic-hero-image {
+    height: min(84svh, 820px);
+  }
+}
+
+/* ---------- Celular e tablet em pé: texto em cima, influenciadora embaixo ---------- */
+
+@media (max-width: 900px), (max-width: 1180px) and (orientation: portrait) {
+  .ic-hero-inner {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 0;
+  }
+  .ic-hero-content {
+    max-width: 640px;
+    padding-block: 120px 0;
+  }
+  .ic-hero-visual {
+    height: auto;
+    margin-top: 40px;
+  }
+  .ic-hero-image {
+    width: min(86vw, 540px);
+    height: auto;
+  }
+}
+
+/* Tablet em pé: bloco de texto centralizado sobre a imagem. */
+@media (min-width: 601px) and (max-width: 1180px) and (orientation: portrait) {
+  .ic-hero-content {
+    margin-inline: auto;
+    text-align: center;
+  }
+  .ic-hero-copy {
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .ic-header {
+    padding-top: 20px;
+  }
+  .ic-brand-logo {
+    width: 32px;
+  }
+  .ic-brand-name {
+    font-size: .95rem;
+  }
+
+  .ic-hero-content {
+    padding-block: 96px 0;
+  }
+  .ic-kicker {
+    font-size: .68rem;
+    letter-spacing: .12em;
+  }
+  .ic-title-serif {
+    font-size: clamp(1.9rem, 8.6vw, 2.6rem);
+  }
+  .ic-title-sans {
+    font-size: clamp(2.9rem, 14.4vw, 4.6rem);
+  }
+  .ic-title-script {
+    font-size: clamp(1.5rem, 6.6vw, 2.1rem);
+  }
+  .ic-hero-copy {
+    max-width: 34ch;
+  }
+  .ic-cta {
+    width: 100%;
+    max-width: 380px;
+    justify-content: space-between;
+    min-height: 60px;
+    padding-left: 22px;
+  }
+  .ic-hero-visual {
+    margin-top: 28px;
+  }
+  .ic-section-divider {
+    height: 180px;
+  }
+}
+
+/* ---------- Movimento reduzido ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ic-blob,
+  .ic-header,
+  .ic-kicker,
+  .ic-title > span,
+  .ic-hero-copy,
+  .ic-cta,
+  .ic-hero-image {
+    animation: none;
+  }
+  .ic-cta,
+  .ic-cta > span,
+  .ic-cta > svg,
+  .ic-cta::before {
+    transition: none;
+  }
+  .ic-cta:hover {
+    transform: none;
+  }
+}

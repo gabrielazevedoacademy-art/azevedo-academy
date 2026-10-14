@@ -171,6 +171,19 @@ Ferramentas atuais:
 - Suno;
 - Flow Music.
 
+## Página de vendas Influencer com IA
+
+A rota `/influencer-com-ia` é a página de vendas do curso Influencer com IA.
+
+- não aparece no menu do site; acesso pelo link direto;
+- identidade própria: preto, azul e branco (não usa o laranja da Home nos elementos da página);
+- página única com rolagem, sem menu de navegação; header apenas com a marca;
+- tipografia: Instrument Serif (serifada) combinada com League Spartan (títulos sem serifa) e Montserrat (texto);
+- hero com a influenciadora à direita (imagem com fundo transparente), degradê preto → azul com manchas de luz animadas de forma fluida e um degradê de divisão na base que faz a transição para a próxima seção;
+- CTA segue o padrão dos heros (pílula branca com círculo da seta que se expande), aqui em azul;
+- arquivos: `influencer-com-ia/index.html`, `assets/css/influencer-com-ia.css`, `assets/images/influencer-com-ia/`;
+- respeitar `prefers-reduced-motion` e evitar overflow horizontal.
+
 ## Área protegida
 
 ### `/biblioteca-de-prompts/`

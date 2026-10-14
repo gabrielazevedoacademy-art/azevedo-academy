@@ -7,6 +7,9 @@ const required = [
   'ferramentas/index.html',
   'assets/css/ferramentas.css',
   'assets/js/ferramentas.js',
+  'influencer-com-ia/index.html',
+  'assets/css/influencer-com-ia.css',
+  'assets/images/influencer-com-ia/hero-influencer.webp',
   'biblioteca-de-prompts/index.html'
 ];
 
