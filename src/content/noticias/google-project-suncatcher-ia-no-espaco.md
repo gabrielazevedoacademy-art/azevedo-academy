@@ -5,8 +5,6 @@ resumo: "Um satélite de testes do Project Suncatcher usou um chip TPU em órbit
 data: 2026-11-06T09:00:00-03:00
 categoria: "Pesquisa"
 tags: ["Google", "Project Suncatcher", "Gemma 4", "Infraestrutura de IA"]
-capa: "/imagens/noticias/google-project-suncatcher-ia-no-espaco.webp"
-capaAlt: "Ilustração de órbitas elípticas formadas por pontos em volta de um planeta"
 fonte: { nome: "Blog do Google", url: "https://blog.google/innovation-and-ai/models-and-research/google-research/project-suncatcher-satellite-response/" }
 ---
 

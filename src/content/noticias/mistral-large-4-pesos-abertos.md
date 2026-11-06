@@ -5,8 +5,6 @@ resumo: "O Mistral Large 4, apelidado de Le Chonk, teve os pesos publicados no H
 data: 2026-11-06T09:30:00-03:00
 categoria: "Modelos"
 tags: ["Mistral", "Mistral Large 4", "Modelos abertos", "Programação"]
-capa: "/imagens/noticias/mistral-large-4-pesos-abertos.webp"
-capaAlt: "Ilustração de uma rede de nós conectados por linhas"
 fonte: { nome: "Mistral AI", url: "https://mistral.ai/it/news/mistral-large-4-oss/" }
 ---
 

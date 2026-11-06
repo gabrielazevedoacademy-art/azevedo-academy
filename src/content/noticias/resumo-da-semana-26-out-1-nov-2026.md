@@ -5,8 +5,6 @@ resumo: "As 12 notícias de IA que importaram entre 26 de outubro e 1º de novem
 data: 2026-11-06T10:00:00-03:00
 categoria: "Azevedo Academy"
 tags: ["Resumo da semana", "OpenAI", "Google", "Vídeo com IA", "Agentes de IA"]
-capa: "/imagens/noticias/resumo-da-semana-26-out-1-nov-2026.webp"
-capaAlt: "Ilustração de uma grade de pontos com destaques em laranja"
 destaque: true
 ---
 

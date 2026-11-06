@@ -5,8 +5,6 @@ resumo: "O Genie 4 gera ambientes que respondem a comandos em tempo real, com so
 data: 2026-11-06T09:50:00-03:00
 categoria: "Pesquisa"
 tags: ["Google", "Google DeepMind", "Genie 4", "Mundos virtuais", "Vídeo com IA"]
-capa: "/imagens/noticias/google-genie-4-mundos-interativos.webp"
-capaAlt: "Ilustração de um relevo formado por pontos, como um mundo virtual"
 fonte: { nome: "Blog do Google", url: "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/introducing-genie-4/" }
 ---
 

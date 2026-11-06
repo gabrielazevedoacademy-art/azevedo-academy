@@ -5,8 +5,6 @@ resumo: "O Replica transforma descrições em protótipos interativos usando os 
 data: 2026-11-06T09:05:00-03:00
 categoria: "Ferramentas"
 tags: ["GitHub", "GitHub Copilot", "Design", "Prototipagem", "Código aberto"]
-capa: "/imagens/noticias/github-replica-prototipos-com-ia.webp"
-capaAlt: "Ilustração de blocos de layout de uma tela formados por pontos"
 fonte: { nome: "GitHub", url: "https://github.blog/changelog/2026-10-28-introducing-replica-an-open-source-ai-prototyping-tool/" }
 ---
 

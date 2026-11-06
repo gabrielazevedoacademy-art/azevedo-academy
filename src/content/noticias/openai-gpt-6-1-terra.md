@@ -5,8 +5,6 @@ resumo: "O GPT-6.1 Terra entende telas, preenche formulários e edita arquivos. 
 data: 2026-11-06T09:55:00-03:00
 categoria: "Agentes"
 tags: ["OpenAI", "GPT-6.1", "Agentes de IA", "ChatGPT"]
-capa: "/imagens/noticias/openai-gpt-6-1-terra.webp"
-capaAlt: "Ilustração de uma janela de computador com um cursor sendo guiado por pontos"
 fonte: { nome: "OpenAI", url: "https://openai.com/pt-BR/index/introducing-gpt-6-1-terra/" }
 ---
 

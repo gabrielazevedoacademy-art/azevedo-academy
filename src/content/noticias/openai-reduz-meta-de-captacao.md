@@ -5,8 +5,6 @@ resumo: "Segundo o Financial Times, a OpenAI busca até US$ 20 bilhões numa ava
 data: 2026-11-06T09:15:00-03:00
 categoria: "Mercado"
 tags: ["OpenAI", "Investimentos", "Mercado de IA"]
-capa: "/imagens/noticias/openai-reduz-meta-de-captacao.webp"
-capaAlt: "Ilustração de colunas de pontos em formato de gráfico de barras"
 fonte: { nome: "Reuters", url: "https://www.reuters.com/business/openai-cuts-funding-target-by-10-billion-ft-reports-2026-10-31/" }
 ---
 

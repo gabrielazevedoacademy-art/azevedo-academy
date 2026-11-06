@@ -5,8 +5,6 @@ resumo: "O SynthID Detector verifica se imagens, vídeos e áudios têm a marca 
 data: 2026-11-06T09:20:00-03:00
 categoria: "Ferramentas"
 tags: ["Google", "SynthID", "Marca d'água", "Deepfake"]
-capa: "/imagens/noticias/synthid-detector-aberto-ao-publico.webp"
-capaAlt: "Ilustração de anéis concêntricos formados por pontos, como uma impressão digital"
 fonte: { nome: "Blog do Google", url: "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/synth-id-ai-content/" }
 ---
 

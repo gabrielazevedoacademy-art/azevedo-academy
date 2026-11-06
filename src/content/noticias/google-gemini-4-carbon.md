@@ -5,8 +5,6 @@ resumo: "O Gemini 4 Carbon foi feito para tarefas longas de programação e para
 data: 2026-11-06T09:45:00-03:00
 categoria: "Modelos"
 tags: ["Google", "Gemini", "Gemini 4 Carbon", "Programação", "Cibersegurança"]
-capa: "/imagens/noticias/google-gemini-4-carbon.webp"
-capaAlt: "Ilustração de um escudo formado por pontos sobre uma grade"
 fonte: { nome: "Blog do Google", url: "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/" }
 ---
 

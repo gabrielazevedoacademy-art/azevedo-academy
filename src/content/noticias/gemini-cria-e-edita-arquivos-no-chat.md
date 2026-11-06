@@ -5,8 +5,6 @@ resumo: "O app do Gemini ganhou uma área para gerar e editar arquivos sem sair 
 data: 2026-11-06T09:35:00-03:00
 categoria: "Produtividade"
 tags: ["Google", "Gemini", "Produtividade", "Google Docs"]
-capa: "/imagens/noticias/gemini-cria-e-edita-arquivos-no-chat.webp"
-capaAlt: "Ilustração de documentos empilhados formados por pontos"
 fonte: { nome: "Blog do Google", url: "https://blog.google/innovation-and-ai/products/gemini-app/edit-files-directly/" }
 ---
 

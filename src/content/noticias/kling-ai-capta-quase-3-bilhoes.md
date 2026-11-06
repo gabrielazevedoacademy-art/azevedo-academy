@@ -5,8 +5,6 @@ resumo: "A unidade da Kuaishou responsável pelo Kling levantou cerca de 19,8 bi
 data: 2026-11-06T09:10:00-03:00
 categoria: "Mercado"
 tags: ["Kling AI", "Kuaishou", "Vídeo com IA", "Investimentos"]
-capa: "/imagens/noticias/kling-ai-capta-quase-3-bilhoes.webp"
-capaAlt: "Ilustração de barras de pontos crescendo, como um gráfico"
 fonte: { nome: "Reuters", url: "https://www.reuters.com/business/retail-consumer/kuaishous-kling-ai-unit-completes-near-3-billion-funding-round-2026-10-30/" }
 ---
 

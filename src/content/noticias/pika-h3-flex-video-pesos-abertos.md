@@ -5,8 +5,6 @@ resumo: "O Pika H3 Flex aceita até 12 imagens, vídeos e áudios de referência
 data: 2026-11-06T09:40:00-03:00
 categoria: "Vídeo e imagem"
 tags: ["Pika", "MiniMax H3", "ComfyUI", "Vídeo com IA", "Modelos abertos"]
-capa: "/imagens/noticias/pika-h3-flex-video-pesos-abertos.webp"
-capaAlt: "Ilustração de quadros de vídeo em sequência formados por pontos"
 fonte: { nome: "Blog da Pika", url: "https://pika.art/blog/pika-h3-flex" }
 ---
 

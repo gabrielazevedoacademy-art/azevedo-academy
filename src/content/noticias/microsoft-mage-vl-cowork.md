@@ -5,8 +5,6 @@ resumo: "Com cerca de 4 bilhões de parâmetros e licença Apache 2.0, o Mage-VL
 data: 2026-11-06T09:25:00-03:00
 categoria: "Agentes"
 tags: ["Microsoft", "Agentes de IA", "Modelos abertos", "Hugging Face"]
-capa: "/imagens/noticias/microsoft-mage-vl-cowork.webp"
-capaAlt: "Ilustração de uma janela de terminal com cursor formada por pontos"
 fonte: { nome: "Hugging Face", url: "https://huggingface.co/microsoft/Mage-VL-Cowork" }
 ---
 
