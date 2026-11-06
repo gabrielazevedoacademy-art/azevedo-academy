@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatarData } from '../lib/util';
+interface Props { n: CollectionEntry<'noticias'>; destaque?: boolean }
+const { n, destaque = false } = Astro.props;
+const { titulo, resumo, data, categoria, capa } = n.data;
+---
+<article class:list={['card', { destaque }]} data-categoria={categoria}>
+  <div class:list={['card__midia', { 'card__midia--vazio': !capa }]}>
+    {capa ? <img src={capa} alt="" loading="lazy" /> : <span>IA</span>}
+  </div>
+  <div class="card__corpo">
+    <div class="card__meta"><span class="tag">{categoria}</span><time datetime={data.toISOString()}>{formatarData(data)}</time></div>
+    <h3><a class="card__link" href={`/noticias/${n.id}`}>{titulo}</a></h3>
+    <p>{resumo}</p>
+  </div>
+</article>

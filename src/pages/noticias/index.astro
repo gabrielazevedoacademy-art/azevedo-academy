@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import CardNoticia from '../../components/CardNoticia.astro';
+import { noticiasOrdenadas } from '../../lib/util';
+
+const noticias = await noticiasOrdenadas();
+const categorias = [...new Set(noticias.map((n) => n.data.categoria))];
+---
+<Base titulo="Notícias de IA" descricao="As principais notícias sobre inteligência artificial: lançamentos, ferramentas, mercado e dicas, explicadas de forma direta.">
+  <header class="cabecalho-pagina">
+    <div class="container">
+      <span class="eyebrow">Notícias</span>
+      <h1 class="titulo-display">Notícias de <em>IA.</em></h1>
+      <p>Lançamentos, ferramentas novas e o que muda na prática pra quem cria conteúdo com inteligência artificial.</p>
+    </div>
+  </header>
+
+  <section class="container" style="padding-bottom: 64px">
+    {categorias.length > 1 && (
+      <div class="filtros" role="toolbar" aria-label="Filtrar por categoria" data-filtros>
+        <button class="filtro" type="button" aria-pressed="true" data-cat="">Todas</button>
+        {categorias.map((c) => <button class="filtro" type="button" aria-pressed="false" data-cat={c}>{c}</button>)}
+      </div>
+    )}
+    {noticias.length > 0
+      ? <div class="grade" data-grade>{noticias.map((n) => <CardNoticia n={n} />)}</div>
+      : <p class="vazio">Nenhuma notícia publicada ainda.</p>}
+  </section>
+
+  <script>
+    const barra = document.querySelector<HTMLElement>('[data-filtros]');
+    barra?.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-cat]');
+      if (!b) return;
+      barra.querySelectorAll('[data-cat]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      const cat = b.dataset.cat;
+      document.querySelectorAll<HTMLElement>('[data-grade] [data-categoria]').forEach((card) => {
+        card.hidden = !!cat && card.dataset.categoria !== cat;
+      });
+    });
+  </script>
+</Base>

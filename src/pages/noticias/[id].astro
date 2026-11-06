@@ -1,0 +1,44 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CardNoticia from '../../components/CardNoticia.astro';
+import { noticiasOrdenadas, formatarData } from '../../lib/util';
+
+export async function getStaticPaths() {
+  const todas = await noticiasOrdenadas();
+  return todas.map((n) => ({ params: { id: n.id }, props: { n, todas } }));
+}
+
+const { n, todas } = Astro.props;
+const { Content } = await render(n);
+const { titulo, resumo, data, categoria, capa, fonte } = n.data;
+const mais = todas.filter((x) => x.id !== n.id).slice(0, 3);
+---
+<Base titulo={titulo} descricao={resumo} imagem={capa} tipo="article">
+  <article>
+    <header class="artigo-topo estreito">
+      <a class="voltar" href="/noticias">← Todas as notícias</a>
+      <div><span class="tag">{categoria}</span></div>
+      <h1>{titulo}</h1>
+      <p class="resumo">{resumo}</p>
+      <div class="artigo-meta">
+        <time datetime={data.toISOString()}>{formatarData(data)}</time>
+        <span>·</span><span>Por Gabriel Azevedo</span>
+      </div>
+    </header>
+    {capa && <figure class="artigo-capa estreito"><img src={capa} alt="" /></figure>}
+    <div class="prosa estreito"><Content /></div>
+    {fonte && (
+      <p class="fonte estreito">Fonte: <a href={fonte.url} target="_blank" rel="noopener">{fonte.nome} ↗</a></p>
+    )}
+  </article>
+
+  {mais.length > 0 && (
+    <section class="secao">
+      <div class="container">
+        <div class="secao__topo"><h2 class="h2">Mais notícias</h2><a class="link-seta" href="/noticias">Ver todas →</a></div>
+        <div class="grade">{mais.map((x) => <CardNoticia n={x} />)}</div>
+      </div>
+    </section>
+  )}
+</Base>

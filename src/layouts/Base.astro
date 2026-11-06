@@ -1,0 +1,126 @@
+---
+import '../styles/site.css';
+import { SITE } from '../lib/util';
+
+interface Props {
+  titulo?: string;
+  descricao?: string;
+  imagem?: string;
+  tipo?: 'website' | 'article';
+}
+
+const { titulo, descricao = SITE.descricao, imagem, tipo = 'website' } = Astro.props;
+const tituloCompleto = titulo ? `${titulo} | ${SITE.nome}` : `${SITE.nome} | Notícias e materiais de IA`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const og = imagem ? new URL(imagem, Astro.site) : undefined;
+const path = Astro.url.pathname;
+
+const nav = [
+  { href: '/noticias', label: 'Notícias' },
+  { href: '/materiais', label: 'Materiais' },
+  { href: '/biblioteca-de-prompts/', label: 'Biblioteca de prompts' },
+];
+const ativo = (href: string) => path === href || path.startsWith(href + '/');
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descricao} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={tipo} />
+    <meta property="og:site_name" content={SITE.nome} />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={canonical} />
+    {og && <meta property="og:image" content={og} />}
+    <meta name="twitter:card" content={og ? 'summary_large_image' : 'summary'} />
+    <meta name="theme-color" content="#0E0E0E" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/tokens.css" />
+  </head>
+  <body>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    <header class="topo" data-topo>
+      <div class="topo__inner">
+        <a class="marca" href="/" aria-label="Azevedo Academy — início">
+          <img src="/assets/images/azevedo-logo-branco.svg" alt="" width="30" height="30" /><span>Azevedo Academy</span>
+        </a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-btn>
+          <span class="sr">Abrir menu</span><span></span><span></span>
+        </button>
+        <nav class="menu" id="menu" aria-label="Principal" data-menu>
+          {nav.map((n) => (
+            <a href={n.href} aria-current={ativo(n.href) ? 'page' : undefined}>{n.label}</a>
+          ))}
+          <a class="menu__cta" href={SITE.youtube} target="_blank" rel="noopener">YouTube ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <slot />
+    </main>
+
+    <footer class="rodape">
+      <div class="container rodape__inner">
+        <div>
+          <img src="/assets/images/azevedo-logo-branco.svg" alt="Azevedo Academy" width="130" height="28" />
+          <p>Inteligência artificial para quem cria.</p>
+        </div>
+        <nav aria-label="Rodapé">
+          <a href="/noticias">Notícias</a>
+          <a href="/materiais">Materiais</a>
+          <a href="/biblioteca-de-prompts/">Biblioteca de prompts</a>
+          <a href="/influencer-com-ia">Curso Influencer com IA</a>
+          <a href={SITE.youtube} target="_blank" rel="noopener">YouTube</a>
+        </nav>
+      </div>
+      <p class="container rodape__copy">© {new Date().getFullYear()} Azevedo Academy</p>
+    </footer>
+
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+      const menu = document.querySelector<HTMLElement>('[data-menu]');
+      const topo = document.querySelector<HTMLElement>('[data-topo]');
+      btn?.addEventListener('click', () => {
+        const aberto = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!aberto));
+        menu?.classList.toggle('is-open', !aberto);
+        document.body.classList.toggle('menu-aberto', !aberto);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && btn?.getAttribute('aria-expanded') === 'true') btn.click();
+      });
+      const onScroll = () => topo?.classList.toggle('is-scrolled', window.scrollY > 8);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // Botões "Copiar" (prompts)
+      document.addEventListener('click', async (e) => {
+        const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-copiar]');
+        if (!b) return;
+        const alvo = document.getElementById(b.dataset.copiar!);
+        if (!alvo) return;
+        try {
+          await navigator.clipboard.writeText(alvo.innerText.trim());
+          const original = b.textContent;
+          b.textContent = 'Copiado ✓';
+          b.classList.add('is-ok');
+          setTimeout(() => { b.textContent = original; b.classList.remove('is-ok'); }, 1800);
+        } catch {
+          const r = document.createRange(); r.selectNodeContents(alvo);
+          const s = getSelection(); s?.removeAllRanges(); s?.addRange(r);
+        }
+      });
+    </script>
+  </body>
+</html>

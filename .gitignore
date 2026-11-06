@@ -19,3 +19,7 @@ yarn-error.log*
 # Env
 .env
 .env.local
+
+# Astro
+dist/
+.astro/

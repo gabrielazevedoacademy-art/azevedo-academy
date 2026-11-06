@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import CardNoticia from '../components/CardNoticia.astro';
+import CardMaterial from '../components/CardMaterial.astro';
+import { noticiasOrdenadas, materiaisOrdenados, dataCurta, SITE } from '../lib/util';
+
+const noticias = await noticiasOrdenadas();
+const principal = noticias.find((n) => n.data.destaque) ?? noticias[0];
+const outras = noticias.filter((n) => n !== principal).slice(0, 5);
+const materiais = (await materiaisOrdenados()).slice(0, 3);
+---
+<Base>
+  <section class="hero">
+    <div class="container hero__grid">
+      <span class="eyebrow">Azevedo Academy</span>
+      <h1 class="titulo-display">O que está<br />acontecendo na <em>IA.</em></h1>
+      <p class="lead">Notícias do mundo da inteligência artificial explicadas sem enrolação, e todos os prompts e materiais dos tutoriais do canal num lugar só.</p>
+      <div class="hero__acoes">
+        <a class="btn btn--claro" href="/noticias">Ler as notícias →</a>
+        <a class="btn btn--contorno" href="/materiais">Materiais dos vídeos</a>
+      </div>
+    </div>
+  </section>
+
+  {principal && (
+    <section class="secao">
+      <div class="container">
+        <div class="secao__topo">
+          <div><span class="eyebrow">Notícias</span><h2 class="h2">Últimas da IA</h2></div>
+          <a class="link-seta" href="/noticias">Ver todas →</a>
+        </div>
+        <CardNoticia n={principal} destaque />
+        {outras.length > 0 && (
+          <div class="lista" style="margin-top: 16px">
+            {outras.map((n) => (
+              <a href={`/noticias/${n.id}`}>
+                <time datetime={n.data.data.toISOString()}>{dataCurta(n.data.data)}</time>
+                <h3>{n.data.titulo}</h3>
+                <span class="tag">{n.data.categoria}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="secao">
+    <div class="container">
+      <div class="secao__topo">
+        <div><span class="eyebrow">Do YouTube</span><h2 class="h2">Materiais dos tutoriais</h2></div>
+        <a class="link-seta" href="/materiais">Ver todos →</a>
+      </div>
+      {materiais.length > 0
+        ? <div class="grade">{materiais.map((m) => <CardMaterial m={m} />)}</div>
+        : <p class="vazio">Os materiais dos tutoriais aparecem aqui em breve.</p>}
+    </div>
+  </section>
+
+  <section class="secao">
+    <div class="container">
+      <div class="faixa">
+        <div>
+          <span class="eyebrow">Curso</span>
+          <h2 class="h2" style="margin-top:10px">Influencer com IA</h2>
+          <p>Aprenda a criar uma influenciadora digital com inteligência artificial, do zero até o conteúdo publicado.</p>
+        </div>
+        <a class="btn btn--claro" href="/influencer-com-ia">Conhecer o curso →</a>
+      </div>
+    </div>
+  </section>
+</Base>

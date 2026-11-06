@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /biblioteca-de-prompts/
+
+Sitemap: https://azevedoacademy.com.br/sitemap-index.xml

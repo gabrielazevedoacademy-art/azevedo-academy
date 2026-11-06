@@ -1,94 +1,55 @@
-# Azevedo Academy
+# Azevedo Academy — site
 
-Site institucional da Azevedo Academy — marca de IA, criação de conteúdo, design,
-edição de vídeo, marketing e tecnologia.
+Site em [Astro](https://astro.build), publicado na Vercel (azevedoacademy.com.br). Push na `main` = produção.
 
-Site estático (HTML/CSS puro, sem framework e sem build step), hospedado na Vercel.
+## Onde fica cada coisa
 
-## Estrutura de pastas
+| Conteúdo | Pasta | Endereço |
+|---|---|---|
+| Notícias de IA | `src/content/noticias/*.md` | `/noticias/<nome-do-arquivo>` |
+| Materiais dos tutoriais | `src/content/materiais/*.md` | `/materiais/<nome-do-arquivo>` |
+| Página de vendas (intocada) | `public/influencer-com-ia/` | `/influencer-com-ia` |
+| Biblioteca de prompts protegida (intocada) | `public/biblioteca-de-prompts/` | `/biblioteca-de-prompts/` |
+| Imagens e arquivos para download | `public/arquivos/`, `public/imagens/` | `/arquivos/...`, `/imagens/...` |
 
-```
-.
-├── index.html                     # Página inicial
-├── robots.txt                     # Regras de indexação para buscadores
-├── vercel.json                    # Configuração de deploy e headers de segurança
-├── assets/
-│   └── css/
-│       ├── tokens.css             # Variáveis de marca (cores, fontes, espaçamento)
-│       └── global.css             # Reset + estilos compartilhados
-└── biblioteca-de-prompts/
-    └── index.html                 # Página de vendas (não indexada, só por link direto)
-```
+## Nova notícia
 
-Cada página de vendas vive em sua própria pasta na raiz do projeto, com um
-`index.html` próprio. Isso mantém URLs limpas (`/biblioteca-de-prompts/`) sem
-precisar de nenhum framework de rotas.
-
-## Tokens de marca
-
-Definidos em `assets/css/tokens.css` como variáveis CSS (`:root`):
-
-- **Cores**: `--color-black`, `--color-white`, `--color-orange` (acento
-  principal) e `--color-green` (acento secundário — usar com moderação).
-- **Fontes**: `--font-display` (League Spartan, para títulos e impacto) e
-  `--font-body` (Montserrat, para texto corrido).
-- **Escalas**: tipografia (`--text-*`) e espaçamento (`--space-*`).
-
-Toda página nova deve carregar `tokens.css` antes de `global.css`, e carregar
-as fontes via Google Fonts (ver `<head>` do `index.html` como referência).
-
-## Como adicionar uma nova página de vendas
-
-1. Crie uma pasta nova na raiz do projeto com um nome curto e descritivo em
-   kebab-case (ex.: `curso-de-edicao/`).
-2. Dentro dela, crie um `index.html`. Copie a estrutura de
-   `biblioteca-de-prompts/index.html` como ponto de partida (head, fontes,
-   tokens).
-3. Garanta que o `<head>` contenha:
-   ```html
-   <meta name="robots" content="noindex, nofollow" />
-   ```
-   Páginas de vendas **não devem ser indexadas** por buscadores — o acesso é
-   sempre por link direto (campanha, bio, e-mail, etc).
-4. **Não adicione nenhum link** para essa página a partir do site principal
-   (`index.html` ou outras páginas públicas). A página só deve ser alcançável
-   por quem recebe o link diretamente.
-5. **Não liste o caminho da pasta em `robots.txt`.** A proteção contra
-   indexação é feita só pela meta tag `noindex`; listar o caminho no
-   `robots.txt` (mesmo como `Disallow`) tornaria o caminho público, já que
-   `robots.txt` é um arquivo aberto que qualquer um pode ler.
-
-## Como rodar localmente
-
-Não há build step. Basta servir os arquivos estáticos. Exemplos:
-
-```bash
-# Com Python
-python3 -m http.server 8000
-
-# Com Node (npx)
-npx serve .
-
-# Com a CLI da Vercel (recomendado, replica o ambiente de produção)
-vercel dev
+```md
+---
+titulo: "Título"
+resumo: "Uma ou duas frases."
+data: 2026-11-06
+categoria: "Lançamento"   # Lançamento | Ferramentas | Mercado | Pesquisa | Dica | Azevedo Academy
+capa: "/imagens/noticias/capa.webp"   # opcional
+fonte: { nome: "Site", url: "https://..." }   # opcional
+destaque: false   # true = aparece grande na Home
+rascunho: false   # true = não publica
+---
+Texto em markdown.
 ```
 
-Depois acesse `http://localhost:8000` (ou a porta indicada pela ferramenta escolhida).
+## Novo material de tutorial
 
-## Deploy
+```md
+---
+titulo: "Nome do vídeo"
+resumo: "Do que se trata."
+data: 2026-11-06
+youtube: "ID_DO_VIDEO"          # trecho depois de v= na URL; gera a capa e o player
+ferramentas: ["ChatGPT", "Higgsfield"]
+prompts:
+  - titulo: "Prompt 1"
+    texto: |
+      texto do prompt
+arquivos:
+  - { nome: "Pack de imagens.zip", url: "/arquivos/pack.zip" }
+links:
+  - { nome: "Higgsfield", url: "https://..." }
+---
+Passo a passo escrito (opcional).
+```
 
-O deploy é automático via Vercel:
+## Comandos
 
-- Cada push para a branch principal (`main`) gera um deploy de produção.
-- Cada push para outras branches ou Pull Request gera um deploy de preview
-  com uma URL própria, sem afetar produção.
-- Configurações de headers de segurança e roteamento ficam em `vercel.json`.
-
-Como os arquivos HTML públicos já vivem na raiz, `vercel.json` declara
-`outputDirectory: "."`. O comando de build apenas valida os arquivos estáticos;
-ele não gera uma pasta `public`. No painel da Vercel, o preset deve permanecer
-em **Other** e a configuração de Output Directory não deve forçar `public`
-(a configuração versionada aponta explicitamente para a raiz).
-
-Não há compilação ou geração de bundles: o comando de build valida o projeto e
-a Vercel serve os arquivos estáticos diretamente da raiz.
+- `npm run dev` — servidor local (mostra rascunhos)
+- `npm run build` — gera o site em `dist/`

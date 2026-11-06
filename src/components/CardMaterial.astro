@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatarData, thumbYoutube } from '../lib/util';
+interface Props { m: CollectionEntry<'materiais'> }
+const { m } = Astro.props;
+const { titulo, resumo, data, capa, youtube, ferramentas, prompts, arquivos } = m.data;
+const imagem = capa ?? thumbYoutube(youtube);
+const busca = [titulo, resumo, ...ferramentas].join(' ').toLowerCase();
+---
+<article class="card" data-busca={busca}>
+  <div class:list={['card__midia', { 'card__midia--vazio': !imagem }]}>
+    {imagem ? <img src={imagem} alt="" loading="lazy" /> : <span>AA</span>}
+    {youtube && <span class="selo-play" aria-hidden="true"></span>}
+  </div>
+  <div class="card__corpo">
+    <div class="card__meta">
+      <time datetime={data.toISOString()}>{formatarData(data)}</time>
+      {prompts.length > 0 && <span>· {prompts.length} {prompts.length === 1 ? 'prompt' : 'prompts'}</span>}
+      {arquivos.length > 0 && <span>· {arquivos.length} {arquivos.length === 1 ? 'arquivo' : 'arquivos'}</span>}
+    </div>
+    <h3><a class="card__link" href={`/materiais/${m.id}`}>{titulo}</a></h3>
+    <p>{resumo}</p>
+    {ferramentas.length > 0 && <div class="card__tags">{ferramentas.map((f) => <span class="tag tag--neutra">{f}</span>)}</div>}
+  </div>
+</article>

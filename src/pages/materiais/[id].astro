@@ -1,0 +1,89 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { materiaisOrdenados, formatarData, thumbYoutube } from '../../lib/util';
+
+export async function getStaticPaths() {
+  const todos = await materiaisOrdenados();
+  return todos.map((m) => ({ params: { id: m.id }, props: { m } }));
+}
+
+const { m } = Astro.props;
+const { Content } = await render(m);
+const { titulo, resumo, data, youtube, capa, ferramentas, prompts, arquivos, links } = m.data;
+const temCorpo = Boolean(m.body?.trim());
+---
+<Base titulo={titulo} descricao={resumo} imagem={capa ?? thumbYoutube(youtube)} tipo="article">
+  <article>
+    <header class="artigo-topo estreito">
+      <a class="voltar" href="/materiais">← Todos os materiais</a>
+      <span class="eyebrow">Material do tutorial</span>
+      <h1>{titulo}</h1>
+      <p class="resumo">{resumo}</p>
+      <div class="artigo-meta">
+        <time datetime={data.toISOString()}>{formatarData(data)}</time>
+        {youtube && <><span>·</span><a href={`https://www.youtube.com/watch?v=${youtube}`} target="_blank" rel="noopener" style="color:var(--color-orange)">Assistir no YouTube ↗</a></>}
+      </div>
+    </header>
+
+    <div class="estreito">
+      {youtube && (
+        <div class="video">
+          <iframe src={`https://www.youtube-nocookie.com/embed/${youtube}`} title={titulo} loading="lazy"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      )}
+
+      {ferramentas.length > 0 && (
+        <section class="bloco">
+          <h2>Ferramentas usadas</h2>
+          <div class="chips">{ferramentas.map((f) => <span class="tag tag--neutra" style="font-size:.85rem;padding:6px 14px">{f}</span>)}</div>
+        </section>
+      )}
+
+      {prompts.length > 0 && (
+        <section class="bloco" id="prompts">
+          <h2>Prompts <small>{prompts.length}</small></h2>
+          {prompts.map((p, i) => (
+            <div class="prompt">
+              <div class="prompt__topo">
+                <h3>{p.titulo}</h3>
+                <button class="copiar" type="button" data-copiar={`prompt-${i}`}>Copiar</button>
+              </div>
+              <pre id={`prompt-${i}`}>{p.texto.trim()}</pre>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {arquivos.length > 0 && (
+        <section class="bloco">
+          <h2>Arquivos</h2>
+          <div class="recursos">
+            {arquivos.map((a) => (
+              <a class="recurso" href={a.url} target="_blank" rel="noopener" download><span>{a.nome}</span><span>Baixar ↓</span></a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {links.length > 0 && (
+        <section class="bloco">
+          <h2>Links</h2>
+          <div class="recursos">
+            {links.map((l) => (
+              <a class="recurso" href={l.url} target="_blank" rel="noopener"><span>{l.nome}</span><span>Abrir ↗</span></a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {temCorpo && (
+        <section class="bloco">
+          <h2>Passo a passo</h2>
+          <div class="prosa"><Content /></div>
+        </section>
+      )}
+    </div>
+  </article>
+</Base>
