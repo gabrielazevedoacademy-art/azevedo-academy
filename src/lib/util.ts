@@ -4,7 +4,16 @@ export const SITE = {
   nome: 'Azevedo Academy',
   descricao: 'Notícias de inteligência artificial e os materiais dos tutoriais do canal Azevedo Academy.',
   youtube: 'https://www.youtube.com/@Azevedo.Academy/videos',
+  autor: 'Gabriel Azevedo',
+  logo: '/apple-touch-icon.png',
+  email: '' as string, // e-mail público de contato (preencher)
 };
+
+export const ADSENSE = import.meta.env.PUBLIC_ADSENSE_CLIENT as string | undefined; // ex.: ca-pub-1234567890123456
+
+export function slug(texto: string) {
+  return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
 
 export function formatarData(d: Date) {
   return new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(d);

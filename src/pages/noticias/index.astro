@@ -1,7 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import CardNoticia from '../../components/CardNoticia.astro';
-import { noticiasOrdenadas } from '../../lib/util';
+import Anuncio from '../../components/Anuncio.astro';
+import { noticiasOrdenadas, slug } from '../../lib/util';
 
 const noticias = await noticiasOrdenadas();
 const categorias = [...new Set(noticias.map((n) => n.data.categoria))];
@@ -15,27 +16,16 @@ const categorias = [...new Set(noticias.map((n) => n.data.categoria))];
   <section class="largura">
     {categorias.length > 1 && (
       <div class="barra" data-revelar style="--i:1">
-        <div class="chips" role="toolbar" aria-label="Filtrar por categoria" data-filtros>
-          <button class="chip" type="button" aria-pressed="true" data-cat="">Todas</button>
-          {categorias.map((c) => <button class="chip" type="button" aria-pressed="false" data-cat={c}>{c}</button>)}
-        </div>
+        <nav class="chips" aria-label="Categorias">
+          <a class="chip" href="/noticias" aria-current="page">Todas</a>
+          {categorias.map((c) => <a class="chip" href={`/noticias/categoria/${slug(c)}`}>{c}</a>)}
+        </nav>
       </div>
     )}
     {noticias.length > 0
       ? <div class="grade" data-grade data-revelar-filhos>{noticias.map((n) => <CardNoticia n={n} />)}</div>
       : <p class="vazio">Nenhuma notícia publicada ainda.</p>}
+    <Anuncio nome="lista" />
   </section>
 
-  <script>
-    const barra = document.querySelector<HTMLElement>('[data-filtros]');
-    barra?.addEventListener('click', (e) => {
-      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-cat]');
-      if (!b) return;
-      barra.querySelectorAll('[data-cat]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-      const cat = b.dataset.cat;
-      document.querySelectorAll<HTMLElement>('[data-grade] [data-categoria]').forEach((card) => {
-        card.hidden = !!cat && card.dataset.categoria !== cat;
-      });
-    });
-  </script>
 </Base>

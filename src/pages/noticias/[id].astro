@@ -2,7 +2,8 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import CardNoticia from '../../components/CardNoticia.astro';
-import { noticiasOrdenadas, formatarData } from '../../lib/util';
+import Anuncio from '../../components/Anuncio.astro';
+import { noticiasOrdenadas, formatarData, slug, SITE } from '../../lib/util';
 
 export async function getStaticPaths() {
   const todas = await noticiasOrdenadas();
@@ -11,30 +12,78 @@ export async function getStaticPaths() {
 
 const { n, todas } = Astro.props;
 const { Content } = await render(n);
-const { titulo, resumo, data, categoria, capa, fonte } = n.data;
-const mais = todas.filter((x) => x.id !== n.id).slice(0, 3);
+const { titulo, seoTitulo, resumo, data, atualizado, categoria, tags, capa, capaAlt, fonte } = n.data;
+
+// Relacionadas: mesma categoria ou tags em comum primeiro, depois as mais recentes
+const pontuar = (x: typeof n) => (x.data.categoria === categoria ? 2 : 0) + x.data.tags.filter((t) => tags.includes(t)).length;
+const mais = todas.filter((x) => x.id !== n.id).sort((a, b) => pontuar(b) - pontuar(a)).slice(0, 3);
+
+const url = new URL(`/noticias/${n.id}`, Astro.site).href;
+const imagem = new URL(capa ?? '/og-padrao.png', Astro.site).href;
+const palavras = (n.body ?? '').split(/\s+/).filter(Boolean).length;
+const leitura = Math.max(1, Math.round(palavras / 200));
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: (seoTitulo ?? titulo).slice(0, 110),
+    description: resumo,
+    image: [imagem],
+    datePublished: data.toISOString(),
+    dateModified: (atualizado ?? data).toISOString(),
+    articleSection: categoria,
+    keywords: tags.join(', ') || undefined,
+    wordCount: palavras,
+    inLanguage: 'pt-BR',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    author: [{ '@type': 'Person', name: SITE.autor, url: new URL('/sobre', Astro.site).href }],
+    publisher: { '@type': 'Organization', name: SITE.nome, logo: { '@type': 'ImageObject', url: new URL(SITE.logo, Astro.site).href } },
+    ...(fonte ? { citation: fonte.url } : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: new URL('/', Astro.site).href },
+      { '@type': 'ListItem', position: 2, name: 'Notícias', item: new URL('/noticias', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: categoria, item: new URL(`/noticias/categoria/${slug(categoria)}`, Astro.site).href },
+      { '@type': 'ListItem', position: 4, name: titulo },
+    ],
+  },
+];
 ---
-<Base titulo={titulo} descricao={resumo} imagem={capa} tipo="article">
+<Base titulo={seoTitulo ?? titulo} descricao={resumo} imagem={capa} imagemAlt={capaAlt} tipo="article"
+  publicado={data} atualizado={atualizado} secao={categoria} tags={tags} jsonld={jsonld}>
   <article class="artigo">
     <header class="artigo-cabeca leitura" data-revelar>
-      <a class="voltar" href="/noticias">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3 5 8l5 5"/></svg>
-        Notícias
-      </a>
-      <div class="meta"><span class="cat">{categoria}</span><time datetime={data.toISOString()}>{formatarData(data)}</time></div>
+      <nav class="trilha" aria-label="Você está em">
+        <a href="/noticias">Notícias</a>
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+        <a href={`/noticias/categoria/${slug(categoria)}`}>{categoria}</a>
+      </nav>
       <h1>{titulo}</h1>
       <p class="resumo">{resumo}</p>
-      <div class="meta"><span>Por Gabriel Azevedo</span></div>
+      <div class="meta">
+        <span>Por <a href="/sobre">{SITE.autor}</a></span>
+        <time datetime={data.toISOString()}>{formatarData(data)}</time>
+        {atualizado && <span>Atualizado em <time datetime={atualizado.toISOString()}>{formatarData(atualizado)}</time></span>}
+        <span>{leitura} min de leitura</span>
+      </div>
     </header>
-    {capa && <figure class="artigo-capa" data-revelar="escala"><img src={capa} alt="" /></figure>}
+    {capa && <figure class="artigo-capa" data-revelar="escala"><img src={capa} alt={capaAlt ?? ''} fetchpriority="high" /></figure>}
     <div class="prosa leitura" data-revelar style="--i:1"><Content /></div>
-    {fonte && <p class="fonte leitura">Fonte original: <a class="link" href={fonte.url} target="_blank" rel="noopener">{fonte.nome}</a></p>}
+    <div class="leitura">
+      {fonte && <p class="fonte">Fonte original: <a class="link" href={fonte.url} target="_blank" rel="noopener">{fonte.nome}</a></p>}
+      {tags.length > 0 && <div class="etiquetas artigo-tags">{tags.map((t) => <span>{t}</span>)}</div>}
+      <Anuncio nome="artigo" />
+    </div>
   </article>
 
   {mais.length > 0 && (
     <section class="secao">
       <div class="largura">
-        <div class="secao__cabeca"><h2>Mais notícias</h2><a class="link" href="/noticias">Ver todas</a></div>
+        <div class="secao__cabeca" data-revelar><h2>Leia também</h2><a class="link" href="/noticias">Todas as notícias</a></div>
         <div class="grade" data-revelar-filhos>{mais.map((x) => <CardNoticia n={x} />)}</div>
       </div>
     </section>

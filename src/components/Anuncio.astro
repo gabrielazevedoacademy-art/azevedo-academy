@@ -1,0 +1,22 @@
+---
+// Bloco de anúncio do Google AdSense. Só aparece quando PUBLIC_ADSENSE_CLIENT está configurado
+// e o ID do bloco (slot) foi definido em PUBLIC_ADSENSE_SLOT_<NOME>. Reserva altura para não "pular" a página.
+import { ADSENSE } from '../lib/util';
+
+interface Props { nome: 'artigo' | 'lista' | 'material'; formato?: 'auto' | 'fluid' }
+const { nome, formato = 'auto' } = Astro.props;
+const slots: Record<string, string | undefined> = {
+  artigo: import.meta.env.PUBLIC_ADSENSE_SLOT_ARTIGO,
+  lista: import.meta.env.PUBLIC_ADSENSE_SLOT_LISTA,
+  material: import.meta.env.PUBLIC_ADSENSE_SLOT_MATERIAL,
+};
+const slot = slots[nome];
+---
+{ADSENSE && slot && (
+  <aside class="anuncio" aria-label="Publicidade">
+    <span class="anuncio__rotulo">Publicidade</span>
+    <ins class="adsbygoogle" style="display:block" data-ad-client={ADSENSE} data-ad-slot={slot}
+      data-ad-format={formato} data-full-width-responsive="true"></ins>
+    <script is:inline>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </aside>
+)}

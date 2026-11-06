@@ -2,14 +2,19 @@
 import Base from '../layouts/Base.astro';
 import Capa from '../components/Capa.astro';
 import CardMaterial from '../components/CardMaterial.astro';
-import { noticiasOrdenadas, materiaisOrdenados, formatarData } from '../lib/util';
+import { noticiasOrdenadas, materiaisOrdenados, formatarData, SITE } from '../lib/util';
 
 const noticias = await noticiasOrdenadas();
 const principal = noticias.find((n) => n.data.destaque) ?? noticias[0];
 const outras = noticias.filter((n) => n !== principal).slice(0, 4);
 const materiais = (await materiaisOrdenados()).slice(0, 8);
+const jsonld = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.nome, url: Astro.site!.href, inLanguage: 'pt-BR' },
+  { '@context': 'https://schema.org', '@type': 'Organization', name: SITE.nome, url: Astro.site!.href,
+    logo: new URL(SITE.logo, Astro.site).href, sameAs: [SITE.youtube] },
+];
 ---
-<Base>
+<Base jsonld={jsonld}>
   <section class="hero hero--pontos">
     <canvas class="pontos" aria-hidden="true" data-pontos></canvas>
     <div class="largura">

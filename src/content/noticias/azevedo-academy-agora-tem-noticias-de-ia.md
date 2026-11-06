@@ -3,6 +3,7 @@ titulo: "A Azevedo Academy agora tem uma central de notícias de IA"
 resumo: "O site ganhou duas áreas novas: notícias sobre inteligência artificial e um lugar pra baixar os prompts e materiais de cada tutorial do canal."
 data: 2026-11-06
 categoria: "Azevedo Academy"
+tags: ["Azevedo Academy", "Notícias de IA"]
 destaque: true
 ---
 

@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Anuncio from '../../components/Anuncio.astro';
 import { materiaisOrdenados, formatarData, thumbYoutube } from '../../lib/util';
 
 export async function getStaticPaths() {
@@ -59,6 +60,8 @@ const temCorpo = Boolean(m.body?.trim());
           ))}
         </section>
       )}
+
+      <Anuncio nome="material" />
 
       {arquivos.length > 0 && (
         <section class="bloco" data-revelar>

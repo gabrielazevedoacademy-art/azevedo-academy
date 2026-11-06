@@ -1,24 +1,40 @@
 ---
+import '@fontsource/geist/latin-400.css';
+import '@fontsource/geist/latin-500.css';
+import '@fontsource/geist/latin-600.css';
+import '@fontsource/geist/latin-700.css';
 import '../styles/site.css';
-import { SITE } from '../lib/util';
+import { SITE, ADSENSE } from '../lib/util';
 
 interface Props {
   titulo?: string;
   descricao?: string;
   imagem?: string;
+  imagemAlt?: string;
   tipo?: 'website' | 'article';
+  publicado?: Date;
+  atualizado?: Date;
+  secao?: string;
+  tags?: string[];
+  jsonld?: Record<string, unknown>[];
+  noindex?: boolean;
 }
 
-const { titulo, descricao = SITE.descricao, imagem, tipo = 'website' } = Astro.props;
-const tituloCompleto = titulo ? `${titulo} | ${SITE.nome}` : `${SITE.nome} | Notícias e materiais de IA`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const og = imagem ? new URL(imagem, Astro.site) : undefined;
+const {
+  titulo, descricao = SITE.descricao, imagem, imagemAlt, tipo = 'website',
+  publicado, atualizado, secao, tags = [], jsonld = [], noindex = false,
+} = Astro.props;
+const tituloCompleto = titulo ? `${titulo} | ${SITE.nome}` : `${SITE.nome} | Notícias de IA e materiais dos tutoriais`;
+const canonical = new URL(Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, ''), Astro.site);
+const ogPadrao = !imagem;
+const og = new URL(imagem ?? '/og-padrao.png', Astro.site);
+const verificacao = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION as string | undefined;
 const path = Astro.url.pathname;
 
 const nav = [
   { href: '/noticias', label: 'Notícias' },
   { href: '/materiais', label: 'Materiais' },
-  { href: '/biblioteca-de-prompts/', label: 'Biblioteca de prompts' },
+  { href: '/biblioteca-de-prompts', label: 'Biblioteca de prompts' },
   { href: '/influencer-com-ia', label: 'Curso' },
 ];
 const ativo = (href: string) => path === href || path.startsWith(href.replace(/\/$/, '') + '/');
@@ -32,21 +48,34 @@ const ativo = (href: string) => path === href || path.startsWith(href.replace(/\
     <title>{tituloCompleto}</title>
     <meta name="description" content={descricao} />
     <link rel="canonical" href={canonical} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
+    <meta name="author" content={SITE.autor} />
+    <meta property="og:locale" content="pt_BR" />
     <meta property="og:type" content={tipo} />
     <meta property="og:site_name" content={SITE.nome} />
-    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:title" content={titulo ?? tituloCompleto} />
     <meta property="og:description" content={descricao} />
     <meta property="og:url" content={canonical} />
-    {og && <meta property="og:image" content={og} />}
-    <meta name="twitter:card" content={og ? 'summary_large_image' : 'summary'} />
+    <meta property="og:image" content={og} />
+    {ogPadrao && <><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /></>}
+    {imagemAlt && <meta property="og:image:alt" content={imagemAlt} />}
+    {publicado && <meta property="article:published_time" content={publicado.toISOString()} />}
+    {(atualizado ?? publicado) && <meta property="article:modified_time" content={(atualizado ?? publicado)!.toISOString()} />}
+    {secao && <meta property="article:section" content={secao} />}
+    {tags.map((t) => <meta property="article:tag" content={t} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo ?? tituloCompleto} />
+    <meta name="twitter:description" content={descricao} />
+    <meta name="twitter:image" content={og} />
+    <link rel="alternate" type="application/rss+xml" title="Notícias de IA | Azevedo Academy" href="/noticias/rss.xml" />
+    {verificacao && <meta name="google-site-verification" content={verificacao} />}
+    {jsonld.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
+    {ADSENSE && <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE}`} crossorigin="anonymous"></script>}
     <meta name="theme-color" content="#FFFFFF" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>
@@ -128,12 +157,18 @@ const ativo = (href: string) => path === href || path.startsWith(href.replace(/\
           <p>Conteúdo</p>
           <a href="/noticias">Notícias</a>
           <a href="/materiais">Materiais dos tutoriais</a>
-          <a href="/biblioteca-de-prompts/">Biblioteca de prompts</a>
+          <a href="/biblioteca-de-prompts">Biblioteca de prompts</a>
         </nav>
         <nav aria-label="Aprender">
           <p>Aprender</p>
           <a href="/influencer-com-ia">Curso Influencer com IA</a>
           <a href={SITE.youtube} target="_blank" rel="noopener">Canal no YouTube</a>
+        </nav>
+        <nav aria-label="Institucional">
+          <p>Azevedo Academy</p>
+          <a href="/sobre">Sobre</a>
+          <a href="/privacidade">Política de privacidade</a>
+          <a href="/noticias/rss.xml">Feed RSS</a>
         </nav>
       </div>
       <p class="largura rodape__copy">© {new Date().getFullYear()} Azevedo Academy. Inteligência artificial para quem cria.</p>

@@ -170,7 +170,8 @@ p { text-wrap: pretty; }
 .chips::-webkit-scrollbar { display: none; }
 .chip { flex: none; height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--linha); background: var(--papel); font-size: 0.88rem; color: var(--tinta-2); transition: all .2s; }
 .chip:hover { border-color: #BDBDC4; color: var(--tinta); }
-.chip[aria-pressed="true"] { background: var(--tinta); border-color: var(--tinta); color: var(--papel); }
+.chip { display: inline-flex; align-items: center; }
+.chip[aria-current="page"], .chip[aria-pressed="true"] { background: var(--tinta); border-color: var(--tinta); color: var(--papel); }
 
 /* Capa (imagem ou gerada) */
 .capa { position: relative; overflow: hidden; background: var(--nevoa); aspect-ratio: 16 / 10; }
@@ -301,7 +302,7 @@ p { text-wrap: pretty; }
 
 /* ---------- Rodapé ---------- */
 .rodape { background: var(--nevoa); padding: 56px 0 28px; margin-top: clamp(40px, 6vw, 80px); font-size: 0.88rem; color: var(--tinta-3); }
-.rodape__grade { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
+.rodape__grade { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 32px; }
 .rodape__marca { display: flex; align-items: center; gap: 10px; color: var(--tinta); font-weight: 600; letter-spacing: -0.02em; font-size: 1rem; align-self: start; }
 .rodape nav { display: grid; gap: 10px; align-content: start; }
 .rodape nav p { color: var(--tinta); font-weight: 600; }
@@ -316,3 +317,17 @@ p { text-wrap: pretty; }
 @media (max-width: 860px) {
   .conta__painel { position: fixed; left: 16px; right: 16px; top: 68px; width: auto; transform-origin: top center; }
 }
+
+/* Trilha, tags e anúncios */
+.trilha { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--tinta-3); margin-bottom: 18px; }
+.trilha a { transition: color .2s; }
+.trilha a:hover { color: var(--tinta); }
+.meta a { color: var(--tinta); }
+.meta a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.artigo-tags { margin: 8px 0 48px; }
+.artigo-tags span { font-size: 0.82rem; padding: 5px 12px; color: var(--tinta-2); }
+.anuncio { margin: 40px 0; min-height: 280px; display: grid; gap: 6px; }
+.anuncio__rotulo { font-size: 0.72rem; color: var(--tinta-3); text-align: center; }
+
+/* Páginas institucionais */
+.texto-legal h2 { font-size: 1.35rem; }

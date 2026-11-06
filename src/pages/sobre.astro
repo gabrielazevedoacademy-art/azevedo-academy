@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../lib/util';
+const jsonld = [{
+  '@context': 'https://schema.org', '@type': 'AboutPage', name: 'Sobre a Azevedo Academy', url: new URL('/sobre', Astro.site).href,
+  mainEntity: { '@type': 'Person', name: SITE.autor, jobTitle: 'Criador de conteúdo sobre inteligência artificial', sameAs: [SITE.youtube], worksFor: { '@type': 'Organization', name: SITE.nome } },
+}];
+---
+<Base titulo="Sobre" descricao="Quem está por trás da Azevedo Academy e como as notícias de inteligência artificial são produzidas." jsonld={jsonld}>
+  <header class="cabeca-pagina leitura" data-revelar>
+    <h1>Sobre</h1>
+    <p>A Azevedo Academy ensina a usar inteligência artificial para criar conteúdo, design, vídeo e marketing.</p>
+  </header>
+  <div class="prosa leitura texto-legal" data-revelar style="--i:1">
+    <h2>Quem escreve</h2>
+    <p>Eu sou o {SITE.autor}, criador do canal <a href={SITE.youtube} target="_blank" rel="noopener">Azevedo Academy no YouTube</a>. Testo as ferramentas de IA na prática e mostro em tutoriais como usá-las no dia a dia de quem cria.</p>
+    <h2>Como as notícias são feitas</h2>
+    <p>Acompanho os lançamentos e anúncios das principais empresas e ferramentas de IA. Cada notícia publicada aqui é revisada e escrita com foco no que muda na prática pra quem cria conteúdo, sempre com o link para a fonte original.</p>
+    <p>Encontrou um erro? Correções são feitas na própria notícia, com a data de atualização indicada no topo.</p>
+    <h2>Materiais dos tutoriais</h2>
+    <p>Cada vídeo do canal tem uma página em <a href="/materiais">Materiais</a> com os prompts, arquivos e links usados.</p>
+    <h2>Contato</h2>
+    {SITE.email
+      ? <p>Escreva para <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+      : <p>Fale comigo pelos comentários do <a href={SITE.youtube} target="_blank" rel="noopener">canal no YouTube</a>.</p>}
+  </div>
+</Base>
