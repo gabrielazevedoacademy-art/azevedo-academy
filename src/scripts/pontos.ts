@@ -1,26 +1,30 @@
-// Campo de pontos interativo: o cursor empurra os pontos e deixa ondas que se espalham.
+// Campo de pontos interativo do hero: o cursor empurra os pontos e deixa ondas que se espalham.
 type Onda = { x: number; y: number; t: number; forca: number };
 
 export function iniciarPontos(canvas: HTMLCanvasElement) {
+  const area = canvas.parentElement as HTMLElement;
   const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+  if (!ctx || !area) return;
   const reduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let W = 0, H = 0, dpr = 1, esp = 22;
-  let base = new Float32Array(0); // x, y
-  let desl = new Float32Array(0); // offset x, y
+  let base = new Float32Array(0);
+  let desl = new Float32Array(0);
   const ondas: Onda[] = [];
   const ponteiro = { x: -1e4, y: -1e4, ativo: false };
   let ultimaOnda = { x: -1e4, y: -1e4, t: 0 };
   let rodando = false;
+  let visivel = true;
 
   const CINZA = [190, 190, 197];
   const MARCA = [255, 122, 26];
 
   function montar() {
+    const r = area.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = window.innerWidth; H = window.innerHeight;
+    W = Math.round(r.width); H = Math.round(r.height);
     canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
     ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
     esp = W < 640 ? 20 : 24;
     const cols = Math.ceil(W / esp) + 1, lins = Math.ceil(H / esp) + 1;
@@ -28,14 +32,13 @@ export function iniciarPontos(canvas: HTMLCanvasElement) {
     base = new Float32Array(cols * lins * 2);
     desl = new Float32Array(cols * lins * 2);
     let i = 0;
-    for (let r = 0; r < lins; r++) for (let c = 0; c < cols; c++) { base[i++] = ox + c * esp; base[i++] = oy + r * esp; }
+    for (let rr = 0; rr < lins; rr++) for (let c = 0; c < cols; c++) { base[i++] = ox + c * esp; base[i++] = oy + rr * esp; }
     desenhar(performance.now());
   }
 
   function desenhar(t: number) {
     ctx!.clearRect(0, 0, W, H);
     let energia = 0;
-    // remove ondas antigas
     for (let k = ondas.length - 1; k >= 0; k--) if (t - ondas[k].t > 2600) ondas.splice(k, 1);
 
     const inativos = new Path2D();
@@ -43,7 +46,6 @@ export function iniciarPontos(canvas: HTMLCanvasElement) {
     for (let i = 0; i < base.length; i += 2) {
       const bx = base[i], by = base[i + 1];
       let vx = 0, vy = 0;
-
       if (ponteiro.ativo) {
         const dx = bx - ponteiro.x, dy = by - ponteiro.y;
         const d2 = dx * dx + dy * dy;
@@ -65,16 +67,14 @@ export function iniciarPontos(canvas: HTMLCanvasElement) {
         const a = Math.sin(faixa / 12) * 9 * env;
         vx += (dx / d) * a; vy += (dy / d) * a;
       }
-
       desl[i] += (vx - desl[i]) * 0.2;
       desl[i + 1] += (vy - desl[i + 1]) * 0.2;
       const m = Math.abs(desl[i]) + Math.abs(desl[i + 1]);
-      energia = Math.max(energia, m);
+      if (m > energia) energia = m;
       const x = bx + desl[i], y = by + desl[i + 1];
       if (m < 0.25) { inativos.moveTo(x + 1, y); inativos.arc(x, y, 1, 0, Math.PI * 2); }
       else ativos.push(x, y, m);
     }
-
     ctx!.fillStyle = `rgb(${CINZA.join(',')})`;
     ctx!.fill(inativos);
     for (let j = 0; j < ativos.length; j += 3) {
@@ -90,11 +90,11 @@ export function iniciarPontos(canvas: HTMLCanvasElement) {
 
   function quadro(t: number) {
     const energia = desenhar(t);
-    if (ondas.length || ponteiro.ativo || energia > 0.05) requestAnimationFrame(quadro);
+    if (visivel && (ondas.length || ponteiro.ativo || energia > 0.05)) requestAnimationFrame(quadro);
     else rodando = false;
   }
   function acordar() {
-    if (reduzido || rodando) return;
+    if (reduzido || rodando || !visivel) return;
     rodando = true;
     requestAnimationFrame(quadro);
   }
@@ -103,26 +103,30 @@ export function iniciarPontos(canvas: HTMLCanvasElement) {
     if (ondas.length > 14) ondas.shift();
     acordar();
   }
+  const local = (e: PointerEvent) => {
+    const r = canvas.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  };
 
-  window.addEventListener('pointermove', (e) => {
+  area.addEventListener('pointermove', (e) => {
     if (e.pointerType === 'touch') return;
-    ponteiro.x = e.clientX; ponteiro.y = e.clientY; ponteiro.ativo = true;
-    const dx = e.clientX - ultimaOnda.x, dy = e.clientY - ultimaOnda.y;
+    const p = local(e);
+    ponteiro.x = p.x; ponteiro.y = p.y; ponteiro.ativo = true;
+    const dx = p.x - ultimaOnda.x, dy = p.y - ultimaOnda.y;
     const agora = performance.now();
     if (dx * dx + dy * dy > 3600 && agora - ultimaOnda.t > 110) {
-      ultimaOnda = { x: e.clientX, y: e.clientY, t: agora };
-      onda(e.clientX, e.clientY, 0.7);
+      ultimaOnda = { x: p.x, y: p.y, t: agora };
+      onda(p.x, p.y, 0.7);
     }
     acordar();
   }, { passive: true });
-  document.addEventListener('pointerleave', () => { ponteiro.ativo = false; acordar(); });
-  window.addEventListener('blur', () => { ponteiro.ativo = false; });
-  window.addEventListener('pointerdown', (e) => onda(e.clientX, e.clientY, 1.4), { passive: true });
+  area.addEventListener('pointerleave', () => { ponteiro.ativo = false; acordar(); });
+  area.addEventListener('pointerdown', (e) => { const p = local(e); onda(p.x, p.y, 1.4); }, { passive: true });
 
+  new IntersectionObserver(([e]) => { visivel = e.isIntersecting; if (visivel) acordar(); }).observe(area);
   let rt = 0;
-  window.addEventListener('resize', () => { cancelAnimationFrame(rt); rt = requestAnimationFrame(montar); });
+  new ResizeObserver(() => { cancelAnimationFrame(rt); rt = requestAnimationFrame(montar); }).observe(area);
 
   montar();
-  // onda de abertura saindo do hero
-  if (!reduzido) setTimeout(() => onda(W / 2, Math.min(H * 0.42, 420), 1.6), 250);
+  if (!reduzido) setTimeout(() => onda(W / 2, H * 0.45, 1.6), 250);
 }

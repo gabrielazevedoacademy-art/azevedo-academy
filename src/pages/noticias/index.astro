@@ -7,14 +7,14 @@ const noticias = await noticiasOrdenadas();
 const categorias = [...new Set(noticias.map((n) => n.data.categoria))];
 ---
 <Base titulo="Notícias de IA" descricao="As principais notícias sobre inteligência artificial: lançamentos, ferramentas, mercado e dicas, explicadas de forma direta.">
-  <header class="cabeca-pagina largura">
+  <header class="cabeca-pagina largura" data-revelar>
     <h1>Notícias</h1>
     <p>Lançamentos, ferramentas novas e o que muda na prática pra quem cria conteúdo com inteligência artificial.</p>
   </header>
 
   <section class="largura">
     {categorias.length > 1 && (
-      <div class="barra">
+      <div class="barra" data-revelar style="--i:1">
         <div class="chips" role="toolbar" aria-label="Filtrar por categoria" data-filtros>
           <button class="chip" type="button" aria-pressed="true" data-cat="">Todas</button>
           {categorias.map((c) => <button class="chip" type="button" aria-pressed="false" data-cat={c}>{c}</button>)}
@@ -22,7 +22,7 @@ const categorias = [...new Set(noticias.map((n) => n.data.categoria))];
       </div>
     )}
     {noticias.length > 0
-      ? <div class="grade" data-grade>{noticias.map((n) => <CardNoticia n={n} />)}</div>
+      ? <div class="grade" data-grade data-revelar-filhos>{noticias.map((n) => <CardNoticia n={n} />)}</div>
       : <p class="vazio">Nenhuma notícia publicada ainda.</p>}
   </section>
 

@@ -10,20 +10,16 @@ const outras = noticias.filter((n) => n !== principal).slice(0, 4);
 const materiais = (await materiaisOrdenados()).slice(0, 8);
 ---
 <Base>
-  <section class="hero">
+  <section class="hero hero--pontos">
+    <canvas class="pontos" aria-hidden="true" data-pontos></canvas>
     <div class="largura">
-      {principal && (
-        <a class="hero__aviso entra" style="--i:0" href={`/noticias/${principal.id}`}>
-          <b>Novo</b><span class="txt">{principal.data.titulo}</span>
-        </a>
-      )}
       <h1>
-        <span class="linha entra" style="--i:1">Inteligência</span>
-        <span class="linha entra" style="--i:2">artificial,</span>
-        <span class="linha entra" style="--i:3">sem enrolação.</span>
+        <span class="linha entra" style="--i:0">Inteligência</span>
+        <span class="linha entra" style="--i:1">artificial,</span>
+        <span class="linha entra" style="--i:2">sem enrolação.</span>
       </h1>
-      <p class="entra" style="--i:4">As novidades da IA explicadas de forma direta, e os prompts e materiais de cada tutorial do canal num lugar só.</p>
-      <div class="hero__acoes entra" style="--i:5">
+      <p class="entra" style="--i:3">As novidades da IA explicadas de forma direta, e os prompts e materiais de cada tutorial do canal num lugar só.</p>
+      <div class="hero__acoes entra" style="--i:4">
         <a class="btn btn--preto" href="#novidades">Ver novidades</a>
         <a class="btn btn--linha" href="/materiais">Materiais dos vídeos</a>
       </div>
@@ -33,7 +29,7 @@ const materiais = (await materiaisOrdenados()).slice(0, 8);
   {principal && (
     <section class="secao" id="novidades">
       <div class="largura">
-        <div class="secao__cabeca">
+        <div class="secao__cabeca" data-revelar>
           <div>
             <h2>Novidades e notícias</h2>
             <p>O que saiu de novo em IA e o que muda na prática pra quem cria.</p>
@@ -41,7 +37,7 @@ const materiais = (await materiaisOrdenados()).slice(0, 8);
           <a class="link" href="/noticias">Ver todas as notícias</a>
         </div>
 
-        <div class="novidades">
+        <div class="novidades" data-revelar-filhos>
           <article class="destaque">
             <Capa src={principal.data.capa} texto={principal.data.categoria} eager />
             <div class="destaque__texto">
@@ -71,7 +67,7 @@ const materiais = (await materiaisOrdenados()).slice(0, 8);
   )}
 
   <section class="secao">
-    <div class="largura secao__cabeca">
+    <div class="largura secao__cabeca" data-revelar>
       <div>
         <h2>Materiais dos tutoriais</h2>
         <p>Prompts prontos pra copiar, arquivos e links de cada vídeo do canal.</p>
@@ -85,14 +81,14 @@ const materiais = (await materiaisOrdenados()).slice(0, 8);
     </div>
     {materiais.length > 0 ? (
       <div class="carrossel">
-        <div class="carrossel__trilho" data-trilho>{materiais.map((m) => <CardMaterial m={m} />)}</div>
+        <div class="carrossel__trilho" data-trilho data-revelar-filhos>{materiais.map((m) => <CardMaterial m={m} />)}</div>
       </div>
     ) : <div class="largura"><p class="vazio">Os materiais dos tutoriais aparecem aqui em breve.</p></div>}
   </section>
 
   <section class="secao">
     <div class="largura">
-      <div class="curso">
+      <div class="curso" data-revelar="escala">
         <div class="curso__texto">
           <h2>Crie sua influencer com IA</h2>
           <p>O curso completo pra criar uma influenciadora digital com inteligência artificial, do primeiro rosto ao conteúdo publicado.</p>

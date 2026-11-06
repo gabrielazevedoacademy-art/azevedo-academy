@@ -6,7 +6,7 @@ import { materiaisOrdenados } from '../../lib/util';
 const materiais = await materiaisOrdenados();
 ---
 <Base titulo="Materiais dos tutoriais" descricao="Prompts, arquivos e links usados nos tutoriais de IA do canal Azevedo Academy no YouTube.">
-  <header class="cabeca-pagina largura">
+  <header class="cabeca-pagina largura" data-revelar>
     <h1>Materiais</h1>
     <p>Tudo o que aparece nos vídeos do canal: prompts prontos pra copiar, arquivos pra baixar e os links das ferramentas.</p>
   </header>
@@ -14,14 +14,14 @@ const materiais = await materiaisOrdenados();
   <section class="largura">
     {materiais.length > 0 ? (
       <>
-        <div class="barra">
+        <div class="barra" data-revelar style="--i:1">
           <label class="busca">
             <span class="sr">Buscar materiais</span>
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
             <input type="search" placeholder="Buscar por vídeo ou ferramenta" data-busca-input />
           </label>
         </div>
-        <div class="grade" data-grade>{materiais.map((m) => <CardMaterial m={m} />)}</div>
+        <div class="grade" data-grade data-revelar-filhos>{materiais.map((m) => <CardMaterial m={m} />)}</div>
         <p class="vazio" hidden data-sem-resultado>Nada encontrado. Tente o nome da ferramenta, como Higgsfield ou ChatGPT.</p>
       </>
     ) : <p class="vazio">Os materiais dos tutoriais aparecem aqui em breve.</p>}

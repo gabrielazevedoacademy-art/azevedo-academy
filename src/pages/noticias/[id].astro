@@ -16,7 +16,7 @@ const mais = todas.filter((x) => x.id !== n.id).slice(0, 3);
 ---
 <Base titulo={titulo} descricao={resumo} imagem={capa} tipo="article">
   <article class="artigo">
-    <header class="artigo-cabeca leitura">
+    <header class="artigo-cabeca leitura" data-revelar>
       <a class="voltar" href="/noticias">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3 5 8l5 5"/></svg>
         Notícias
@@ -26,8 +26,8 @@ const mais = todas.filter((x) => x.id !== n.id).slice(0, 3);
       <p class="resumo">{resumo}</p>
       <div class="meta"><span>Por Gabriel Azevedo</span></div>
     </header>
-    {capa && <figure class="artigo-capa"><img src={capa} alt="" /></figure>}
-    <div class="prosa leitura"><Content /></div>
+    {capa && <figure class="artigo-capa" data-revelar="escala"><img src={capa} alt="" /></figure>}
+    <div class="prosa leitura" data-revelar style="--i:1"><Content /></div>
     {fonte && <p class="fonte leitura">Fonte original: <a class="link" href={fonte.url} target="_blank" rel="noopener">{fonte.nome}</a></p>}
   </article>
 
@@ -35,7 +35,7 @@ const mais = todas.filter((x) => x.id !== n.id).slice(0, 3);
     <section class="secao">
       <div class="largura">
         <div class="secao__cabeca"><h2>Mais notícias</h2><a class="link" href="/noticias">Ver todas</a></div>
-        <div class="grade">{mais.map((x) => <CardNoticia n={x} />)}</div>
+        <div class="grade" data-revelar-filhos>{mais.map((x) => <CardNoticia n={x} />)}</div>
       </div>
     </section>
   )}

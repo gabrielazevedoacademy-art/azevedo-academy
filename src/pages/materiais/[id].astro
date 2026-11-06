@@ -15,7 +15,7 @@ const temCorpo = Boolean(m.body?.trim());
 ---
 <Base titulo={titulo} descricao={resumo} imagem={capa ?? thumbYoutube(youtube)} tipo="article">
   <article class="artigo">
-    <header class="artigo-cabeca leitura">
+    <header class="artigo-cabeca leitura" data-revelar>
       <a class="voltar" href="/materiais">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3 5 8l5 5"/></svg>
         Materiais
@@ -29,21 +29,21 @@ const temCorpo = Boolean(m.body?.trim());
 
     <div class="leitura">
       {youtube && (
-        <div class="video">
+        <div class="video" data-revelar="escala">
           <iframe src={`https://www.youtube-nocookie.com/embed/${youtube}`} title={titulo} loading="lazy"
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
       )}
 
       {ferramentas.length > 0 && (
-        <section class="bloco">
+        <section class="bloco" data-revelar>
           <h2>Ferramentas usadas</h2>
           <div class="etiquetas">{ferramentas.map((f) => <span>{f}</span>)}</div>
         </section>
       )}
 
       {prompts.length > 0 && (
-        <section class="bloco" id="prompts">
+        <section class="bloco" id="prompts" data-revelar>
           <h2>Prompts <small>{prompts.length}</small></h2>
           {prompts.map((p, i) => (
             <div class="prompt">
@@ -61,7 +61,7 @@ const temCorpo = Boolean(m.body?.trim());
       )}
 
       {arquivos.length > 0 && (
-        <section class="bloco">
+        <section class="bloco" data-revelar>
           <h2>Arquivos</h2>
           <div class="recursos">
             {arquivos.map((a) => <a class="recurso" href={a.url} target="_blank" rel="noopener" download><span>{a.nome}</span><span>Baixar</span></a>)}
@@ -70,7 +70,7 @@ const temCorpo = Boolean(m.body?.trim());
       )}
 
       {links.length > 0 && (
-        <section class="bloco">
+        <section class="bloco" data-revelar>
           <h2>Links</h2>
           <div class="recursos">
             {links.map((l) => <a class="recurso" href={l.url} target="_blank" rel="noopener"><span>{l.nome}</span><span>Abrir site</span></a>)}
@@ -79,7 +79,7 @@ const temCorpo = Boolean(m.body?.trim());
       )}
 
       {temCorpo && (
-        <section class="bloco">
+        <section class="bloco" data-revelar>
           <h2>Passo a passo</h2>
           <div class="prosa"><Content /></div>
         </section>

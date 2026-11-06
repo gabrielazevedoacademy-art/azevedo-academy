@@ -28,6 +28,7 @@ const ativo = (href: string) => path === href || path.startsWith(href.replace(/\
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
     <title>{tituloCompleto}</title>
     <meta name="description" content={descricao} />
     <link rel="canonical" href={canonical} />
@@ -48,7 +49,6 @@ const ativo = (href: string) => path === href || path.startsWith(href.replace(/\
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <canvas class="pontos" aria-hidden="true" data-pontos></canvas>
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>
 
     <header class="topo" data-topo>
@@ -146,6 +146,20 @@ const ativo = (href: string) => path === href || path.startsWith(href.replace(/\
       const canvas = document.querySelector<HTMLCanvasElement>('[data-pontos]');
       if (canvas) iniciarPontos(canvas);
       iniciarConta();
+
+      // Seções que se montam ao rolar
+      const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelectorAll<HTMLElement>('[data-revelar-filhos]').forEach((pai) => {
+        Array.from(pai.children).forEach((f, i) => { (f as HTMLElement).style.setProperty('--i', String(Math.min(i, 8))); f.setAttribute('data-revelar', 'filho'); });
+      });
+      const alvos = document.querySelectorAll<HTMLElement>('[data-revelar]');
+      if (reduzir || !('IntersectionObserver' in window)) alvos.forEach((a) => a.classList.add('visivel'));
+      else {
+        const obs = new IntersectionObserver((itens) => itens.forEach((it) => {
+          if (it.isIntersecting) { it.target.classList.add('visivel'); obs.unobserve(it.target); }
+        }), { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+        alvos.forEach((a) => obs.observe(a));
+      }
 
       const topo = document.querySelector<HTMLElement>('[data-topo]');
       const onScroll = () => topo?.classList.toggle('is-rolado', window.scrollY > 4);
