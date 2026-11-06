@@ -19,8 +19,9 @@ const nav = [
   { href: '/noticias', label: 'Notícias' },
   { href: '/materiais', label: 'Materiais' },
   { href: '/biblioteca-de-prompts/', label: 'Biblioteca de prompts' },
+  { href: '/influencer-com-ia', label: 'Curso' },
 ];
-const ativo = (href: string) => path === href || path.startsWith(href + '/');
+const ativo = (href: string) => path === href || path.startsWith(href.replace(/\/$/, '') + '/');
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -37,32 +38,79 @@ const ativo = (href: string) => path === href || path.startsWith(href + '/');
     <meta property="og:url" content={canonical} />
     {og && <meta property="og:image" content={og} />}
     <meta name="twitter:card" content={og ? 'summary_large_image' : 'summary'} />
-    <meta name="theme-color" content="#0E0E0E" />
+    <meta name="theme-color" content="#FFFFFF" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/assets/css/tokens.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <canvas class="pontos" aria-hidden="true" data-pontos></canvas>
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
     <header class="topo" data-topo>
       <div class="topo__inner">
-        <a class="marca" href="/" aria-label="Azevedo Academy — início">
-          <img src="/assets/images/azevedo-logo-branco.svg" alt="" width="30" height="30" /><span>Azevedo Academy</span>
+        <a class="marca" href="/" aria-label="Azevedo Academy, página inicial">
+          <img src="/assets/images/azevedo-logo-original.svg" alt="" width="26" height="27" />
+          <span>Azevedo Academy</span>
         </a>
-        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-btn>
-          <span class="sr">Abrir menu</span><span></span><span></span>
-        </button>
-        <nav class="menu" id="menu" aria-label="Principal" data-menu>
-          {nav.map((n) => (
-            <a href={n.href} aria-current={ativo(n.href) ? 'page' : undefined}>{n.label}</a>
-          ))}
-          <a class="menu__cta" href={SITE.youtube} target="_blank" rel="noopener">YouTube ↗</a>
+
+        <nav class="nav" id="nav" aria-label="Principal" data-nav>
+          {nav.map((n) => <a href={n.href} aria-current={ativo(n.href) ? 'page' : undefined}>{n.label}</a>)}
         </nav>
+
+        <div class="topo__acoes">
+          <div class="conta" data-conta data-modo="entrar">
+            <button class="conta__btn" type="button" aria-expanded="false" aria-controls="conta-painel" aria-haspopup="dialog" data-conta-btn>
+              <span class="conta__icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 19.5c1.4-3.2 4-4.8 7-4.8s5.6 1.6 7 4.8" stroke-linecap="round"/></svg>
+              </span>
+              <span data-conta-rotulo>Entrar</span>
+              <svg class="conta__seta" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </button>
+
+            <div class="conta__painel" id="conta-painel" role="dialog" aria-label="Sua conta" data-conta-painel>
+              <div data-conta-deslogado>
+                <p class="conta__titulo">Sua conta na Azevedo Academy</p>
+                <p class="conta__sub">Entre para acompanhar as novidades e os materiais do canal.</p>
+                <div class="segmento" role="tablist" aria-label="Escolha uma opção">
+                  <span class="segmento__pilula" aria-hidden="true"></span>
+                  <button type="button" role="tab" aria-selected="true" data-aba="entrar">Entrar</button>
+                  <button type="button" role="tab" aria-selected="false" data-aba="criar">Criar conta</button>
+                </div>
+                <form class="conta__form" data-conta-form novalidate>
+                  <label class="campo" data-so-criar hidden>
+                    <span>Nome</span>
+                    <input name="nome" type="text" autocomplete="name" />
+                  </label>
+                  <label class="campo">
+                    <span>E-mail</span>
+                    <input name="email" type="email" autocomplete="email" required />
+                  </label>
+                  <label class="campo">
+                    <span>Senha</span>
+                    <input name="senha" type="password" autocomplete="current-password" minlength="6" required />
+                  </label>
+                  <p class="conta__msg" role="status" aria-live="polite" data-conta-msg></p>
+                  <button class="btn btn--preto btn--cheio" type="submit" data-conta-enviar>Entrar</button>
+                </form>
+              </div>
+              <div class="conta__logado" data-conta-logado hidden>
+                <span class="avatar" data-conta-inicial>A</span>
+                <p class="conta__titulo" data-conta-nome>Sua conta</p>
+                <p class="conta__sub" data-conta-email></p>
+                <button class="btn btn--linha btn--cheio" type="button" data-conta-sair>Sair</button>
+              </div>
+            </div>
+          </div>
+
+          <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" data-menu-btn>
+            <span class="sr">Menu</span><span></span><span></span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -71,40 +119,47 @@ const ativo = (href: string) => path === href || path.startsWith(href + '/');
     </main>
 
     <footer class="rodape">
-      <div class="container rodape__inner">
-        <div>
-          <img src="/assets/images/azevedo-logo-branco.svg" alt="Azevedo Academy" width="130" height="28" />
-          <p>Inteligência artificial para quem cria.</p>
+      <div class="largura rodape__grade">
+        <div class="rodape__marca">
+          <img src="/assets/images/azevedo-logo-original.svg" alt="" width="22" height="23" />
+          <span>Azevedo Academy</span>
         </div>
-        <nav aria-label="Rodapé">
+        <nav aria-label="Conteúdo">
+          <p>Conteúdo</p>
           <a href="/noticias">Notícias</a>
-          <a href="/materiais">Materiais</a>
+          <a href="/materiais">Materiais dos tutoriais</a>
           <a href="/biblioteca-de-prompts/">Biblioteca de prompts</a>
+        </nav>
+        <nav aria-label="Aprender">
+          <p>Aprender</p>
           <a href="/influencer-com-ia">Curso Influencer com IA</a>
-          <a href={SITE.youtube} target="_blank" rel="noopener">YouTube</a>
+          <a href={SITE.youtube} target="_blank" rel="noopener">Canal no YouTube</a>
         </nav>
       </div>
-      <p class="container rodape__copy">© {new Date().getFullYear()} Azevedo Academy</p>
+      <p class="largura rodape__copy">© {new Date().getFullYear()} Azevedo Academy. Inteligência artificial para quem cria.</p>
     </footer>
 
     <script>
-      const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
-      const menu = document.querySelector<HTMLElement>('[data-menu]');
+      import { iniciarPontos } from '../scripts/pontos';
+      import { iniciarConta } from '../scripts/conta';
+
+      const canvas = document.querySelector<HTMLCanvasElement>('[data-pontos]');
+      if (canvas) iniciarPontos(canvas);
+      iniciarConta();
+
       const topo = document.querySelector<HTMLElement>('[data-topo]');
-      btn?.addEventListener('click', () => {
-        const aberto = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!aberto));
-        menu?.classList.toggle('is-open', !aberto);
-        document.body.classList.toggle('menu-aberto', !aberto);
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && btn?.getAttribute('aria-expanded') === 'true') btn.click();
-      });
-      const onScroll = () => topo?.classList.toggle('is-scrolled', window.scrollY > 8);
+      const onScroll = () => topo?.classList.toggle('is-rolado', window.scrollY > 4);
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
 
-      // Botões "Copiar" (prompts)
+      const menuBtn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+      menuBtn?.addEventListener('click', () => {
+        const aberto = menuBtn.getAttribute('aria-expanded') === 'true';
+        menuBtn.setAttribute('aria-expanded', String(!aberto));
+        document.body.classList.toggle('nav-aberta', !aberto);
+      });
+
+      // Copiar prompts
       document.addEventListener('click', async (e) => {
         const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-copiar]');
         if (!b) return;
@@ -112,10 +167,9 @@ const ativo = (href: string) => path === href || path.startsWith(href + '/');
         if (!alvo) return;
         try {
           await navigator.clipboard.writeText(alvo.innerText.trim());
-          const original = b.textContent;
-          b.textContent = 'Copiado ✓';
-          b.classList.add('is-ok');
-          setTimeout(() => { b.textContent = original; b.classList.remove('is-ok'); }, 1800);
+          b.dataset.estado = 'ok';
+          b.querySelector('span')!.textContent = 'Copiado';
+          setTimeout(() => { delete b.dataset.estado; b.querySelector('span')!.textContent = 'Copiar'; }, 1800);
         } catch {
           const r = document.createRange(); r.selectNodeContents(alvo);
           const s = getSelection(); s?.removeAllRanges(); s?.addRange(r);

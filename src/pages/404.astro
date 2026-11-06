@@ -2,14 +2,13 @@
 import Base from '../layouts/Base.astro';
 ---
 <Base titulo="Página não encontrada">
-  <section class="cabecalho-pagina">
-    <div class="container">
-      <span class="eyebrow">Erro 404</span>
-      <h1 class="titulo-display">Essa página <em>sumiu.</em></h1>
-      <p>O link pode estar errado ou o conteúdo mudou de lugar.</p>
-      <div class="hero__acoes" style="margin-top:24px">
-        <a class="btn btn--claro" href="/">Ir para o início →</a>
-        <a class="btn btn--contorno" href="/materiais">Ver materiais</a>
+  <section class="hero">
+    <div class="largura">
+      <h1><span class="linha">Essa página</span><span class="linha">não existe.</span></h1>
+      <p>O link pode estar errado ou o conteúdo mudou de endereço.</p>
+      <div class="hero__acoes">
+        <a class="btn btn--preto" href="/">Ir para o início</a>
+        <a class="btn btn--linha" href="/noticias">Ver notícias</a>
       </div>
     </div>
   </section>

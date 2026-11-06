@@ -1,72 +1,120 @@
 ---
 import Base from '../layouts/Base.astro';
-import CardNoticia from '../components/CardNoticia.astro';
+import Capa from '../components/Capa.astro';
 import CardMaterial from '../components/CardMaterial.astro';
-import { noticiasOrdenadas, materiaisOrdenados, dataCurta, SITE } from '../lib/util';
+import { noticiasOrdenadas, materiaisOrdenados, formatarData } from '../lib/util';
 
 const noticias = await noticiasOrdenadas();
 const principal = noticias.find((n) => n.data.destaque) ?? noticias[0];
-const outras = noticias.filter((n) => n !== principal).slice(0, 5);
-const materiais = (await materiaisOrdenados()).slice(0, 3);
+const outras = noticias.filter((n) => n !== principal).slice(0, 4);
+const materiais = (await materiaisOrdenados()).slice(0, 8);
 ---
 <Base>
   <section class="hero">
-    <div class="container hero__grid">
-      <span class="eyebrow">Azevedo Academy</span>
-      <h1 class="titulo-display">O que está<br />acontecendo na <em>IA.</em></h1>
-      <p class="lead">Notícias do mundo da inteligência artificial explicadas sem enrolação, e todos os prompts e materiais dos tutoriais do canal num lugar só.</p>
-      <div class="hero__acoes">
-        <a class="btn btn--claro" href="/noticias">Ler as notícias →</a>
-        <a class="btn btn--contorno" href="/materiais">Materiais dos vídeos</a>
+    <div class="largura">
+      {principal && (
+        <a class="hero__aviso entra" style="--i:0" href={`/noticias/${principal.id}`}>
+          <b>Novo</b><span class="txt">{principal.data.titulo}</span>
+        </a>
+      )}
+      <h1>
+        <span class="linha entra" style="--i:1">Inteligência</span>
+        <span class="linha entra" style="--i:2">artificial,</span>
+        <span class="linha entra" style="--i:3">sem enrolação.</span>
+      </h1>
+      <p class="entra" style="--i:4">As novidades da IA explicadas de forma direta, e os prompts e materiais de cada tutorial do canal num lugar só.</p>
+      <div class="hero__acoes entra" style="--i:5">
+        <a class="btn btn--preto" href="#novidades">Ver novidades</a>
+        <a class="btn btn--linha" href="/materiais">Materiais dos vídeos</a>
       </div>
     </div>
   </section>
 
   {principal && (
-    <section class="secao">
-      <div class="container">
-        <div class="secao__topo">
-          <div><span class="eyebrow">Notícias</span><h2 class="h2">Últimas da IA</h2></div>
-          <a class="link-seta" href="/noticias">Ver todas →</a>
-        </div>
-        <CardNoticia n={principal} destaque />
-        {outras.length > 0 && (
-          <div class="lista" style="margin-top: 16px">
-            {outras.map((n) => (
-              <a href={`/noticias/${n.id}`}>
-                <time datetime={n.data.data.toISOString()}>{dataCurta(n.data.data)}</time>
-                <h3>{n.data.titulo}</h3>
-                <span class="tag">{n.data.categoria}</span>
-              </a>
-            ))}
+    <section class="secao" id="novidades">
+      <div class="largura">
+        <div class="secao__cabeca">
+          <div>
+            <h2>Novidades e notícias</h2>
+            <p>O que saiu de novo em IA e o que muda na prática pra quem cria.</p>
           </div>
-        )}
+          <a class="link" href="/noticias">Ver todas as notícias</a>
+        </div>
+
+        <div class="novidades">
+          <article class="destaque">
+            <Capa src={principal.data.capa} texto={principal.data.categoria} eager />
+            <div class="destaque__texto">
+              <div class="meta"><span class="cat">{principal.data.categoria}</span><time datetime={principal.data.data.toISOString()}>{formatarData(principal.data.data)}</time></div>
+              <h3><a class="alvo" href={`/noticias/${principal.id}`}>{principal.data.titulo}</a></h3>
+              <p>{principal.data.resumo}</p>
+            </div>
+          </article>
+
+          <div class="lateral">
+            {outras.length > 0 ? outras.map((n) => (
+              <article class="lateral__item">
+                <div class="meta"><span class="cat">{n.data.categoria}</span><time datetime={n.data.data.toISOString()}>{formatarData(n.data.data)}</time></div>
+                <h3><a class="alvo" href={`/noticias/${n.id}`}>{n.data.titulo}</a></h3>
+              </article>
+            )) : (
+              <div class="lateral__vazio">
+                <p class="conta__titulo" style="color:var(--tinta)">Novas notícias toda semana</p>
+                <p style="margin:8px 0 18px">Crie sua conta pra acompanhar os lançamentos e os materiais de cada vídeo.</p>
+                <button class="btn btn--preto" type="button" data-abrir-conta="criar">Criar conta</button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   )}
 
   <section class="secao">
-    <div class="container">
-      <div class="secao__topo">
-        <div><span class="eyebrow">Do YouTube</span><h2 class="h2">Materiais dos tutoriais</h2></div>
-        <a class="link-seta" href="/materiais">Ver todos →</a>
+    <div class="largura secao__cabeca">
+      <div>
+        <h2>Materiais dos tutoriais</h2>
+        <p>Prompts prontos pra copiar, arquivos e links de cada vídeo do canal.</p>
       </div>
-      {materiais.length > 0
-        ? <div class="grade">{materiais.map((m) => <CardMaterial m={m} />)}</div>
-        : <p class="vazio">Os materiais dos tutoriais aparecem aqui em breve.</p>}
+      {materiais.length > 1 && (
+        <div class="carrossel__setas">
+          <button class="seta" type="button" aria-label="Anterior" data-seta="-1"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3 5 8l5 5"/></svg></button>
+          <button class="seta" type="button" aria-label="Próximo" data-seta="1"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m6 3 5 5-5 5"/></svg></button>
+        </div>
+      )}
     </div>
+    {materiais.length > 0 ? (
+      <div class="carrossel">
+        <div class="carrossel__trilho" data-trilho>{materiais.map((m) => <CardMaterial m={m} />)}</div>
+      </div>
+    ) : <div class="largura"><p class="vazio">Os materiais dos tutoriais aparecem aqui em breve.</p></div>}
   </section>
 
   <section class="secao">
-    <div class="container">
-      <div class="faixa">
-        <div>
-          <span class="eyebrow">Curso</span>
-          <h2 class="h2" style="margin-top:10px">Influencer com IA</h2>
-          <p>Aprenda a criar uma influenciadora digital com inteligência artificial, do zero até o conteúdo publicado.</p>
+    <div class="largura">
+      <div class="curso">
+        <div class="curso__texto">
+          <h2>Crie sua influencer com IA</h2>
+          <p>O curso completo pra criar uma influenciadora digital com inteligência artificial, do primeiro rosto ao conteúdo publicado.</p>
+          <a class="btn" href="/influencer-com-ia">Conhecer o curso</a>
         </div>
-        <a class="btn btn--claro" href="/influencer-com-ia">Conhecer o curso →</a>
+        <div class="curso__img"><img src="/assets/images/influencer-com-ia/hero-influencer.webp" alt="" loading="lazy" decoding="async" /></div>
       </div>
     </div>
   </section>
+
+  <script>
+    const trilho = document.querySelector<HTMLElement>('[data-trilho]');
+    const setas = document.querySelectorAll<HTMLButtonElement>('[data-seta]');
+    const atualizar = () => {
+      if (!trilho) return;
+      setas[0] && (setas[0].disabled = trilho.scrollLeft < 8);
+      setas[1] && (setas[1].disabled = trilho.scrollLeft + trilho.clientWidth >= trilho.scrollWidth - 8);
+    };
+    setas.forEach((s) => s.addEventListener('click', () => {
+      trilho?.scrollBy({ left: Number(s.dataset.seta) * (trilho.clientWidth * 0.8), behavior: 'smooth' });
+    }));
+    trilho?.addEventListener('scroll', atualizar, { passive: true });
+    atualizar();
+  </script>
 </Base>

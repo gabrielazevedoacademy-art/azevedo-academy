@@ -7,19 +7,18 @@ const noticias = await noticiasOrdenadas();
 const categorias = [...new Set(noticias.map((n) => n.data.categoria))];
 ---
 <Base titulo="Notícias de IA" descricao="As principais notícias sobre inteligência artificial: lançamentos, ferramentas, mercado e dicas, explicadas de forma direta.">
-  <header class="cabecalho-pagina">
-    <div class="container">
-      <span class="eyebrow">Notícias</span>
-      <h1 class="titulo-display">Notícias de <em>IA.</em></h1>
-      <p>Lançamentos, ferramentas novas e o que muda na prática pra quem cria conteúdo com inteligência artificial.</p>
-    </div>
+  <header class="cabeca-pagina largura">
+    <h1>Notícias</h1>
+    <p>Lançamentos, ferramentas novas e o que muda na prática pra quem cria conteúdo com inteligência artificial.</p>
   </header>
 
-  <section class="container" style="padding-bottom: 64px">
+  <section class="largura">
     {categorias.length > 1 && (
-      <div class="filtros" role="toolbar" aria-label="Filtrar por categoria" data-filtros>
-        <button class="filtro" type="button" aria-pressed="true" data-cat="">Todas</button>
-        {categorias.map((c) => <button class="filtro" type="button" aria-pressed="false" data-cat={c}>{c}</button>)}
+      <div class="barra">
+        <div class="chips" role="toolbar" aria-label="Filtrar por categoria" data-filtros>
+          <button class="chip" type="button" aria-pressed="true" data-cat="">Todas</button>
+          {categorias.map((c) => <button class="chip" type="button" aria-pressed="false" data-cat={c}>{c}</button>)}
+        </div>
       </div>
     )}
     {noticias.length > 0
