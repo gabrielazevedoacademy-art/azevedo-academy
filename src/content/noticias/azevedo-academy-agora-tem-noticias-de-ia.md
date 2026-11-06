@@ -4,7 +4,7 @@ resumo: "O site ganhou duas áreas novas: notícias sobre inteligência artifici
 data: 2026-11-06
 categoria: "Azevedo Academy"
 tags: ["Azevedo Academy", "Notícias de IA"]
-destaque: true
+destaque: false
 ---
 
 A inteligência artificial muda toda semana. Sai modelo novo, ferramenta nova, recurso que ninguém sabia que existia. Acompanhar tudo isso dá trabalho, e é exatamente por isso que o site da Azevedo Academy agora tem uma área só de **notícias de IA**.

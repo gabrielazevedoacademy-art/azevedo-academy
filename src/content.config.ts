@@ -11,7 +11,7 @@ const noticias = defineCollection({
     titulo: z.string(),
     resumo: z.string(),
     data: z.coerce.date(),
-    categoria: z.enum(['Lançamento', 'Ferramentas', 'Mercado', 'Pesquisa', 'Dica', 'Azevedo Academy']),
+    categoria: z.enum(['Modelos', 'Agentes', 'Vídeo e imagem', 'Produtividade', 'Ferramentas', 'Pesquisa', 'Mercado', 'Lançamento', 'Dica', 'Azevedo Academy']),
     tags: z.array(z.string()).default([]),
     atualizado: z.coerce.date().optional(),
     seoTitulo: z.string().max(70).optional(), // título para o Google, se for diferente do título da página
