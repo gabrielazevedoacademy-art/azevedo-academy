@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { SITE, formatarData } from '../lib/util';
+import { SITE, ADSENSE, formatarData } from '../lib/util';
 const atualizada = new Date('2026-11-06');
 ---
 <Base titulo="Política de privacidade" descricao="Como a Azevedo Academy coleta e usa dados, cookies e anúncios do Google.">
@@ -15,15 +15,17 @@ const atualizada = new Date('2026-11-06');
     <ul>
       <li><strong>Conta:</strong> se você criar uma conta, guardamos seu nome, e-mail e senha (criptografada) para permitir o acesso.</li>
       <li><strong>Navegação:</strong> dados técnicos como páginas visitadas, tipo de navegador e dispositivo, usados para medir audiência e melhorar o site.</li>
-      <li><strong>Cookies:</strong> pequenos arquivos salvos no seu navegador, usados para manter você conectado e para exibir anúncios.</li>
+      <li><strong>Cookies:</strong> pequenos arquivos salvos no seu navegador, usados para manter você conectado{ADSENSE ? ' e para exibir anúncios' : ''}.</li>
     </ul>
 
+    {ADSENSE && <>
     <h2>Anúncios do Google</h2>
     <p>Este site exibe anúncios do Google AdSense. Fornecedores terceiros, incluindo o Google, usam cookies para veicular anúncios com base em visitas anteriores a este e a outros sites. O uso de cookies de publicidade permite que o Google e seus parceiros mostrem anúncios com base nas suas visitas.</p>
     <p>Você pode desativar a publicidade personalizada em <a href="https://adssettings.google.com" target="_blank" rel="noopener">Configurações de anúncios do Google</a> e saber mais em <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">como o Google usa dados de sites parceiros</a>.</p>
+    </>}
 
     <h2>Com quem compartilhamos</h2>
-    <p>Usamos serviços de terceiros para funcionar: hospedagem (Vercel), contas e banco de dados (Supabase), vídeos incorporados (YouTube) e anúncios (Google). Cada um trata dados de acordo com a própria política. Não vendemos seus dados.</p>
+    <p>Usamos serviços de terceiros para funcionar: hospedagem (Vercel), contas e banco de dados (Supabase), vídeos incorporados (YouTube){ADSENSE ? ' e anúncios (Google)' : ''}. Cada um trata dados de acordo com a própria política. Não vendemos seus dados.</p>
 
     <h2>Seus direitos</h2>
     <p>Você pode pedir acesso, correção ou exclusão dos seus dados e da sua conta a qualquer momento, além de bloquear ou apagar cookies nas configurações do navegador.</p>

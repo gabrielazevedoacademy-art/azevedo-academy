@@ -2,7 +2,7 @@ import { getCollection } from 'astro:content';
 
 export const SITE = {
   nome: 'Azevedo Academy',
-  descricao: 'Notícias de inteligência artificial e os materiais dos tutoriais do canal Azevedo Academy.',
+  descricao: 'Prompts, arquivos e links de cada tutorial de inteligência artificial do canal Azevedo Academy no YouTube.',
   youtube: 'https://www.youtube.com/@Azevedo.Academy/videos',
   autor: 'Gabriel Azevedo',
   logo: '/apple-touch-icon.png',
@@ -25,10 +25,6 @@ export function dataCurta(d: Date) {
 
 // Rascunhos aparecem só no ambiente local (npm run dev)
 const visivel = (e: { data: { rascunho: boolean } }) => import.meta.env.DEV || !e.data.rascunho;
-
-export async function noticiasOrdenadas() {
-  return (await getCollection('noticias', visivel)).sort((a, b) => b.data.data.valueOf() - a.data.data.valueOf());
-}
 
 export async function materiaisOrdenados() {
   return (await getCollection('materiais', visivel)).sort((a, b) => b.data.data.valueOf() - a.data.data.valueOf());

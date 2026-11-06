@@ -1,13 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
-import Capa from '../components/Capa.astro';
 import CardMaterial from '../components/CardMaterial.astro';
-import { noticiasOrdenadas, materiaisOrdenados, formatarData, SITE } from '../lib/util';
+import { materiaisOrdenados, SITE } from '../lib/util';
 
-const noticias = await noticiasOrdenadas();
-const principal = noticias.find((n) => n.data.destaque) ?? noticias[0];
-const outras = noticias.filter((n) => n !== principal).slice(0, 4);
-const materiais = (await materiaisOrdenados()).slice(0, 8);
+const materiais = await materiaisOrdenados();
+const recentes = materiais.slice(0, 6);
 const jsonld = [
   { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.nome, url: Astro.site!.href, inLanguage: 'pt-BR' },
   { '@context': 'https://schema.org', '@type': 'Organization', name: SITE.nome, url: Astro.site!.href,
@@ -23,72 +20,42 @@ const jsonld = [
         <span class="linha entra" style="--i:1">artificial,</span>
         <span class="linha entra" style="--i:2">sem enrolação.</span>
       </h1>
-      <p class="entra" style="--i:3">As novidades da IA explicadas de forma direta, e os prompts e materiais de cada tutorial do canal num lugar só.</p>
+      <p class="entra" style="--i:3">Os prompts, arquivos e links de cada tutorial do canal, prontos pra você usar.</p>
       <div class="hero__acoes entra" style="--i:4">
-        <a class="btn btn--preto" href="#novidades">Ver novidades</a>
-        <a class="btn btn--linha" href="/materiais">Materiais dos vídeos</a>
+        <a class="btn btn--preto" href="/materiais">Ver materiais</a>
+        <a class="btn btn--linha" href={SITE.youtube} target="_blank" rel="noopener">Assistir no YouTube</a>
       </div>
     </div>
   </section>
 
-  {principal && (
-    <section class="secao" id="novidades">
-      <div class="largura">
-        <div class="secao__cabeca" data-revelar>
-          <div>
-            <h2>Novidades e notícias</h2>
-            <p>O que saiu de novo em IA e o que muda na prática pra quem cria.</p>
-          </div>
-          <a class="link" href="/noticias">Ver todas as notícias</a>
+  <section class="secao" id="materiais">
+    <div class="largura">
+      <div class="secao__cabeca" data-revelar>
+        <div>
+          <h2>Materiais dos tutoriais</h2>
+          <p>Escolha o vídeo e copie o prompt, baixe os arquivos ou abra as ferramentas usadas.</p>
         </div>
-
-        <div class="novidades" data-revelar-filhos>
-          <article class="destaque">
-            <Capa src={principal.data.capa} texto={principal.data.categoria} eager />
-            <div class="destaque__texto">
-              <div class="meta"><span class="cat">{principal.data.categoria}</span><time datetime={principal.data.data.toISOString()}>{formatarData(principal.data.data)}</time></div>
-              <h3><a class="alvo" href={`/noticias/${principal.id}`}>{principal.data.titulo}</a></h3>
-              <p>{principal.data.resumo}</p>
-            </div>
-          </article>
-
-          <div class="lateral">
-            {outras.length > 0 ? outras.map((n) => (
-              <article class="lateral__item">
-                <div class="meta"><span class="cat">{n.data.categoria}</span><time datetime={n.data.data.toISOString()}>{formatarData(n.data.data)}</time></div>
-                <h3><a class="alvo" href={`/noticias/${n.id}`}>{n.data.titulo}</a></h3>
-              </article>
-            )) : (
-              <div class="lateral__vazio">
-                <p class="conta__titulo" style="color:var(--tinta)">Novas notícias toda semana</p>
-                <p style="margin:8px 0 18px">Crie sua conta pra acompanhar os lançamentos e os materiais de cada vídeo.</p>
-                <button class="btn btn--preto" type="button" data-abrir-conta="criar">Criar conta</button>
-              </div>
-            )}
-          </div>
-        </div>
+        {materiais.length > recentes.length && <a class="link" href="/materiais">Ver todos os materiais</a>}
       </div>
-    </section>
-  )}
+      {recentes.length > 0
+        ? <div class="grade" data-revelar-filhos>{recentes.map((m) => <CardMaterial m={m} />)}</div>
+        : <p class="vazio">Os materiais dos tutoriais aparecem aqui em breve.</p>}
+    </div>
+  </section>
 
   <section class="secao">
-    <div class="largura secao__cabeca" data-revelar>
-      <div>
-        <h2>Materiais dos tutoriais</h2>
-        <p>Prompts prontos pra copiar, arquivos e links de cada vídeo do canal.</p>
-      </div>
-      {materiais.length > 1 && (
-        <div class="carrossel__setas">
-          <button class="seta" type="button" aria-label="Anterior" data-seta="-1"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3 5 8l5 5"/></svg></button>
-          <button class="seta" type="button" aria-label="Próximo" data-seta="1"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m6 3 5 5-5 5"/></svg></button>
-        </div>
-      )}
+    <div class="largura atalhos" data-revelar-filhos>
+      <a class="atalho" href="/biblioteca-de-prompts">
+        <h2>Biblioteca de prompts</h2>
+        <p>A coleção completa de prompts organizada por ferramenta e por tipo de criação.</p>
+        <span class="link">Abrir a biblioteca</span>
+      </a>
+      <a class="atalho" href={SITE.youtube} target="_blank" rel="noopener">
+        <h2>Canal no YouTube</h2>
+        <p>Os tutoriais completos, passo a passo, com as ferramentas de IA mais usadas por quem cria.</p>
+        <span class="link">Ver os vídeos</span>
+      </a>
     </div>
-    {materiais.length > 0 ? (
-      <div class="carrossel">
-        <div class="carrossel__trilho" data-trilho data-revelar-filhos>{materiais.map((m) => <CardMaterial m={m} />)}</div>
-      </div>
-    ) : <div class="largura"><p class="vazio">Os materiais dos tutoriais aparecem aqui em breve.</p></div>}
   </section>
 
   <section class="secao">
@@ -103,19 +70,4 @@ const jsonld = [
       </div>
     </div>
   </section>
-
-  <script>
-    const trilho = document.querySelector<HTMLElement>('[data-trilho]');
-    const setas = document.querySelectorAll<HTMLButtonElement>('[data-seta]');
-    const atualizar = () => {
-      if (!trilho) return;
-      setas[0] && (setas[0].disabled = trilho.scrollLeft < 8);
-      setas[1] && (setas[1].disabled = trilho.scrollLeft + trilho.clientWidth >= trilho.scrollWidth - 8);
-    };
-    setas.forEach((s) => s.addEventListener('click', () => {
-      trilho?.scrollBy({ left: Number(s.dataset.seta) * (trilho.clientWidth * 0.8), behavior: 'smooth' });
-    }));
-    trilho?.addEventListener('scroll', atualizar, { passive: true });
-    atualizar();
-  </script>
 </Base>

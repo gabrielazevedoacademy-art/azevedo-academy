@@ -331,3 +331,12 @@ p { text-wrap: pretty; }
 
 /* Páginas institucionais */
 .texto-legal h2 { font-size: 1.35rem; }
+
+/* Atalhos da Home */
+.atalhos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.atalho { display: grid; gap: 10px; align-content: start; padding: clamp(28px, 4vw, 44px); border-radius: 28px; background: var(--papel); border: 1px solid var(--linha); transition: border-color .25s; }
+.atalho:hover { border-color: #BDBDC4; }
+.atalho h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.05; letter-spacing: -0.035em; font-weight: 600; }
+.atalho p { color: var(--tinta-2); max-width: 30rem; }
+.atalho .link { justify-self: start; margin-top: 10px; }
+@media (max-width: 760px) { .atalhos { grid-template-columns: 1fr; } }

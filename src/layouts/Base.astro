@@ -24,7 +24,7 @@ const {
   titulo, descricao = SITE.descricao, imagem, imagemAlt, tipo = 'website',
   publicado, atualizado, secao, tags = [], jsonld = [], noindex = false,
 } = Astro.props;
-const tituloCompleto = titulo ? `${titulo} | ${SITE.nome}` : `${SITE.nome} | Notícias de IA e materiais dos tutoriais`;
+const tituloCompleto = titulo ? `${titulo} | ${SITE.nome}` : `${SITE.nome} | Materiais dos tutoriais de IA`;
 const canonical = new URL(Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, ''), Astro.site);
 const ogPadrao = !imagem;
 const og = new URL(imagem ?? '/og-padrao.png', Astro.site);
@@ -32,7 +32,6 @@ const verificacao = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION as string | 
 const path = Astro.url.pathname;
 
 const nav = [
-  { href: '/noticias', label: 'Notícias' },
   { href: '/materiais', label: 'Materiais' },
   { href: '/biblioteca-de-prompts', label: 'Biblioteca de prompts' },
   { href: '/influencer-com-ia', label: 'Curso' },
@@ -67,7 +66,6 @@ const ativo = (href: string) => path === href || path.startsWith(href.replace(/\
     <meta name="twitter:title" content={titulo ?? tituloCompleto} />
     <meta name="twitter:description" content={descricao} />
     <meta name="twitter:image" content={og} />
-    <link rel="alternate" type="application/rss+xml" title="Notícias de IA | Azevedo Academy" href="/noticias/rss.xml" />
     {verificacao && <meta name="google-site-verification" content={verificacao} />}
     {jsonld.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
     {ADSENSE && <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE}`} crossorigin="anonymous"></script>}
@@ -104,7 +102,7 @@ const ativo = (href: string) => path === href || path.startsWith(href.replace(/\
             <div class="conta__painel" id="conta-painel" role="dialog" aria-label="Sua conta" data-conta-painel>
               <div data-conta-deslogado>
                 <p class="conta__titulo">Sua conta na Azevedo Academy</p>
-                <p class="conta__sub">Entre para acompanhar as novidades e os materiais do canal.</p>
+                <p class="conta__sub">Entre para acompanhar os materiais novos do canal.</p>
                 <div class="segmento" role="tablist" aria-label="Escolha uma opção">
                   <span class="segmento__pilula" aria-hidden="true"></span>
                   <button type="button" role="tab" aria-selected="true" data-aba="entrar">Entrar</button>
@@ -155,7 +153,6 @@ const ativo = (href: string) => path === href || path.startsWith(href.replace(/\
         </div>
         <nav aria-label="Conteúdo">
           <p>Conteúdo</p>
-          <a href="/noticias">Notícias</a>
           <a href="/materiais">Materiais dos tutoriais</a>
           <a href="/biblioteca-de-prompts">Biblioteca de prompts</a>
         </nav>
@@ -168,7 +165,6 @@ const ativo = (href: string) => path === href || path.startsWith(href.replace(/\
           <p>Azevedo Academy</p>
           <a href="/sobre">Sobre</a>
           <a href="/privacidade">Política de privacidade</a>
-          <a href="/noticias/rss.xml">Feed RSS</a>
         </nav>
       </div>
       <p class="largura rodape__copy">© {new Date().getFullYear()} Azevedo Academy. Inteligência artificial para quem cria.</p>
