@@ -1,14 +1,26 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { SUPABASE_KEY, SUPABASE_URL } from './lib/supabase/env';
 
 const PROTECTED = ['/painel', '/admin'];
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
 
+  const path = request.nextUrl.pathname;
+
+  // Se o Supabase devolver o login para outra página (ex.: a Home), encaminha para o callback
+  const code = request.nextUrl.searchParams.get('code');
+  const tokenHash = request.nextUrl.searchParams.get('token_hash');
+  if ((code || tokenHash) && path !== '/auth/callback') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/auth/callback';
+    return NextResponse.redirect(url);
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    SUPABASE_URL,
+    SUPABASE_KEY,
     {
       cookies: {
         getAll() {
@@ -27,7 +39,6 @@ export async function proxy(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
 
-  const path = request.nextUrl.pathname;
   if (!user && PROTECTED.some((p) => path === p || path.startsWith(p + '/'))) {
     const url = request.nextUrl.clone();
     url.pathname = '/entrar';

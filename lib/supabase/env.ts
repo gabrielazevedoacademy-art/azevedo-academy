@@ -1,8 +1,4 @@
-export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-export const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
-
-export function siteUrl() {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return 'http://localhost:3000';
-}
+// Valores públicos do projeto Supabase (a chave "publishable" é feita para ir ao navegador;
+// a proteção dos dados é feita pelas regras de acesso do banco). Variáveis de ambiente, se existirem, têm prioridade.
+export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://kygnexqmkbjrmzywvcvd.supabase.co';
+export const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_M0InRJ6A2MAfrC9IkK3Fjg_hngRGkjC';
