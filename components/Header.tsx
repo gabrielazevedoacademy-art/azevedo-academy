@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import type { Session } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/client';
 import { toViewUser, type ViewUser } from '@/lib/user';
 import GlassNav from './GlassNav';
@@ -21,12 +22,19 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   // undefined = ainda verificando; null = visitante; objeto = logado
   const [user, setUser] = useState<ViewUser | null | undefined>(undefined);
+  const [admin, setAdmin] = useState(false);
 
   // Mostra "Entrar" ou a foto do usuário conforme a sessão
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getSession().then(({ data }) => setUser(data.session ? toViewUser(data.session.user) : null));
-    const { data } = supabase.auth.onAuthStateChange((_e, session) => setUser(session ? toViewUser(session.user) : null));
+    const apply = (session: Session | null) => {
+      setUser(session ? toViewUser(session.user) : null);
+      // O banco confirma se a conta é de administrador
+      if (session) supabase.rpc('is_admin').then(({ data }) => setAdmin(data === true));
+      else setAdmin(false);
+    };
+    supabase.auth.getSession().then(({ data }) => apply(data.session));
+    const { data } = supabase.auth.onAuthStateChange((_e, session) => apply(session));
     return () => data.subscription.unsubscribe();
   }, []);
 
@@ -73,7 +81,7 @@ export default function Header() {
             {user === undefined ? (
               <span className="header-account-placeholder" aria-hidden="true" />
             ) : user ? (
-              <UserMenu user={user} />
+              <UserMenu user={user} admin={admin} />
             ) : (
               <a className="header-login" href="/entrar">
                 <span className="header-login-label">
@@ -109,6 +117,7 @@ export default function Header() {
                   <span>{user.email}</span>
                 </div>
               </div>
+              {admin && <a href="/admin">Painel de cursos</a>}
               <a href="/perfil">Meu perfil</a>
               <a href="/configuracoes">Configurações</a>
               <form action="/auth/sair" method="post">
