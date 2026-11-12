@@ -12,6 +12,8 @@ export type CatalogItem = {
   badge?: string;
   /** Esconde título e descrição abaixo da capa (quando a imagem já traz o nome). */
   hideCaption?: boolean;
+  /** Conteúdo gratuito: mostra a faixa verde "Grátis". */
+  free?: boolean;
   /** Ainda não lançado: capa em preto e branco com a faixa "Em breve". */
   comingSoon?: boolean;
 };
@@ -26,7 +28,8 @@ export const courses: CatalogItem[] = [
   {
     title: 'Aulas no YouTube',
     image: '/cursos/aulas-youtube.webp',
-    hideCaption: true
+    hideCaption: true,
+    free: true
     // href: definir quando a página das aulas estiver pronta
   },
   {

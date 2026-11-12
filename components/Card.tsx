@@ -1,6 +1,9 @@
 import type { CatalogItem } from '@/lib/catalog';
 
 export default function Card({ item, ratio }: { item: CatalogItem; ratio: string }) {
+  // Faixa no canto da capa: "Em breve" (vermelha) tem prioridade sobre "Grátis" (verde)
+  const ribbon = item.comingSoon ? 'Em breve' : item.free ? 'Grátis' : null;
+  const note = ribbon?.toLowerCase();
   const content = (
     <>
       <div className="card-media" style={{ '--ratio': ratio } as React.CSSProperties}>
@@ -8,7 +11,7 @@ export default function Card({ item, ratio }: { item: CatalogItem; ratio: string
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={item.image}
-            alt={item.hideCaption ? `${item.title}${item.comingSoon ? ' (em breve)' : ''}` : ''}
+            alt={item.hideCaption ? `${item.title}${note ? ` (${note})` : ''}` : ''}
             loading="lazy"
             width={1200}
             height={1500}
@@ -19,9 +22,9 @@ export default function Card({ item, ratio }: { item: CatalogItem; ratio: string
           <img className="card-fallback" src="/logo.svg" alt="" aria-hidden="true" />
         )}
         {item.badge && <span className="card-badge">{item.badge}</span>}
-        {item.comingSoon && (
-          <span className="card-ribbon" aria-hidden="true">
-            Em breve
+        {ribbon && (
+          <span className={`card-ribbon${item.comingSoon ? '' : ' is-free'}`} aria-hidden="true">
+            {ribbon}
           </span>
         )}
       </div>
