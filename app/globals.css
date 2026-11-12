@@ -331,47 +331,264 @@ p {
   border-bottom-color: transparent;
 }
 
-/* Ações à direita do header: navegação + Entrar/Sair */
+/* Ações à direita do header: navegação, divisória e conta (Entrar ou foto do usuário) */
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
-.header-auth {
+.header-divider,
+.header-login,
+.user-menu,
+.header-account-placeholder {
   display: none;
-  align-items: center;
+}
+
+.header-divider {
+  width: 1px;
+  height: 24px;
+  margin: 0 2px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.header-account-placeholder {
+  width: 38px;
   height: 38px;
-  padding: 0 18px;
+}
+
+/* Único elemento de cor da barra: deixa claro que é uma ação, não uma seção */
+.header-login {
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 18px 0 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  color: #ffffff;
+  background: var(--orange);
+  color: var(--ink);
   font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(255, 122, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: background-color 200ms ease, transform 300ms var(--ease), box-shadow 200ms ease;
+}
+
+.header-login svg,
+.user-menu-panel svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.header-login:hover {
+  background: #ff8c24;
+  box-shadow: 0 6px 20px rgba(255, 122, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.header-login:active {
+  transform: scale(0.96);
+}
+
+/* Foto (ou inicial) do usuário */
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-menu {
+  position: relative;
+}
+
+.user-menu-button {
+  display: grid;
+  place-items: center;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.22);
+  transition: box-shadow 200ms ease, transform 300ms var(--ease);
+}
+
+.user-menu-button:hover,
+.user-menu-button[aria-expanded="true"] {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+}
+
+.user-menu-button:active {
+  transform: scale(0.95);
+}
+
+.user-menu-panel {
+  position: absolute;
+  top: calc(100% + 16px);
+  right: 0;
+  z-index: 60;
+  width: 260px;
+  padding: 8px;
+  border-radius: 20px;
+  background: rgba(24, 24, 24, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 24px 60px rgba(0, 0, 0, 0.35);
+  color: var(--paper);
+  transform-origin: calc(100% - 20px) -8px;
+  animation: menu-in 220ms var(--ease) both;
+}
+
+.user-menu-panel[hidden] {
+  display: none;
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.user-menu-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px 14px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-menu-head div,
+.mobile-account-user div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.user-menu-head div strong,
+.mobile-account-user div strong {
+  font-size: 15px;
   font-weight: 600;
   white-space: nowrap;
-  transition: background-color 200ms ease, border-color 200ms ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.header-auth:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.4);
+.user-menu-head div span,
+.mobile-account-user div span {
+  color: var(--gray-light);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.mobile-menu-auth {
-  margin-top: 28px;
+.user-menu-panel a,
+.user-menu-panel button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.user-menu-panel a:hover,
+.user-menu-panel button:hover,
+.user-menu-panel a:focus-visible,
+.user-menu-panel button:focus-visible {
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.user-menu-panel form {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-menu-logout:hover,
+.user-menu-logout:focus-visible {
+  color: #ff8a80 !important;
+}
+
+/* Conta no menu do celular */
+.mobile-account {
+  display: flex;
+  flex-direction: column;
+  margin-top: 32px;
+}
+
+.mobile-account-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.mobile-account a:not(.mobile-login),
+.mobile-account button {
+  padding: 12px 0;
+  border: 0;
   font-family: var(--font-body);
   font-size: 18px;
-  font-weight: 600;
-  color: var(--orange);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.85);
   text-align: left;
+  opacity: 1;
+  transform: none;
 }
 
-.mobile-menu form {
+.mobile-account form {
   display: contents;
 }
 
+.mobile-login {
+  align-self: flex-start;
+  padding: 0 32px !important;
+  min-height: 52px;
+  border: 0 !important;
+  background: var(--orange);
+  color: var(--ink) !important;
+  font-family: var(--font-body) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 @media (min-width: 901px) {
-  .header-auth {
+  .header-divider,
+  .user-menu,
+  .header-account-placeholder {
+    display: block;
+  }
+  .header-login {
     display: inline-flex;
   }
 }
@@ -604,6 +821,66 @@ body:has(.auth-page) {
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
+}
+
+/* Meu perfil e Configurações */
+.account-card {
+  max-width: 440px;
+}
+
+.account-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.account-head div {
+  min-width: 0;
+}
+
+.account-head h1 {
+  font-size: clamp(1.8rem, 6vw, 2.4rem);
+  overflow-wrap: anywhere;
+}
+
+.account-head p {
+  margin-top: 6px;
+  color: var(--gray);
+  overflow-wrap: anywhere;
+}
+
+.account-since {
+  margin-top: 18px;
+  color: var(--gray);
+  font-size: 14px;
+}
+
+.account-section {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid #ececf0;
+}
+
+.account-section h2 {
+  margin-bottom: 18px;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+}
+
+.account-note {
+  color: var(--gray);
+  font-size: 15px;
+}
+
+.account-save {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.account-logout:hover {
+  color: #b42318;
+  border-color: #f2b8b5;
+  background: #fff7f6;
 }
 
 /* ---------------------------------------------------------------- Hero */

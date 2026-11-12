@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { toViewUser, type ViewUser } from '@/lib/user';
 import GlassNav from './GlassNav';
+import Avatar from './Avatar';
+import UserMenu from './UserMenu';
 
 const links = [
   { href: '#inicio', label: 'Início' },
@@ -16,13 +19,14 @@ const mobileLinks = links.slice(1);
 export default function Header() {
   const [dark, setDark] = useState(false);
   const [open, setOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  // undefined = ainda verificando; null = visitante; objeto = logado
+  const [user, setUser] = useState<ViewUser | null | undefined>(undefined);
 
-  // Mostra "Entrar" ou "Sair" conforme a sessão do visitante
+  // Mostra "Entrar" ou a foto do usuário conforme a sessão
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getSession().then(({ data }) => setLoggedIn(Boolean(data.session)));
-    const { data } = supabase.auth.onAuthStateChange((_e, session) => setLoggedIn(Boolean(session)));
+    supabase.auth.getSession().then(({ data }) => setUser(data.session ? toViewUser(data.session.user) : null));
+    const { data } = supabase.auth.onAuthStateChange((_e, session) => setUser(session ? toViewUser(session.user) : null));
     return () => data.subscription.unsubscribe();
   }, []);
 
@@ -65,12 +69,16 @@ export default function Header() {
           </a>
           <div className="header-actions">
             <GlassNav links={links} />
-            {loggedIn ? (
-              <form action="/auth/sair" method="post">
-                <button className="header-auth" type="submit">Sair</button>
-              </form>
+            <span className="header-divider" aria-hidden="true" />
+            {user === undefined ? (
+              <span className="header-account-placeholder" aria-hidden="true" />
+            ) : user ? (
+              <UserMenu user={user} />
             ) : (
-              <a className="header-auth" href="/entrar">Entrar</a>
+              <a className="header-login" href="/entrar">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5" /></svg>
+                Entrar
+              </a>
             )}
           </div>
           <button
@@ -89,13 +97,26 @@ export default function Header() {
         {mobileLinks.map((l) => (
           <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
         ))}
-        {loggedIn ? (
-          <form action="/auth/sair" method="post">
-            <button className="mobile-menu-auth" type="submit">Sair</button>
-          </form>
-        ) : (
-          <a className="mobile-menu-auth" href="/entrar">Entrar</a>
-        )}
+        <div className="mobile-account">
+          {user ? (
+            <>
+              <div className="mobile-account-user">
+                <Avatar user={user} size={40} />
+                <div>
+                  <strong>{user.name}</strong>
+                  <span>{user.email}</span>
+                </div>
+              </div>
+              <a href="/perfil">Meu perfil</a>
+              <a href="/configuracoes">Configurações</a>
+              <form action="/auth/sair" method="post">
+                <button type="submit">Sair</button>
+              </form>
+            </>
+          ) : user === null ? (
+            <a className="button mobile-login" href="/entrar">Entrar</a>
+          ) : null}
+        </div>
       </nav>
     </>
   );
