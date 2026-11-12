@@ -333,17 +333,48 @@ p {
 
 /* ---------------------------------------------------------------- Hero */
 
+/* O hero fica preso ao topo; o conteúdo sobe por cima dele e o "encolhe" (--cover: 0 a 1) */
 .hero {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100vh;
+  height: 100svh;
+  color: var(--ink);
+}
+
+.hero-stage {
+  position: absolute;
+  inset: 0;
   isolation: isolate;
-  min-height: 100vh;
-  min-height: 100svh;
   display: grid;
   place-items: center;
   padding: calc(var(--header-h) + 40px) var(--gutter) 72px;
   background: var(--paper);
-  color: var(--ink);
   overflow: hidden;
+  transform-origin: 50% 35%;
+  transform: scale(calc(1 - 0.08 * var(--cover, 0)));
+  border-radius: calc(36px * var(--cover, 0));
+  will-change: transform;
+}
+
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: #000;
+  opacity: calc(var(--cover, 0) * 0.5);
+  pointer-events: none;
+}
+
+/* Bloco do conteúdo que cobre o hero */
+#conteudo {
+  position: relative;
+  z-index: 1;
+  background: var(--ink);
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.22);
+  transform-origin: 0 0;
 }
 
 .dot-field {

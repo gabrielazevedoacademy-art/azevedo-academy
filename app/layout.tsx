@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import '@fontsource-variable/league-spartan';
 import '@fontsource-variable/montserrat';
 import './globals.css';
-import SmoothWheel from '@/components/SmoothWheel';
+import ScrollController from '@/components/ScrollController';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.azevedoacademy.com.br'),
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
         {children}
-        <SmoothWheel />
+        <ScrollController />
       </body>
     </html>
   );

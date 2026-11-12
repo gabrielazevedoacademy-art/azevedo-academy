@@ -21,7 +21,8 @@ export default function Header() {
     const hero = document.getElementById('inicio');
     if (!hero) return;
     const headerH = () => parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 68;
-    const update = () => setDark(hero.getBoundingClientRect().bottom <= headerH());
+    // O hero fica preso ao topo; o header escurece quando o conteúdo preto chega embaixo dele
+    const update = () => setDark(window.scrollY >= hero.offsetHeight - headerH());
     update();
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);

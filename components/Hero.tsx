@@ -9,12 +9,15 @@ const lines = [
 export default function Hero() {
   return (
     <section id="inicio" className="hero">
-      <DotField />
-      <div className="hero-content">
-        <HeroTitle lines={lines} />
-        <div className="hero-cta">
-          <a className="button button-dark" href="#cursos">Começar agora</a>
+      <div className="hero-stage">
+        <DotField />
+        <div className="hero-content">
+          <HeroTitle lines={lines} />
+          <div className="hero-cta">
+            <a className="button button-dark" href="#cursos">Começar agora</a>
+          </div>
         </div>
+        <div className="hero-shade" aria-hidden="true" />
       </div>
     </section>
   );
