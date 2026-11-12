@@ -30,7 +30,13 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <p className="footer-bottom">© {year} Azevedo Academy. Todos os direitos reservados.</p>
+        <div className="footer-bottom">
+          <p>© {year} Azevedo Academy. Todos os direitos reservados.</p>
+          <p className="footer-legal">
+            <a href="/privacidade">Privacidade</a>
+            <a href="/termos">Termos de Uso</a>
+          </p>
+        </div>
       </div>
     </footer>
   );
