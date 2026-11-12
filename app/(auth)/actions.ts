@@ -3,6 +3,7 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { SUPABASE_KEY, SUPABASE_URL } from '@/lib/supabase/env';
 
 export type AuthState = { error?: string; success?: string } | undefined;
 
@@ -42,7 +43,9 @@ export async function signIn(_: AuthState, formData: FormData): Promise<AuthStat
 export async function signUp(_: AuthState, formData: FormData): Promise<AuthState> {
   const name = String(formData.get('name') || '').trim();
   const email = String(formData.get('email') || '').trim();
+  const emailConfirm = String(formData.get('email_confirm') || '').trim();
   const password = String(formData.get('password') || '');
+  if (email.toLowerCase() !== emailConfirm.toLowerCase()) return { error: 'Os e-mails não são iguais. Confira e digite de novo.' };
   if (password.length < 8) return { error: 'Use uma senha com pelo menos 8 caracteres.' };
 
   const supabase = await createClient();
@@ -72,4 +75,32 @@ export async function updatePassword(_: AuthState, formData: FormData): Promise<
   const { error } = await supabase.auth.updateUser({ password });
   if (error) return { error: translate(error.message) };
   redirect('/');
+}
+
+// O botão do Google só redireciona quando o provedor estiver ativo no Supabase.
+// Até lá, mostra um aviso amigável em vez da página de erro do Supabase.
+async function googleEnabled() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/settings`, {
+      headers: { apikey: SUPABASE_KEY },
+      next: { revalidate: 60 }
+    });
+    if (!res.ok) return false;
+    const data = (await res.json()) as { external?: { google?: boolean } };
+    return Boolean(data.external?.google);
+  } catch {
+    return false;
+  }
+}
+
+export async function signInWithGoogle(_: AuthState, formData: FormData): Promise<AuthState> {
+  if (!(await googleEnabled())) return { error: 'O login com Google estará disponível em breve. Por enquanto, use seu e-mail e senha.' };
+  const supabase = await createClient();
+  const next = safeNext(formData.get('next'));
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: `${await origin()}/auth/callback?next=${encodeURIComponent(next)}` }
+  });
+  if (error || !data.url) return { error: 'Não foi possível abrir o login do Google. Tente novamente.' };
+  redirect(data.url);
 }

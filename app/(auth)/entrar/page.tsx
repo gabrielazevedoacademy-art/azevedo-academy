@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { SignInForm } from '@/components/AuthForms';
+import { GoogleButton, SignInForm } from '@/components/AuthForms';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata = { title: 'Entrar | Azevedo Academy' };
@@ -18,6 +18,7 @@ export default async function EntrarPage({ searchParams }: { searchParams: Promi
     <>
       <h1>Entrar</h1>
       <p className="auth-sub">Acesse seus cursos e ferramentas.</p>
+      <GoogleButton next={next.startsWith('/') ? next : '/'} />
       <SignInForm next={next.startsWith('/') ? next : '/'} notice={aviso ? notices[aviso] : undefined} />
       <p className="auth-alt">
         Ainda não tem conta? <a href="/cadastro">Criar conta</a>

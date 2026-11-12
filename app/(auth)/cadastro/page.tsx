@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { SignUpForm } from '@/components/AuthForms';
+import { GoogleButton, SignUpForm } from '@/components/AuthForms';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata = { title: 'Criar conta | Azevedo Academy' };
@@ -13,6 +13,7 @@ export default async function CadastroPage() {
     <>
       <h1>Criar conta</h1>
       <p className="auth-sub">Leva menos de um minuto.</p>
+      <GoogleButton />
       <SignUpForm />
       <p className="auth-alt">
         Já tem conta? <a href="/entrar">Entrar</a>
