@@ -7,6 +7,8 @@ import { SUPABASE_KEY, SUPABASE_URL } from '@/lib/supabase/env';
 
 export type AuthState = { error?: string; success?: string } | undefined;
 
+const DISPOSABLE = 'E-mails temporários não são aceitos. Use um e-mail que você acessa sempre, como Gmail ou Outlook.';
+
 function safeNext(value: FormDataEntryValue | null) {
   const next = typeof value === 'string' ? value : '';
   return next.startsWith('/') && !next.startsWith('//') ? next : '/';
@@ -26,6 +28,7 @@ function translate(message: string) {
   if (m.includes('already registered')) return 'Este e-mail já tem uma conta. Entre com sua senha.';
   if (m.includes('password should be') || m.includes('weak')) return 'Use uma senha com pelo menos 8 caracteres.';
   if (m.includes('rate limit') || m.includes('security purposes')) return 'Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.';
+  if (m.includes('disposable_email') || m.includes('database error saving new user')) return DISPOSABLE;
   if (m.includes('invalid') && m.includes('email')) return 'Confira o e-mail digitado.';
   return 'Não foi possível concluir agora. Tente novamente em instantes.';
 }
@@ -49,6 +52,9 @@ export async function signUp(_: AuthState, formData: FormData): Promise<AuthStat
   if (password.length < 8) return { error: 'Use uma senha com pelo menos 8 caracteres.' };
 
   const supabase = await createClient();
+  // E-mails descartáveis são barrados antes de criar a conta (o banco também bloqueia)
+  const { data: disposable } = await supabase.rpc('is_disposable_email', { p_email: email });
+  if (disposable === true) return { error: DISPOSABLE };
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
