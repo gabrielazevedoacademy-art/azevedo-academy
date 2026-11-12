@@ -7,6 +7,9 @@ import { SUPABASE_KEY, SUPABASE_URL } from '@/lib/supabase/env';
 
 export type AuthState = { error?: string; success?: string } | undefined;
 
+const PASSWORD_RULE = 'Use uma senha com pelo menos 8 caracteres, com letras e números.';
+const weakPassword = (p: string) => p.length < 8 || !/[A-Za-z]/.test(p) || !/\d/.test(p);
+
 const DISPOSABLE = 'E-mails temporários não são aceitos. Use um e-mail que você acessa sempre, como Gmail ou Outlook.';
 
 function safeNext(value: FormDataEntryValue | null) {
@@ -26,7 +29,8 @@ function translate(message: string) {
   if (m.includes('invalid login')) return 'E-mail ou senha incorretos.';
   if (m.includes('email not confirmed')) return 'Confirme seu e-mail pelo link que enviamos antes de entrar.';
   if (m.includes('already registered')) return 'Este e-mail já tem uma conta. Entre com sua senha.';
-  if (m.includes('password should be') || m.includes('weak')) return 'Use uma senha com pelo menos 8 caracteres.';
+  if (m.includes('password should') || m.includes('weak')) return PASSWORD_RULE;
+  if (m.includes('reauthentication')) return 'Por segurança, saia e entre de novo antes de trocar a senha.';
   if (m.includes('rate limit') || m.includes('security purposes')) return 'Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.';
   if (m.includes('disposable_email') || m.includes('database error saving new user')) return DISPOSABLE;
   if (m.includes('invalid') && m.includes('email')) return 'Confira o e-mail digitado.';
@@ -49,7 +53,7 @@ export async function signUp(_: AuthState, formData: FormData): Promise<AuthStat
   const emailConfirm = String(formData.get('email_confirm') || '').trim();
   const password = String(formData.get('password') || '');
   if (email.toLowerCase() !== emailConfirm.toLowerCase()) return { error: 'Os e-mails não são iguais. Confira e digite de novo.' };
-  if (password.length < 8) return { error: 'Use uma senha com pelo menos 8 caracteres.' };
+  if (weakPassword(password)) return { error: PASSWORD_RULE };
 
   const supabase = await createClient();
   // E-mails descartáveis são barrados antes de criar a conta (o banco também bloqueia)
@@ -76,7 +80,7 @@ export async function requestPasswordReset(_: AuthState, formData: FormData): Pr
 
 export async function updatePassword(_: AuthState, formData: FormData): Promise<AuthState> {
   const password = String(formData.get('password') || '');
-  if (password.length < 8) return { error: 'Use uma senha com pelo menos 8 caracteres.' };
+  if (weakPassword(password)) return { error: PASSWORD_RULE };
   const supabase = await createClient();
   const { error } = await supabase.auth.updateUser({ password });
   if (error) return { error: translate(error.message) };

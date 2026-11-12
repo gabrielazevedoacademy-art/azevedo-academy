@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<title>Crie uma nova senha</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f3f3f4;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">Use o link abaixo para criar uma nova senha na Azevedo Academy.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f3f3f4;">
+  <tr>
+    <td align="center" style="padding:40px 16px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:520px;">
+        <tr>
+          <td style="padding:0 4px 22px;">
+            <a href="https://azevedoacademy.com.br" style="text-decoration:none;color:#000000;">
+              <img src="https://www.azevedoacademy.com.br/email/logo.png" width="34" height="35" alt="" style="display:inline-block;vertical-align:middle;border:0;outline:none;">
+              <span style="display:inline-block;vertical-align:middle;margin-left:8px;font-family:Arial,Helvetica,sans-serif;font-size:19px;font-weight:700;letter-spacing:-0.2px;color:#000000;">Azevedo Academy</span>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td style="background-color:#ffffff;border-radius:20px;border-top:4px solid #ff7a00;padding:40px 30px 34px;font-family:Arial,Helvetica,sans-serif;color:#000000;">
+            <h1 style="margin:0 0 14px;font-size:27px;line-height:1.2;font-weight:700;color:#000000;">Crie uma nova senha</h1>
+            <p style="margin:0 0 28px;font-size:16px;line-height:1.6;color:#333333;">Recebemos um pedido para criar uma nova senha para a sua conta. Clique no botão abaixo e escolha a nova senha. O link vale por 1 hora e só pode ser usado uma vez.</p>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td align="center" style="border-radius:999px;background-color:#000000;">
+                  <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:16px 32px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;line-height:1;color:#ffffff;text-decoration:none;border-radius:999px;">Criar nova senha</a>
+                </td>
+              </tr>
+            </table>
+            <p style="margin:32px 0 6px;font-size:13px;line-height:1.5;color:#6e6e73;">Se o botão não funcionar, copie e cole este link no seu navegador:</p>
+            <p style="margin:0;font-size:13px;line-height:1.5;word-break:break-all;"><a href="{{ .ConfirmationURL }}" style="color:#000000;text-decoration:underline;">{{ .ConfirmationURL }}</a></p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px;">
+              <tr><td style="border-top:1px solid #e5e5ea;font-size:0;line-height:0;">&nbsp;</td></tr>
+            </table>
+            <p style="margin:20px 0 0;font-size:13px;line-height:1.5;color:#6e6e73;">Não pediu uma nova senha? Pode ignorar este e-mail: sua senha atual continua valendo e ninguém consegue entrar na sua conta sem este link.</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:22px 8px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.5;color:#8e8e93;text-align:center;">
+            Você recebeu este e-mail porque este endereço tem uma conta em <a href="https://azevedoacademy.com.br" style="color:#8e8e93;">azevedoacademy.com.br</a>.
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

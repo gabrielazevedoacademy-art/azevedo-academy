@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { PasswordForm } from '@/components/AccountForms';
+import { DeleteAccountForm, PasswordForm } from '@/components/AccountForms';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata = { title: 'Configurações | Azevedo Academy' };
@@ -29,6 +29,22 @@ export default async function ConfiguracoesPage() {
         <form action="/auth/sair" method="post">
           <button className="auth-google account-logout" type="submit">Sair da conta</button>
         </form>
+      </section>
+
+      <section className="account-section" aria-labelledby="dados">
+        <h2 id="dados">Seus dados</h2>
+        <p className="account-note">
+          Baixe uma cópia dos dados que a Azevedo Academy guarda sobre você. Veja também a{' '}
+          <a href="/privacidade">Política de Privacidade</a>.
+        </p>
+        <a className="auth-google account-download" href="/meus-dados" download>
+          Baixar meus dados
+        </a>
+      </section>
+
+      <section className="account-section" aria-labelledby="excluir">
+        <h2 id="excluir">Excluir conta</h2>
+        <DeleteAccountForm />
       </section>
 
       <p className="auth-alt">

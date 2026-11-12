@@ -15,6 +15,10 @@ export default async function CadastroPage() {
       <p className="auth-sub">Leva menos de um minuto.</p>
       <GoogleButton />
       <SignUpForm />
+      <p className="auth-legal">
+        Ao criar a conta, com e-mail ou com Google, você concorda com os <a href="/termos">Termos de Uso</a> e com a{' '}
+        <a href="/privacidade">Política de Privacidade</a>.
+      </p>
       <p className="auth-alt">
         Já tem conta? <a href="/entrar">Entrar</a>
       </p>

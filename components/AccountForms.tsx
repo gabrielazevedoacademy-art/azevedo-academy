@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { changePassword, updateName, type AccountState } from '@/app/(conta)/actions';
+import { changePassword, deleteAccount, updateName, type AccountState } from '@/app/(conta)/actions';
 
 function Save({ label, pending }: { label: string; pending: string }) {
   const { pending: busy } = useFormStatus();
@@ -47,9 +47,46 @@ export function PasswordForm() {
             {visible ? 'Esconder' : 'Mostrar'}
           </button>
         </div>
-        <span className="auth-hint">Pelo menos 8 caracteres.</span>
+        <span className="auth-hint">Pelo menos 8 caracteres, com letras e números.</span>
       </div>
       <Save label="Trocar senha" pending="Salvando…" />
+    </form>
+  );
+}
+
+function DeleteSubmit({ ready }: { ready: boolean }) {
+  const { pending } = useFormStatus();
+  return (
+    <button className="auth-google account-delete" type="submit" disabled={!ready || pending} aria-busy={pending}>
+      {pending ? 'Excluindo…' : 'Excluir minha conta'}
+    </button>
+  );
+}
+
+export function DeleteAccountForm() {
+  const [state, action] = useActionState(deleteAccount, undefined);
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState('');
+  if (!open)
+    return (
+      <button className="auth-google account-logout" type="button" onClick={() => setOpen(true)}>
+        Excluir minha conta
+      </button>
+    );
+  return (
+    <form action={action} className="auth-form">
+      <Message state={state} />
+      <p className="account-note">
+        Sua conta, seus dados e seu acesso aos cursos serão apagados de forma definitiva. Isso não pode ser desfeito.
+      </p>
+      <div className="auth-field">
+        <label htmlFor="confirm">Para confirmar, digite EXCLUIR</label>
+        <input id="confirm" name="confirm" autoComplete="off" value={text} onChange={(e) => setText(e.target.value)} />
+      </div>
+      <DeleteSubmit ready={text.trim().toUpperCase() === 'EXCLUIR'} />
+      <button className="auth-forgot account-cancel" type="button" onClick={() => { setOpen(false); setText(''); }}>
+        Cancelar
+      </button>
     </form>
   );
 }

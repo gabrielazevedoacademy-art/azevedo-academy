@@ -1807,3 +1807,41 @@ body:has(.legal-page) {
 .footer-legal a:hover {
   color: var(--paper);
 }
+
+.account-download {
+  margin-top: 16px;
+  text-decoration: none;
+}
+
+.account-delete {
+  color: #ffffff;
+  background: #b42318;
+  border-color: #b42318;
+}
+
+.account-delete:hover:not(:disabled) {
+  background: #8f1b13;
+}
+
+.account-delete:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.account-cancel {
+  justify-self: center;
+}
+
+.auth-legal {
+  margin-top: 18px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--gray);
+  text-align: center;
+}
+
+.auth-legal a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

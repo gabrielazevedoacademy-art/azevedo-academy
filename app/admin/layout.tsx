@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Avatar from '@/components/Avatar';
+import AdminNav from '@/components/admin/AdminNav';
 import { Toaster } from '@/components/admin/ui';
 import { requireAdminPage } from '@/lib/admin/guard';
 import { toViewUser } from '@/lib/user';
@@ -19,12 +20,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <img src="/logo.svg" alt="" width={26} height={27} />
           <span>Painel</span>
         </a>
-        <nav className="adm-nav" aria-label="Painel">
-          <a href="/admin" aria-current="page">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2" /><path d="M10 9l5 2.5-5 2.5z" /><path d="M8 21h8" /></svg>
-            Cursos
-          </a>
-        </nav>
+        <AdminNav />
         <div className="adm-side-foot">
           <a href="/" className="adm-side-link">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9" /><path d="M18 14v6H4V6h6" /></svg>

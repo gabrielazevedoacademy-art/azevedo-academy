@@ -1376,3 +1376,222 @@ body:has(.adm) {
     border-radius: 18px;
   }
 }
+
+/* ----- Alunos ----- */
+
+.adm-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.adm-stat {
+  display: grid;
+  gap: 2px;
+  padding: 18px 20px;
+  border: 1px solid var(--adm-line);
+  border-radius: 18px;
+  background: var(--adm-panel);
+}
+
+.adm-stat strong {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.adm-stat span {
+  font-size: 13px;
+  color: var(--adm-muted);
+}
+
+.adm-chart-panel {
+  margin-bottom: 18px;
+}
+
+.adm-chart {
+  display: grid;
+  grid-template-columns: repeat(30, minmax(0, 1fr));
+  align-items: end;
+  gap: 4px;
+  height: 120px;
+}
+
+.adm-bar {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.adm-bar span {
+  width: 100%;
+  min-height: 3px;
+  border-radius: 4px 4px 2px 2px;
+  background: var(--orange);
+}
+
+.adm-bar span[data-zero="true"] {
+  background: #e4e4e7;
+}
+
+.adm-chart-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--adm-muted);
+}
+
+.adm-students {
+  display: grid;
+  gap: 16px;
+}
+
+.adm-students-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.adm-students-head .adm-section-title {
+  margin: 0;
+}
+
+.adm-students-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1 1 360px;
+  justify-content: flex-end;
+}
+
+.adm .adm-students-tools input {
+  flex: 1 1 220px;
+  max-width: 320px;
+}
+
+.adm .adm-students-tools select {
+  width: auto;
+}
+
+.adm-student-list {
+  list-style: none;
+  display: grid;
+}
+
+.adm-student {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--adm-line);
+}
+
+.adm-student:first-child {
+  padding-top: 0;
+}
+
+.adm-student-avatar {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--ink);
+  font-weight: 700;
+  overflow: hidden;
+}
+
+.adm-student-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.adm-student-main {
+  display: grid;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.adm-student-main strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.adm-student-email {
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.adm-student-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 14px;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--adm-muted);
+}
+
+.adm-student-side {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+  flex: none;
+}
+
+.adm-student-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.adm-btn-small {
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 12.5px;
+}
+
+.adm-tag-admin {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+@media (max-width: 720px) {
+  .adm-student {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .adm-student-side {
+    width: 100%;
+    justify-items: start;
+    padding-left: 56px;
+  }
+
+  .adm-student-actions {
+    justify-content: flex-start;
+  }
+
+  .adm .adm-students-tools input {
+    max-width: none;
+  }
+
+  .adm-chart {
+    gap: 2px;
+  }
+}

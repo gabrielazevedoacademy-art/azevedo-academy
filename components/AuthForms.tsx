@@ -139,7 +139,7 @@ export function SignUpForm() {
         <input id="name" name="name" autoComplete="name" required />
       </div>
       <EmailPair />
-      <PasswordField id="password" label="Senha" autoComplete="new-password" hint="Pelo menos 8 caracteres." />
+      <PasswordField id="password" label="Senha" autoComplete="new-password" hint="Pelo menos 8 caracteres, com letras e números." />
       <Submit pending="Criando conta…">Criar conta</Submit>
     </form>
   );
@@ -165,7 +165,7 @@ export function NewPasswordForm() {
   return (
     <form action={action} className="auth-form">
       <Message state={state} />
-      <PasswordField id="password" label="Nova senha" autoComplete="new-password" hint="Pelo menos 8 caracteres." />
+      <PasswordField id="password" label="Nova senha" autoComplete="new-password" hint="Pelo menos 8 caracteres, com letras e números." />
       <Submit pending="Salvando…">Salvar nova senha</Submit>
     </form>
   );

@@ -20,6 +20,10 @@ export default async function EntrarPage({ searchParams }: { searchParams: Promi
       <p className="auth-sub">Acesse seus cursos e ferramentas.</p>
       <GoogleButton next={next.startsWith('/') ? next : '/'} />
       <SignInForm next={next.startsWith('/') ? next : '/'} notice={aviso ? notices[aviso] : undefined} />
+      <p className="auth-legal">
+        Ao entrar com o Google pela primeira vez, você concorda com os <a href="/termos">Termos de Uso</a> e com a{' '}
+        <a href="/privacidade">Política de Privacidade</a>.
+      </p>
       <p className="auth-alt">
         Ainda não tem conta? <a href="/cadastro">Criar conta</a>
       </p>
