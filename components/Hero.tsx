@@ -25,7 +25,7 @@ export default function Hero() {
       <DotField />
       <div className="hero-content">
         <h1 className="hero-title" aria-label={`${line1} ${line2}`}>
-          <span className="hero-line hero-line-1"><Words text={line1} /></span>
+          <span className="hero-line hero-line-1"><Words text={line1} /></span>{' '}
           <span className="hero-line hero-line-2"><Words text={line2} offset={line1.split(' ').length + 1} /></span>
         </h1>
         <div className="hero-cta">
