@@ -22,30 +22,32 @@ async function target(userId: string) {
 
 function rateMessage(message: string) {
   const m = message.toLowerCase();
+  if (m.includes('captcha')) return 'A verificação de segurança expirou. Aguarde um instante e clique de novo.';
   if (m.includes('rate limit') || m.includes('security purposes') || m.includes('seconds'))
     return 'Um e-mail acabou de ser enviado para essa conta. Aguarde um minuto e tente de novo.';
   return 'Não foi possível enviar agora. Tente de novo em instantes.';
 }
 
-export async function sendPasswordReset(userId: string): Promise<Result> {
+export async function sendPasswordReset(userId: string, captchaToken: string): Promise<Result> {
   const t = await target(userId);
   if (!t) return { error: 'Conta não encontrada ou sem permissão.' };
   const { error } = await t.supabase.auth.resetPasswordForEmail(t.user.email, {
-    redirectTo: `${await origin()}/auth/callback?next=/nova-senha`
+    redirectTo: `${await origin()}/auth/callback?next=/nova-senha`,
+    captchaToken
   });
   if (error) return { error: rateMessage(error.message) };
   await t.supabase.rpc('admin_log', { p_action: 'password_reset_sent', p_target: userId });
   return { ok: `Link para criar nova senha enviado para ${t.user.email}.` };
 }
 
-export async function resendConfirmation(userId: string): Promise<Result> {
+export async function resendConfirmation(userId: string, captchaToken: string): Promise<Result> {
   const t = await target(userId);
   if (!t) return { error: 'Conta não encontrada ou sem permissão.' };
   if (t.user.email_confirmed) return { ok: 'Essa conta já está confirmada.' };
   const { error } = await t.supabase.auth.resend({
     type: 'signup',
     email: t.user.email,
-    options: { emailRedirectTo: `${await origin()}/auth/callback` }
+    options: { emailRedirectTo: `${await origin()}/auth/callback`, captchaToken }
   });
   if (error) return { error: rateMessage(error.message) };
   await t.supabase.rpc('admin_log', { p_action: 'confirmation_resent', p_target: userId });

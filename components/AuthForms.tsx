@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
+import Turnstile from './Turnstile';
 import { requestPasswordReset, signIn, signInWithGoogle, signUp, updatePassword, type AuthState } from '@/app/(auth)/actions';
 
 function Submit({ children, pending: pendingLabel, water = false }: { children: string; pending: string; water?: boolean }) {
@@ -82,6 +83,7 @@ export function SignInForm({ next, notice }: { next: string; notice?: string }) 
       </div>
       <PasswordField id="password" label="Senha" autoComplete="current-password" />
       <a className="auth-forgot" href="/recuperar-senha">Esqueci minha senha</a>
+      <Turnstile resetKey={state} />
       <Submit pending="Entrando…" water>
         Entrar
       </Submit>
@@ -140,6 +142,7 @@ export function SignUpForm() {
       </div>
       <EmailPair />
       <PasswordField id="password" label="Senha" autoComplete="new-password" hint="Pelo menos 8 caracteres, com letras e números." />
+      <Turnstile resetKey={state} />
       <Submit pending="Criando conta…">Criar conta</Submit>
     </form>
   );
@@ -155,6 +158,7 @@ export function ResetForm() {
         <label htmlFor="email">E-mail da conta</label>
         <input id="email" name="email" type="email" autoComplete="email" inputMode="email" required />
       </div>
+      <Turnstile resetKey={state} />
       <Submit pending="Enviando…">Enviar link</Submit>
     </form>
   );

@@ -30,7 +30,7 @@ export default function Header() {
     const apply = (session: Session | null) => {
       setUser(session ? toViewUser(session.user) : null);
       // O banco confirma se a conta é de administrador
-      if (session) supabase.rpc('is_admin').then(({ data }) => setAdmin(data === true));
+      if (session) supabase.rpc('is_admin_account').then(({ data }) => setAdmin(data === true));
       else setAdmin(false);
     };
     supabase.auth.getSession().then(({ data }) => apply(data.session));

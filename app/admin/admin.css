@@ -1595,3 +1595,7 @@ body:has(.adm) {
     gap: 2px;
   }
 }
+
+.adm-captcha:has(.captcha:empty) {
+  display: none;
+}

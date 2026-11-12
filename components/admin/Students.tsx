@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useTransition } from 'react';
 import { resendConfirmation, sendPasswordReset } from '@/app/admin/alunos/actions';
+import Turnstile from '@/components/Turnstile';
 import { notify } from './ui';
 
 export type StudentRow = {
@@ -35,6 +36,10 @@ type Filter = 'todos' | 'confirmados' | 'pendentes' | 'google';
 export default function Students({ users }: { users: StudentRow[] }) {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('todos');
+  // Código da proteção contra robôs, exigido pelo Supabase para enviar e-mails
+  const [captcha, setCaptcha] = useState('');
+  const [round, setRound] = useState(0);
+  const used = () => setRound((r) => r + 1);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -74,10 +79,13 @@ export default function Students({ users }: { users: StudentRow[] }) {
       ) : (
         <ul className="adm-student-list">
           {list.map((u) => (
-            <StudentItem key={u.id} user={u} />
+            <StudentItem key={u.id} user={u} captcha={captcha} onUsed={used} />
           ))}
         </ul>
       )}
+      <div className="adm-captcha">
+        <Turnstile resetKey={round || undefined} onToken={setCaptcha} />
+      </div>
       <p className="adm-hint">
         {list.length === users.length ? `${users.length} contas` : `${list.length} de ${users.length} contas`}. Para
         ajudar quem perdeu a senha, envie o link de nova senha: a própria pessoa cria a senha pelo e-mail.
@@ -86,7 +94,7 @@ export default function Students({ users }: { users: StudentRow[] }) {
   );
 }
 
-function StudentItem({ user }: { user: StudentRow }) {
+function StudentItem({ user, captcha, onUsed }: { user: StudentRow; captcha: string; onUsed: () => void }) {
   const [pending, start] = useTransition();
   const initial = (user.name || user.email).trim().charAt(0).toUpperCase() || 'A';
 
@@ -121,8 +129,8 @@ function StudentItem({ user }: { user: StudentRow }) {
             <button
               type="button"
               className="adm-btn adm-btn-ghost adm-btn-small"
-              disabled={pending}
-              onClick={() => start(async () => notify(await resendConfirmation(user.id)))}
+              disabled={pending || !captcha}
+              onClick={() => start(async () => { notify(await resendConfirmation(user.id, captcha)); onUsed(); })}
             >
               Reenviar confirmação
             </button>
@@ -130,8 +138,8 @@ function StudentItem({ user }: { user: StudentRow }) {
           <button
             type="button"
             className="adm-btn adm-btn-ghost adm-btn-small"
-            disabled={pending}
-            onClick={() => start(async () => notify(await sendPasswordReset(user.id)))}
+            disabled={pending || !captcha}
+            onClick={() => start(async () => { notify(await sendPasswordReset(user.id, captcha)); onUsed(); })}
           >
             {pending ? 'Enviando…' : 'Enviar link de nova senha'}
           </button>

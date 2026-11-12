@@ -1845,3 +1845,75 @@ body:has(.legal-page) {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* ----- Verificação em duas etapas ----- */
+
+.mfa-code {
+  font-size: 26px !important;
+  letter-spacing: 0.4em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.mfa-steps {
+  display: grid;
+  gap: 10px;
+  padding-left: 20px;
+  color: #2b2b2e;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.mfa-qr {
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  border: 1px solid #ececf0;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.mfa-qr img {
+  width: 200px;
+  height: 200px;
+}
+
+.mfa-secret {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f4f4f5;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  word-break: break-all;
+  user-select: all;
+}
+
+.mfa-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.mfa-status span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #128a3c;
+}
+
+/* Proteção contra robôs: só aparece quando a Cloudflare precisa de um clique */
+.captcha:empty {
+  display: none;
+}
+
+.captcha {
+  margin-top: 4px;
+}
+
+.captcha-error {
+  color: #b42318;
+}

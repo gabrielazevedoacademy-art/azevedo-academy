@@ -24,6 +24,14 @@ export default async function ConfiguracoesPage() {
         )}
       </section>
 
+      <section className="account-section" aria-labelledby="duas-etapas">
+        <h2 id="duas-etapas">Verificação em duas etapas</h2>
+        <p className="account-note">Proteja sua conta com um código do app autenticador no celular.</p>
+        <a className="auth-google account-download" href="/seguranca">
+          Configurar verificação em duas etapas
+        </a>
+      </section>
+
       <section className="account-section" aria-labelledby="sessao">
         <h2 id="sessao">Sessão</h2>
         <form action="/auth/sair" method="post">

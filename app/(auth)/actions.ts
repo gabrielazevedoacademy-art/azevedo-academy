@@ -4,11 +4,15 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { SUPABASE_KEY, SUPABASE_URL } from '@/lib/supabase/env';
+import { needsSecondFactor, verifyUrl } from '@/lib/supabase/mfa';
 
 export type AuthState = { error?: string; success?: string } | undefined;
 
 const PASSWORD_RULE = 'Use uma senha com pelo menos 8 caracteres, com letras e números.';
 const weakPassword = (p: string) => p.length < 8 || !/[A-Za-z]/.test(p) || !/\d/.test(p);
+
+const CAPTCHA_WAIT = 'Aguarde a verificação de segurança terminar (leva só um instante) e tente de novo.';
+const captcha = (f: FormData) => String(f.get('captchaToken') || '');
 
 const DISPOSABLE = 'E-mails temporários não são aceitos. Use um e-mail que você acessa sempre, como Gmail ou Outlook.';
 
@@ -32,6 +36,7 @@ function translate(message: string) {
   if (m.includes('password should') || m.includes('weak')) return PASSWORD_RULE;
   if (m.includes('reauthentication')) return 'Por segurança, saia e entre de novo antes de trocar a senha.';
   if (m.includes('rate limit') || m.includes('security purposes')) return 'Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.';
+  if (m.includes('captcha')) return CAPTCHA_WAIT;
   if (m.includes('disposable_email') || m.includes('database error saving new user')) return DISPOSABLE;
   if (m.includes('invalid') && m.includes('email')) return 'Confira o e-mail digitado.';
   return 'Não foi possível concluir agora. Tente novamente em instantes.';
@@ -39,12 +44,16 @@ function translate(message: string) {
 
 export async function signIn(_: AuthState, formData: FormData): Promise<AuthState> {
   const supabase = await createClient();
+  if (!captcha(formData)) return { error: CAPTCHA_WAIT };
   const { error } = await supabase.auth.signInWithPassword({
     email: String(formData.get('email') || '').trim(),
-    password: String(formData.get('password') || '')
+    password: String(formData.get('password') || ''),
+    options: { captchaToken: captcha(formData) }
   });
   if (error) return { error: translate(error.message) };
-  redirect(safeNext(formData.get('next')));
+  const next = safeNext(formData.get('next'));
+  if (await needsSecondFactor(supabase)) redirect(verifyUrl(next));
+  redirect(next);
 }
 
 export async function signUp(_: AuthState, formData: FormData): Promise<AuthState> {
@@ -55,6 +64,7 @@ export async function signUp(_: AuthState, formData: FormData): Promise<AuthStat
   if (email.toLowerCase() !== emailConfirm.toLowerCase()) return { error: 'Os e-mails não são iguais. Confira e digite de novo.' };
   if (weakPassword(password)) return { error: PASSWORD_RULE };
 
+  if (!captcha(formData)) return { error: CAPTCHA_WAIT };
   const supabase = await createClient();
   // E-mails descartáveis são barrados antes de criar a conta (o banco também bloqueia)
   const { data: disposable } = await supabase.rpc('is_disposable_email', { p_email: email });
@@ -62,7 +72,7 @@ export async function signUp(_: AuthState, formData: FormData): Promise<AuthStat
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { full_name: name }, emailRedirectTo: `${await origin()}/auth/callback` }
+    options: { data: { full_name: name }, emailRedirectTo: `${await origin()}/auth/callback`, captchaToken: captcha(formData) }
   });
   if (error) return { error: translate(error.message) };
   if (data.session) redirect('/');
@@ -72,7 +82,8 @@ export async function signUp(_: AuthState, formData: FormData): Promise<AuthStat
 export async function requestPasswordReset(_: AuthState, formData: FormData): Promise<AuthState> {
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(String(formData.get('email') || '').trim(), {
-    redirectTo: `${await origin()}/auth/callback?next=/nova-senha`
+    redirectTo: `${await origin()}/auth/callback?next=/nova-senha`,
+    captchaToken: captcha(formData)
   });
   if (error) return { error: translate(error.message) };
   return { success: 'Se existir uma conta com esse e-mail, você vai receber um link para criar uma nova senha.' };

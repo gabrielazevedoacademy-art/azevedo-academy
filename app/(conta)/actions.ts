@@ -40,7 +40,7 @@ export async function deleteAccount(_: AccountState, formData: FormData): Promis
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
   if (!data.user) redirect('/entrar?next=/configuracoes');
-  const { data: admin } = await supabase.rpc('is_admin');
+  const { data: admin } = await supabase.rpc('is_admin_account');
   if (admin === true) return { error: 'Contas de administrador não podem ser excluídas por aqui.' };
   const { error } = await supabase.rpc('delete_my_account');
   if (error) return { error: 'Não foi possível excluir agora. Tente de novo ou escreva para o nosso e-mail de contato.' };
