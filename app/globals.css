@@ -363,6 +363,9 @@ p {
 }
 
 .hero-title {
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -397,6 +400,16 @@ p {
   /* Espaço para acentos e descendentes sem alterar a altura da linha */
   padding: 0.14em 0.02em 0.16em;
   margin: -0.14em -0.02em -0.16em;
+}
+
+/* Depois da entrada, as letras podem crescer além da caixa da palavra (lupa) */
+.hero-title.is-ready .word {
+  overflow: visible;
+}
+
+.char {
+  display: inline-block;
+  transform-origin: 50% 60%;
 }
 
 .word-inner {
