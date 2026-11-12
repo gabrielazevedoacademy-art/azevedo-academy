@@ -32,7 +32,7 @@ export default function CatalogSection({ id, title, items, ratio, empty }: Props
           <>
             <div className="grid" data-expanded={expanded}>
               {items.map((item) => (
-                <Card key={item.href + item.title} item={item} ratio={ratio} />
+                <Card key={(item.href ?? '') + item.title} item={item} ratio={ratio} />
               ))}
             </div>
             <div

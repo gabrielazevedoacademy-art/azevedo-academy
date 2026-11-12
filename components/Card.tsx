@@ -1,18 +1,12 @@
 import type { CatalogItem } from '@/lib/catalog';
 
 export default function Card({ item, ratio }: { item: CatalogItem; ratio: string }) {
-  const external = /^https?:\/\//.test(item.href);
-  return (
-    <a
-      className="card"
-      href={item.href}
-      target={external ? '_blank' : undefined}
-      rel={external ? 'noopener noreferrer' : undefined}
-    >
+  const content = (
+    <>
       <div className="card-media" style={{ '--ratio': ratio } as React.CSSProperties}>
         {item.image ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.image} alt="" loading="lazy" />
+          <img src={item.image} alt={item.hideCaption ? item.title : ''} loading="lazy" width={1200} height={1500} />
         ) : (
           // Sem capa: a marca da Academy, discreta, no lugar da imagem
           // eslint-disable-next-line @next/next/no-img-element
@@ -20,8 +14,27 @@ export default function Card({ item, ratio }: { item: CatalogItem; ratio: string
         )}
         {item.badge && <span className="card-badge">{item.badge}</span>}
       </div>
-      <h3 className="card-title">{item.title}</h3>
-      {item.description && <p className="card-description">{item.description}</p>}
+      {!item.hideCaption && (
+        <>
+          <h3 className="card-title">{item.title}</h3>
+          {item.description && <p className="card-description">{item.description}</p>}
+        </>
+      )}
+    </>
+  );
+
+  if (!item.href) return <div className="card">{content}</div>;
+
+  const external = /^https?:\/\//.test(item.href);
+  return (
+    <a
+      className="card"
+      href={item.href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      aria-label={item.hideCaption ? item.title : undefined}
+    >
+      {content}
     </a>
   );
 }
