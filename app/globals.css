@@ -386,7 +386,7 @@ p {
   height: calc(100% + 10px);
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 10'%3E%3Cpath d='M0 5 Q10 0 20 5 T40 5 V10 H0 Z'/%3E%3C/svg%3E") 0 0 / 40px 10px repeat-x,
-    linear-gradient(#000, #000) 0 10px / 100% calc(100% - 10px) no-repeat;
+    linear-gradient(#000, #000) 0 9px / 100% calc(100% - 9px) no-repeat;
   transform: translateY(100%);
   transition: transform 700ms cubic-bezier(0.45, 0, 0.25, 1);
 }
@@ -399,7 +399,7 @@ p {
 
 @keyframes water-surface {
   to {
-    background-position: 40px 0, 0 10px;
+    background-position: 40px 0, 0 9px;
   }
 }
 
@@ -772,6 +772,55 @@ body:has(.auth-page) {
 .auth-submit {
   width: 100%;
   margin-top: 28px;
+}
+
+/* Botão Entrar do login (só desktop): a água branca sobe e o texto inverte onde ela passa */
+@media (hover: hover) and (min-width: 901px) {
+  .auth-submit-water {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    /* Contorno fica por fora da água, então o botão continua visível quando está cheio */
+    border: 1.5px solid #000000;
+  }
+
+  .auth-submit-water:hover {
+    background: #000000;
+  }
+
+  .auth-submit-water::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
+    width: 100%;
+    height: calc(100% + 12px);
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 12'%3E%3Cpath fill='white' d='M0 6 Q12 0 24 6 T48 6 V12 H0 Z'/%3E%3C/svg%3E") 0 0 / 48px 12px repeat-x,
+      linear-gradient(#ffffff, #ffffff) 0 11px / 100% calc(100% - 11px) no-repeat;
+    transform: translateY(100%);
+    transition: transform 700ms cubic-bezier(0.45, 0, 0.25, 1);
+  }
+
+  .auth-submit-water:hover::before,
+  .auth-submit-water:focus-visible::before {
+    transform: translateY(0);
+    animation: water-surface-lg 900ms linear infinite;
+  }
+
+  .auth-submit-water .auth-submit-label {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    mix-blend-mode: difference;
+  }
+}
+
+@keyframes water-surface-lg {
+  to {
+    background-position: 48px 0, 0 11px;
+  }
 }
 
 .auth-submit:disabled {

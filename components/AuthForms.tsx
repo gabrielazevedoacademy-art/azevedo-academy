@@ -4,11 +4,11 @@ import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { requestPasswordReset, signIn, signInWithGoogle, signUp, updatePassword, type AuthState } from '@/app/(auth)/actions';
 
-function Submit({ children, pending: pendingLabel }: { children: string; pending: string }) {
+function Submit({ children, pending: pendingLabel, water = false }: { children: string; pending: string; water?: boolean }) {
   const { pending } = useFormStatus();
   return (
-    <button className="button button-dark auth-submit" type="submit" disabled={pending} aria-busy={pending}>
-      {pending ? pendingLabel : children}
+    <button className={`button button-dark auth-submit${water ? ' auth-submit-water' : ''}`} type="submit" disabled={pending} aria-busy={pending}>
+      <span className="auth-submit-label">{pending ? pendingLabel : children}</span>
     </button>
   );
 }
@@ -82,7 +82,9 @@ export function SignInForm({ next, notice }: { next: string; notice?: string }) 
       </div>
       <PasswordField id="password" label="Senha" autoComplete="current-password" />
       <a className="auth-forgot" href="/recuperar-senha">Esqueci minha senha</a>
-      <Submit pending="Entrando…">Entrar</Submit>
+      <Submit pending="Entrando…" water>
+        Entrar
+      </Submit>
     </form>
   );
 }
