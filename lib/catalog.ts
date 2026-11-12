@@ -34,6 +34,12 @@ export const courses: CatalogItem[] = [
     image: '/cursos/filmes-com-ia.webp',
     hideCaption: true,
     comingSoon: true
+  },
+  {
+    title: 'Seja Criador de Conteúdo: YouTube',
+    image: '/cursos/seja-criador-de-conteudo-youtube.webp',
+    hideCaption: true,
+    comingSoon: true
   }
 ];
 
