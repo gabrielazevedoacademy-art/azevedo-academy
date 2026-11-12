@@ -5,11 +5,26 @@ import { useFormStatus } from 'react-dom';
 import Turnstile from './Turnstile';
 import { requestPasswordReset, signIn, signInWithGoogle, signUp, updatePassword, type AuthState } from '@/app/(auth)/actions';
 
-function Submit({ children, pending: pendingLabel, water = false }: { children: string; pending: string; water?: boolean }) {
+function Submit({
+  children,
+  pending: pendingLabel,
+  water = false,
+  ready = true
+}: {
+  children: string;
+  pending: string;
+  water?: boolean;
+  ready?: boolean;
+}) {
   const { pending } = useFormStatus();
   return (
-    <button className={`button button-dark auth-submit${water ? ' auth-submit-water' : ''}`} type="submit" disabled={pending} aria-busy={pending}>
-      <span className="auth-submit-label">{pending ? pendingLabel : children}</span>
+    <button
+      className={`button button-dark auth-submit${water ? ' auth-submit-water' : ''}`}
+      type="submit"
+      disabled={pending || !ready}
+      aria-busy={pending || !ready}
+    >
+      <span className="auth-submit-label">{pending ? pendingLabel : ready ? children : 'Verificando segurança…'}</span>
     </button>
   );
 }
@@ -73,6 +88,7 @@ export function GoogleButton({ next = '/' }: { next?: string }) {
 
 export function SignInForm({ next, notice }: { next: string; notice?: string }) {
   const [state, action] = useActionState(signIn, notice ? { error: notice } : undefined);
+  const [ready, setReady] = useState(false);
   return (
     <form action={action} className="auth-form">
       <Message state={state} />
@@ -83,8 +99,8 @@ export function SignInForm({ next, notice }: { next: string; notice?: string }) 
       </div>
       <PasswordField id="password" label="Senha" autoComplete="current-password" />
       <a className="auth-forgot" href="/recuperar-senha">Esqueci minha senha</a>
-      <Turnstile resetKey={state} />
-      <Submit pending="Entrando…" water>
+      <Turnstile resetKey={state} onToken={(t) => setReady(Boolean(t))} />
+      <Submit pending="Entrando…" water ready={ready}>
         Entrar
       </Submit>
     </form>
@@ -132,6 +148,7 @@ function EmailPair() {
 
 export function SignUpForm() {
   const [state, action] = useActionState(signUp, undefined);
+  const [ready, setReady] = useState(false);
   if (state?.success) return <Message state={state} />;
   return (
     <form action={action} className="auth-form">
@@ -142,14 +159,15 @@ export function SignUpForm() {
       </div>
       <EmailPair />
       <PasswordField id="password" label="Senha" autoComplete="new-password" hint="Pelo menos 8 caracteres, com letras e números." />
-      <Turnstile resetKey={state} />
-      <Submit pending="Criando conta…">Criar conta</Submit>
+      <Turnstile resetKey={state} onToken={(t) => setReady(Boolean(t))} />
+      <Submit pending="Criando conta…" ready={ready}>Criar conta</Submit>
     </form>
   );
 }
 
 export function ResetForm() {
   const [state, action] = useActionState(requestPasswordReset, undefined);
+  const [ready, setReady] = useState(false);
   if (state?.success) return <Message state={state} />;
   return (
     <form action={action} className="auth-form">
@@ -158,8 +176,8 @@ export function ResetForm() {
         <label htmlFor="email">E-mail da conta</label>
         <input id="email" name="email" type="email" autoComplete="email" inputMode="email" required />
       </div>
-      <Turnstile resetKey={state} />
-      <Submit pending="Enviando…">Enviar link</Submit>
+      <Turnstile resetKey={state} onToken={(t) => setReady(Boolean(t))} />
+      <Submit pending="Enviando…" ready={ready}>Enviar link</Submit>
     </form>
   );
 }
