@@ -3,21 +3,16 @@
 import { useEffect, useRef } from 'react';
 
 /*
-  Campo de pontos do hero.
-  Em repouso, os pontos ficam parados e discretos. Ao mover o mouse (ou o dedo),
-  ondas circulares partem do ponteiro e deslocam os pontos por onde passam.
-  Pontos mais agitados crescem, escurecem e, no pico, ganham o laranja da marca.
+  Campo de pontos do hero com efeito lupa.
+  Em repouso, os pontos ficam parados e discretos. Onde o cursor (ou o dedo) passa,
+  uma lente suave amplia a malha: os pontos se afastam do centro e crescem um pouco.
+  A lente segue o ponteiro com leve atraso e aparece/some aos poucos, sem trancos.
 */
 
-type Ripple = { x: number; y: number; t: number; s: number };
-
-const WAVE_SPEED = 0.55; // px por ms
-const WAVE_WIDTH = 36; // largura da frente de onda, em px
-const WAVE_LIFE = 1700; // ms
-const WAVE_AMP = 6; // deslocamento máximo, em px
-const HOVER_RADIUS = 110;
-const MAX_RIPPLES = 16;
-const LEVELS = 6;
+const LENS_FOLLOW = 0.2; // quanto a lente se aproxima do ponteiro a cada quadro (0 a 1)
+const LENS_FADE = 0.12; // velocidade de entrada e saída da lente
+const LENS_PUSH = 0.55; // intensidade da ampliação
+const LENS_GROW = 1.1; // quanto os pontos crescem no centro da lente
 
 export default function DotField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,19 +29,17 @@ export default function DotField() {
     let height = 0;
     let gap = 28;
     let baseRadius = 1.3;
+    let lensRadius = 150;
     let xs = new Float32Array(0);
     let ys = new Float32Array(0);
-    let levelOf = new Uint8Array(0);
-    let offX = new Float32Array(0);
-    let offY = new Float32Array(0);
 
-    const ripples: Ripple[] = [];
-    const pointer = { x: -1e5, y: -1e5, inside: false, lastX: -1e5, lastY: -1e5, lastT: 0 };
+    // Posição do ponteiro (alvo) e da lente (suavizada)
+    const target = { x: 0, y: 0, on: false };
+    const lens = { x: 0, y: 0, strength: 0 };
 
     let raf = 0;
     let running = false;
     let visible = true;
-    let lastMoveAt = 0;
 
     function layout() {
       const rect = canvas!.getBoundingClientRect();
@@ -59,17 +52,14 @@ export default function DotField() {
 
       gap = width < 640 ? 22 : width < 1100 ? 26 : 30;
       baseRadius = width < 640 ? 1.1 : 1.3;
+      lensRadius = width < 640 ? 110 : 160;
 
       const cols = Math.ceil(width / gap) + 1;
       const rows = Math.ceil(height / gap) + 1;
       const ox = (width - (cols - 1) * gap) / 2;
       const oy = (height - (rows - 1) * gap) / 2;
-      const n = cols * rows;
-      xs = new Float32Array(n);
-      ys = new Float32Array(n);
-      offX = new Float32Array(n);
-      offY = new Float32Array(n);
-      levelOf = new Uint8Array(n);
+      xs = new Float32Array(cols * rows);
+      ys = new Float32Array(cols * rows);
       let k = 0;
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
@@ -82,12 +72,10 @@ export default function DotField() {
 
     // Suaviza os pontos atrás do título para manter a leitura confortável
     function drawVeil() {
-      const cx = width / 2;
-      const cy = height / 2;
       const rx = Math.min(width * 0.46, 620);
       const ry = Math.min(height * 0.32, 280);
       ctx!.save();
-      ctx!.translate(cx, cy);
+      ctx!.translate(width / 2, height / 2);
       ctx!.scale(1, ry / rx);
       const g = ctx!.createRadialGradient(0, 0, 0, 0, 0, rx);
       g.addColorStop(0, 'rgba(255,255,255,0.86)');
@@ -98,113 +86,75 @@ export default function DotField() {
       ctx!.restore();
     }
 
-    function compute(now: number) {
+    function draw() {
+      ctx!.clearRect(0, 0, width, height);
       const n = xs.length;
-      const hoverR2 = HOVER_RADIUS * HOVER_RADIUS;
+      const R = lensRadius;
+      const R2 = R * R;
+      const s = lens.strength;
+      const lensActive = s > 0.01;
+
+      // Pontos fora da lente: uma única passada
+      ctx!.fillStyle = 'rgba(0,0,0,0.2)';
+      ctx!.beginPath();
       for (let i = 0; i < n; i++) {
         const x = xs[i];
         const y = ys[i];
-        let dx = 0;
-        let dy = 0;
-        let energy = 0;
-
-        for (let j = 0; j < ripples.length; j++) {
-          const rp = ripples[j];
-          const age = now - rp.t;
-          const vx = x - rp.x;
-          const vy = y - rp.y;
-          const d = Math.sqrt(vx * vx + vy * vy) || 1;
-          const diff = d - age * WAVE_SPEED;
-          if (diff > WAVE_WIDTH * 2.6 || diff < -WAVE_WIDTH * 2.6) continue;
-          const envelope = Math.exp(-(diff * diff) / (2 * WAVE_WIDTH * WAVE_WIDTH));
-          const fade = 1 - age / WAVE_LIFE;
-          const k = envelope * fade * fade * rp.s;
-          const push = Math.sin(diff * 0.11) * WAVE_AMP * k;
-          dx += (vx / d) * push;
-          dy += (vy / d) * push;
-          // A intensidade usa a onda mais forte (e não a soma), para o rastro não saturar
-          if (k > energy) energy = k;
+        if (lensActive) {
+          const dx = x - lens.x;
+          const dy = y - lens.y;
+          if (dx * dx + dy * dy < R2) continue;
         }
-
-        if (pointer.inside) {
-          const vx = x - pointer.x;
-          const vy = y - pointer.y;
-          const d2 = vx * vx + vy * vy;
-          if (d2 < hoverR2) {
-            const d = Math.sqrt(d2) || 1;
-            const f = 1 - d / HOVER_RADIUS;
-            const push = f * f * 8;
-            dx += (vx / d) * push;
-            dy += (vy / d) * push;
-            energy = Math.max(energy, f * f * 0.62);
-          }
-        }
-
-        offX[i] = dx;
-        offY[i] = dy;
-        const lvl = Math.min(LEVELS - 1, Math.floor(Math.pow(energy, 1.5) * LEVELS));
-        levelOf[i] = lvl < 0 ? 0 : lvl;
-      }
-    }
-
-    function colorFor(level: number) {
-      if (level === 0) return 'rgba(0,0,0,0.2)';
-      if (level >= LEVELS - 1) return 'rgba(255,122,0,0.9)';
-      const a = 0.24 + (level / (LEVELS - 1)) * 0.5;
-      return `rgba(0,0,0,${a.toFixed(2)})`;
-    }
-
-    function draw(now: number, animate: boolean) {
-      ctx!.clearRect(0, 0, width, height);
-      if (animate) compute(now);
-
-      const n = xs.length;
-      // Camada base
-      ctx!.fillStyle = colorFor(0);
-      ctx!.beginPath();
-      for (let i = 0; i < n; i++) {
-        if (levelOf[i] !== 0) continue;
-        const x = xs[i] + offX[i];
-        const y = ys[i] + offY[i];
         ctx!.moveTo(x + baseRadius, y);
         ctx!.arc(x, y, baseRadius, 0, Math.PI * 2);
       }
       ctx!.fill();
 
-      // Pontos em movimento, por intensidade
-      for (let lvl = 1; lvl < LEVELS; lvl++) {
-        const r = baseRadius * (1 + lvl * 0.28);
-        ctx!.fillStyle = colorFor(lvl);
-        ctx!.beginPath();
-        let any = false;
+      // Pontos dentro da lente: ampliados, um a um
+      if (lensActive) {
         for (let i = 0; i < n; i++) {
-          if (levelOf[i] !== lvl) continue;
-          any = true;
-          const x = xs[i] + offX[i];
-          const y = ys[i] + offY[i];
-          ctx!.moveTo(x + r, y);
+          const dx = xs[i] - lens.x;
+          const dy = ys[i] - lens.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 >= R2) continue;
+          const t = Math.sqrt(d2) / R; // 0 no centro, 1 na borda
+          const falloff = (1 - t) * (1 - t);
+          // Afasta o ponto do centro, como uma lente de aumento
+          const scale = 1 + LENS_PUSH * falloff * s;
+          const x = lens.x + dx * scale;
+          const y = lens.y + dy * scale;
+          const r = baseRadius * (1 + LENS_GROW * falloff * s);
+          const a = 0.2 + 0.5 * falloff * s;
+          ctx!.fillStyle = `rgba(0,0,0,${a.toFixed(3)})`;
+          ctx!.beginPath();
           ctx!.arc(x, y, r, 0, Math.PI * 2);
+          ctx!.fill();
         }
-        if (any) ctx!.fill();
       }
 
       drawVeil();
     }
 
-    function tick(now: number) {
-      while (ripples.length && now - ripples[0].t > WAVE_LIFE) ripples.shift();
-      draw(now, true);
-      const pointerMoving = pointer.inside && now - lastMoveAt < 120;
-      if ((ripples.length || pointerMoving) && visible) {
+    function tick() {
+      lens.x += (target.x - lens.x) * LENS_FOLLOW;
+      lens.y += (target.y - lens.y) * LENS_FOLLOW;
+      const goal = target.on ? 1 : 0;
+      lens.strength += (goal - lens.strength) * LENS_FADE;
+
+      draw();
+
+      const settled =
+        Math.abs(target.x - lens.x) < 0.3 &&
+        Math.abs(target.y - lens.y) < 0.3 &&
+        Math.abs(goal - lens.strength) < 0.005;
+
+      if (!settled && visible) {
         raf = requestAnimationFrame(tick);
       } else {
-        // Sem ondas ativas: desenha um quadro final e para o loop até o próximo movimento
         running = false;
-        if (!pointer.inside) {
-          offX.fill(0);
-          offY.fill(0);
-          levelOf.fill(0);
-          draw(now, false);
+        if (!target.on) {
+          lens.strength = 0;
+          draw();
         }
       }
     }
@@ -215,72 +165,48 @@ export default function DotField() {
       raf = requestAnimationFrame(tick);
     }
 
-    function spawn(x: number, y: number, strength: number) {
-      if (reduceMotion) return;
-      ripples.push({ x, y, t: performance.now(), s: strength });
-      if (ripples.length > MAX_RIPPLES) ripples.shift();
+    function moveTo(clientX: number, clientY: number) {
+      const rect = canvas!.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      const inside = x >= 0 && y >= 0 && x <= width && y <= height;
+      // Ao entrar, a lente nasce no ponteiro em vez de deslizar de longe
+      if (inside && lens.strength < 0.02) {
+        lens.x = x;
+        lens.y = y;
+      }
+      target.x = x;
+      target.y = y;
+      target.on = inside;
       start();
     }
 
-    function local(clientX: number, clientY: number) {
-      const rect = canvas!.getBoundingClientRect();
-      return { x: clientX - rect.left, y: clientY - rect.top };
-    }
-
-    function onMove(clientX: number, clientY: number) {
-      const p = local(clientX, clientY);
-      const now = performance.now();
-      lastMoveAt = now;
-      pointer.x = p.x;
-      pointer.y = p.y;
-      pointer.inside = p.x >= 0 && p.y >= 0 && p.x <= width && p.y <= height;
-      const dist = Math.hypot(p.x - pointer.lastX, p.y - pointer.lastY);
-      if (dist > 34) {
-        const dt = Math.max(16, now - pointer.lastT);
-        const speed = dist / dt; // px por ms
-        const strength = Math.min(1, Math.max(0.5, speed * 0.9));
-        if (pointer.lastT && dist < 400) spawn(p.x, p.y, strength);
-        pointer.lastX = p.x;
-        pointer.lastY = p.y;
-        pointer.lastT = now;
-      }
+    function leave() {
+      target.on = false;
       start();
     }
 
     const onPointerMove = (e: PointerEvent) => {
       if (e.pointerType === 'touch') return;
-      onMove(e.clientX, e.clientY);
+      moveTo(e.clientX, e.clientY);
     };
-    const onPointerLeave = () => {
-      pointer.inside = false;
-      pointer.lastT = 0;
-      start();
-    };
-    const onPointerDown = (e: PointerEvent) => {
-      const p = local(e.clientX, e.clientY);
-      spawn(p.x, p.y, 1);
-    };
-    const onTouchMove = (e: TouchEvent) => {
+    const onTouch = (e: TouchEvent) => {
       const t = e.touches[0];
-      if (t) onMove(t.clientX, t.clientY);
-    };
-    const onTouchEnd = () => {
-      pointer.inside = false;
-      pointer.lastT = 0;
+      if (t) moveTo(t.clientX, t.clientY);
     };
 
     layout();
-    draw(performance.now(), false);
+    draw();
 
     const ro = new ResizeObserver(() => {
       layout();
-      draw(performance.now(), running);
+      draw();
     });
     ro.observe(canvas);
 
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
-      if (visible && (ripples.length || pointer.inside)) start();
+      if (visible) start();
     });
     io.observe(host);
 
@@ -290,25 +216,23 @@ export default function DotField() {
     };
 
     host.addEventListener('pointermove', onPointerMove);
-    host.addEventListener('pointerleave', onPointerLeave);
-    host.addEventListener('pointerdown', onPointerDown);
-    host.addEventListener('touchmove', onTouchMove, { passive: true });
-    host.addEventListener('touchend', onTouchEnd, { passive: true });
+    host.addEventListener('pointerleave', leave);
+    host.addEventListener('touchstart', onTouch, { passive: true });
+    host.addEventListener('touchmove', onTouch, { passive: true });
+    host.addEventListener('touchend', leave, { passive: true });
+    host.addEventListener('touchcancel', leave, { passive: true });
     document.addEventListener('visibilitychange', onVisibility);
 
-    // Uma onda de abertura, partindo do centro, junto com a entrada do título
-    const intro = window.setTimeout(() => spawn(width / 2, height / 2, 1), 450);
-
     return () => {
-      window.clearTimeout(intro);
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
       host.removeEventListener('pointermove', onPointerMove);
-      host.removeEventListener('pointerleave', onPointerLeave);
-      host.removeEventListener('pointerdown', onPointerDown);
-      host.removeEventListener('touchmove', onTouchMove);
-      host.removeEventListener('touchend', onTouchEnd);
+      host.removeEventListener('pointerleave', leave);
+      host.removeEventListener('touchstart', onTouch);
+      host.removeEventListener('touchmove', onTouch);
+      host.removeEventListener('touchend', leave);
+      host.removeEventListener('touchcancel', leave);
       document.removeEventListener('visibilitychange', onVisibility);
     };
   }, []);
