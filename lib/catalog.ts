@@ -12,6 +12,8 @@ export type CatalogItem = {
   badge?: string;
   /** Esconde título e descrição abaixo da capa (quando a imagem já traz o nome). */
   hideCaption?: boolean;
+  /** Ainda não lançado: capa em preto e branco com a faixa "Em breve". */
+  comingSoon?: boolean;
 };
 
 export const courses: CatalogItem[] = [
@@ -26,6 +28,12 @@ export const courses: CatalogItem[] = [
     image: '/cursos/aulas-youtube.webp',
     hideCaption: true
     // href: definir quando a página das aulas estiver pronta
+  },
+  {
+    title: 'Filmes com IA',
+    image: '/cursos/filmes-com-ia.webp',
+    hideCaption: true,
+    comingSoon: true
   }
 ];
 

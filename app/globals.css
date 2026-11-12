@@ -656,6 +656,50 @@ p {
   filter: grayscale(1) brightness(2);
 }
 
+/* Curso ainda não lançado: capa em preto e branco e faixa vermelha no canto */
+.card-media {
+  container-type: inline-size;
+}
+
+.card.is-soon .card-media img {
+  filter: grayscale(1);
+}
+
+.card-ribbon {
+  /* Centro da faixa a uma distância --c do canto, na diagonal */
+  --c: clamp(24px, 11cqw, 34px);
+  --h: clamp(18px, 7.5cqw, 26px);
+  --w: calc(var(--c) * 4);
+  position: absolute;
+  top: calc(var(--c) - var(--h) / 2);
+  right: calc(var(--c) - var(--w) / 2);
+  width: var(--w);
+  height: var(--h);
+  display: grid;
+  place-items: center;
+  background: #e10600;
+  color: #ffffff;
+  font-size: clamp(10px, 3.8cqw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Em cards pequenos (celular), a faixa vira uma tira reta no topo, sem cobrir o título */
+@container (max-width: 200px) {
+  .card-ribbon {
+    top: 0;
+    right: 0;
+    left: 0;
+    width: auto;
+    height: 20px;
+    transform: none;
+    font-size: 10.5px;
+  }
+}
+
 .card-badge {
   position: absolute;
   top: 12px;
