@@ -1,0 +1,27 @@
+import { redirect } from 'next/navigation';
+import { SignInForm } from '@/components/AuthForms';
+import { createClient } from '@/lib/supabase/server';
+
+export const metadata = { title: 'Entrar | Azevedo Academy' };
+
+const notices: Record<string, string> = {
+  link: 'Esse link expirou ou já foi usado. Entre com sua senha ou peça um novo link.'
+};
+
+export default async function EntrarPage({ searchParams }: { searchParams: Promise<{ next?: string; aviso?: string }> }) {
+  const { next = '/', aviso } = await searchParams;
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  if (data.user) redirect('/');
+
+  return (
+    <>
+      <h1>Entrar</h1>
+      <p className="auth-sub">Acesse seus cursos e ferramentas.</p>
+      <SignInForm next={next.startsWith('/') ? next : '/'} notice={aviso ? notices[aviso] : undefined} />
+      <p className="auth-alt">
+        Ainda não tem conta? <a href="/cadastro">Criar conta</a>
+      </p>
+    </>
+  );
+}

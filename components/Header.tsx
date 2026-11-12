@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
 import GlassNav from './GlassNav';
 
 const links = [
@@ -15,6 +16,15 @@ const mobileLinks = links.slice(1);
 export default function Header() {
   const [dark, setDark] = useState(false);
   const [open, setOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  // Mostra "Entrar" ou "Sair" conforme a sessão do visitante
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data }) => setLoggedIn(Boolean(data.session)));
+    const { data } = supabase.auth.onAuthStateChange((_e, session) => setLoggedIn(Boolean(session)));
+    return () => data.subscription.unsubscribe();
+  }, []);
 
   // No celular: header claro sobre o hero branco e escuro sobre as seções pretas
   useEffect(() => {
@@ -35,7 +45,7 @@ export default function Header() {
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
-    const onResize = () => window.innerWidth > 760 && setOpen(false);
+    const onResize = () => window.innerWidth > 900 && setOpen(false);
     window.addEventListener('keydown', onKey);
     window.addEventListener('resize', onResize);
     return () => {
@@ -53,7 +63,16 @@ export default function Header() {
             <img src="/logo.svg" alt="" width={28} height={29} />
             <span>Azevedo Academy</span>
           </a>
-          <GlassNav links={links} />
+          <div className="header-actions">
+            <GlassNav links={links} />
+            {loggedIn ? (
+              <form action="/auth/sair" method="post">
+                <button className="header-auth" type="submit">Sair</button>
+              </form>
+            ) : (
+              <a className="header-auth" href="/entrar">Entrar</a>
+            )}
+          </div>
           <button
             className="menu-button"
             type="button"
@@ -70,6 +89,13 @@ export default function Header() {
         {mobileLinks.map((l) => (
           <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
         ))}
+        {loggedIn ? (
+          <form action="/auth/sair" method="post">
+            <button className="mobile-menu-auth" type="submit">Sair</button>
+          </form>
+        ) : (
+          <a className="mobile-menu-auth" href="/entrar">Entrar</a>
+        )}
       </nav>
     </>
   );

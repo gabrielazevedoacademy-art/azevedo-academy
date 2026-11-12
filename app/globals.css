@@ -331,6 +331,226 @@ p {
   border-bottom-color: transparent;
 }
 
+/* Ações à direita do header: navegação + Entrar/Sair */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-auth {
+  display: none;
+  align-items: center;
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.header-auth:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.mobile-menu-auth {
+  margin-top: 28px;
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--orange);
+  text-align: left;
+}
+
+.mobile-menu form {
+  display: contents;
+}
+
+@media (min-width: 901px) {
+  .header-auth {
+    display: inline-flex;
+  }
+}
+
+/* ---------------------------------------------------------------- Login e cadastro */
+
+html:has(.auth-page),
+body:has(.auth-page) {
+  background: #ffffff;
+}
+
+.auth-page {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 104px var(--gutter) 56px;
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.auth-brand {
+  position: absolute;
+  top: 24px;
+  left: var(--gutter);
+  color: var(--ink);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  animation: fade-up 700ms var(--ease) both;
+}
+
+.auth-card h1 {
+  font-size: clamp(2.5rem, 7vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.auth-sub {
+  margin: 12px 0 32px;
+  color: var(--gray);
+  font-size: 16px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-field + .auth-field {
+  margin-top: 18px;
+}
+
+.auth-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.auth-field input {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 1px solid #e3e3e8;
+  background: #f5f5f7;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  transition: border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+}
+
+.auth-field input:hover {
+  border-color: #cfcfd6;
+}
+
+.auth-field input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06);
+}
+
+.auth-password {
+  position: relative;
+}
+
+.auth-password input {
+  padding-right: 92px;
+}
+
+.auth-password button {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  color: var(--gray);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.auth-password button:hover {
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.auth-hint {
+  color: var(--gray);
+  font-size: 13px;
+}
+
+.auth-forgot {
+  align-self: flex-end;
+  margin-top: 12px;
+  color: var(--gray);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.auth-forgot:hover {
+  color: var(--ink);
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 28px;
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.auth-alert {
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.auth-alert-error {
+  background: #fff1f0;
+  color: #b42318;
+}
+
+.auth-alert-success {
+  background: #f1f8f2;
+  color: #1b6b32;
+}
+
+.auth-alt {
+  margin-top: 28px;
+  text-align: center;
+  color: var(--gray);
+  font-size: 15px;
+}
+
+.auth-alt a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
 /* ---------------------------------------------------------------- Hero */
 
 /* O hero fica preso ao topo; o conteúdo sobe por cima dele e o "encolhe" (--cover: 0 a 1) */
@@ -964,7 +1184,7 @@ p {
 
 /* ---------------------------------------------------------------- Responsivo */
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   :root {
     --header-h: 60px;
   }
@@ -981,7 +1201,7 @@ p {
 }
 
 /* Desktop: barra flutuante em vidro líquido, levemente escura, com texto branco */
-@media (min-width: 761px) {
+@media (min-width: 901px) {
   .header {
     top: 14px;
     height: auto;
