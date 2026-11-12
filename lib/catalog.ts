@@ -16,6 +16,12 @@ export type CatalogItem = {
 
 export const courses: CatalogItem[] = [
   {
+    title: 'Influencer com IA',
+    href: '/influencer-com-ia',
+    image: '/cursos/influencer-com-ia.webp',
+    hideCaption: true
+  },
+  {
     title: 'Aulas no YouTube',
     image: '/cursos/aulas-youtube.webp',
     hideCaption: true

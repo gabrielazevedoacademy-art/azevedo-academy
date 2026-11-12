@@ -2,6 +2,17 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Página de vendas do Influencer com IA (HTML estático em public/influencer-com-ia)
+  async rewrites() {
+    return {
+      beforeFiles: [
+        { source: '/influencer-com-ia', destination: '/influencer-com-ia/index.html' },
+        { source: '/influencer-com-ia/', destination: '/influencer-com-ia/index.html' }
+      ],
+      afterFiles: [],
+      fallback: []
+    };
+  },
   async headers() {
     return [
       {
