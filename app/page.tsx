@@ -28,7 +28,7 @@ export default function Home() {
             id="ferramentas"
             title="Ferramentas"
             items={tools}
-            ratio="1 / 1"
+            ratio="4 / 5"
             empty="As primeiras ferramentas gratuitas chegam em breve."
           />
           <About />
