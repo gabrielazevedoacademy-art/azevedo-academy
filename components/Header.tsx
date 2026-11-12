@@ -1,18 +1,22 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import GlassNav from './GlassNav';
 
 const links = [
+  { href: '#inicio', label: 'Início' },
   { href: '#cursos', label: 'Cursos' },
   { href: '#ferramentas', label: 'Ferramentas' },
   { href: '#quem-somos', label: 'Quem somos' }
 ];
 
+const mobileLinks = links.slice(1);
+
 export default function Header() {
   const [dark, setDark] = useState(false);
   const [open, setOpen] = useState(false);
 
-  // Header claro sobre o hero branco; escuro quando o conteúdo preto passa por baixo dele
+  // No celular: header claro sobre o hero branco e escuro sobre as seções pretas
   useEffect(() => {
     const hero = document.getElementById('inicio');
     if (!hero) return;
@@ -43,16 +47,12 @@ export default function Header() {
   return (
     <>
       <header className="header" data-theme={dark ? 'dark' : 'light'} data-menu={open ? 'open' : 'closed'}>
-        <div className="container header-inner">
+        <div className="header-bar">
           <a className="brand" href="#inicio" aria-label="Azevedo Academy, voltar ao início" onClick={() => setOpen(false)}>
             <img src="/logo.svg" alt="" width={28} height={29} />
             <span>Azevedo Academy</span>
           </a>
-          <nav className="nav" aria-label="Navegação principal">
-            {links.map((l) => (
-              <a key={l.href} href={l.href}>{l.label}</a>
-            ))}
-          </nav>
+          <GlassNav links={links} />
           <button
             className="menu-button"
             type="button"
@@ -66,7 +66,7 @@ export default function Header() {
         </div>
       </header>
       <nav id="menu-mobile" className="mobile-menu" data-open={open} aria-label="Menu" aria-hidden={!open} inert={!open}>
-        {links.map((l) => (
+        {mobileLinks.map((l) => (
           <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
         ))}
       </nav>
