@@ -35,7 +35,8 @@ export default function PrivacidadePage() {
         </li>
         <li>
           <strong>Dados de uso:</strong> data de criação da conta, data do último acesso, forma de entrar (e-mail ou
-          Google) e os cursos aos quais você tem acesso.
+          Google), os cursos aos quais você tem acesso e o seu progresso nas aulas (quanto de cada vídeo foi
+          assistido e quais aulas foram concluídas).
         </li>
         <li>
           <strong>Dados técnicos:</strong> endereço IP, tipo de navegador e registros de acesso gerados

@@ -66,8 +66,8 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
       </header>
 
       <div className="adm-split">
-        <section className="adm-split-main" aria-labelledby="conteudo">
-          <h2 id="conteudo" className="adm-section-title">Conteúdo</h2>
+        <section className="adm-split-main" aria-labelledby="conteudo-curso">
+          <h2 id="conteudo-curso" className="adm-section-title">Conteúdo</h2>
           <CourseContent courseId={course.id} modules={modules} />
         </section>
 

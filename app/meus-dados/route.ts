@@ -13,6 +13,11 @@ export async function GET(request: Request) {
     .select('created_at, expires_at, source, courses(title, slug)')
     .eq('user_id', user.id);
 
+  const { data: progress } = await supabase
+    .from('lesson_progress')
+    .select('watched_seconds, duration_seconds, completed_at, updated_at, lessons(title)')
+    .eq('user_id', user.id);
+
   const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
   const body = {
     gerado_em: new Date().toISOString(),
@@ -27,7 +32,8 @@ export async function GET(request: Request) {
       ultimo_acesso: user.last_sign_in_at ?? null,
       formas_de_entrar: (user.identities ?? []).map((i) => i.provider)
     },
-    matriculas: enrollments ?? []
+    matriculas: enrollments ?? [],
+    progresso_nas_aulas: progress ?? []
   };
 
   return new NextResponse(JSON.stringify(body, null, 2), {

@@ -29,8 +29,8 @@ export const courses: CatalogItem[] = [
     title: 'Aulas no YouTube',
     image: '/cursos/aulas-youtube.webp',
     hideCaption: true,
-    free: true
-    // href: definir quando a página das aulas estiver pronta
+    free: true,
+    href: '/cursos/aulas-no-youtube'
   },
   {
     title: 'Filmes com IA',

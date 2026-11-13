@@ -79,6 +79,29 @@ test('Login continua sozinho quando a verificação falha na primeira tentativa'
   await posted;
 });
 
+// Bug 12/11/2026: no painel, o título "Conteúdo" usava id="conteudo" e herdava o bloco preto da página inicial
+test('id="conteudo" só existe na página inicial', async () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const hits = [];
+  const walk = (dir) => {
+    for (const f of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, f.name);
+      if (f.isDirectory()) walk(p);
+      else if (/\.tsx$/.test(f.name) && /id=["']conteudo["']/.test(fs.readFileSync(p, 'utf8'))) hits.push(p);
+    }
+  };
+  ['app', 'components'].forEach((d) => walk(path.join(__dirname, '..', d)));
+  const extra = hits.filter((p) => !p.endsWith(path.join('app', 'page.tsx')));
+  if (extra.length) throw new Error('também em: ' + extra.join(', '));
+});
+
+test('Página do curso pede login antes de mostrar as aulas', async (browser) => {
+  const page = await newPage(browser);
+  await page.goto(BASE + '/cursos/aulas-no-youtube');
+  if (!page.url().includes('/entrar?next=%2Fcursos%2Faulas-no-youtube')) throw new Error('não levou ao login: ' + page.url());
+});
+
 /* ---------- Execução ---------- */
 
 async function waitServer() {
