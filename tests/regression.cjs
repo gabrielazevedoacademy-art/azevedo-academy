@@ -102,6 +102,16 @@ test('Página do curso pede login antes de mostrar as aulas', async (browser) =>
   if (!page.url().includes('/entrar?next=%2Fcursos%2Faulas-no-youtube')) throw new Error('não levou ao login: ' + page.url());
 });
 
+// 12/11/2026: o card do curso abria direto num módulo; agora é curso → módulo → aula
+test('Telas de módulo e aula também pedem login e voltam ao mesmo lugar', async (browser) => {
+  const page = await newPage(browser);
+  const id = '00000000-0000-4000-8000-000000000000';
+  for (const p of [`/cursos/aulas-no-youtube/modulo/${id}`, `/cursos/aulas-no-youtube/aula/${id}`]) {
+    await page.goto(BASE + p);
+    if (!page.url().includes('/entrar?next=' + encodeURIComponent(p))) throw new Error('não levou ao login: ' + page.url());
+  }
+});
+
 /* ---------- Execução ---------- */
 
 async function waitServer() {

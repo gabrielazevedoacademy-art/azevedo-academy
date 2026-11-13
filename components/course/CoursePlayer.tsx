@@ -35,8 +35,6 @@ const Lock = () => (
 export default function CoursePlayer({
   userId,
   slug,
-  courseTitle,
-  draft,
   modules,
   completed: initialCompleted,
   current,
@@ -44,8 +42,6 @@ export default function CoursePlayer({
 }: {
   userId: string;
   slug: string;
-  courseTitle: string;
-  draft: boolean;
   modules: OutlineModule[];
   completed: string[];
   current: CurrentLesson | null;
@@ -59,26 +55,10 @@ export default function CoursePlayer({
   const prev = index > 0 ? lessons.slice(0, index).reverse().find((l) => l.canWatch) : undefined;
   const next = index >= 0 ? lessons.slice(index + 1).find((l) => l.canWatch) : undefined;
   const isDone = current ? completed.has(current.id) : false;
-  const href = (id: string) => `/cursos/${slug}?aula=${id}`;
+  const href = (id: string) => `/cursos/${slug}/aula/${id}`;
 
   return (
-    <div className="course-page">
-      <header className="course-top">
-        <a className="brand" href="/" aria-label="Azevedo Academy, voltar ao site">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="" width={28} height={29} />
-          <span>Azevedo Academy</span>
-        </a>
-        <span className="course-top-title">{courseTitle}</span>
-        <a className="course-top-back" href="/#cursos">
-          Todos os cursos
-        </a>
-      </header>
-
-      {draft && (
-        <p className="course-draft">Prévia do administrador: este curso ainda está como rascunho e os alunos não o veem.</p>
-      )}
-
+    <>
       <div className="course-layout">
         <main className="course-main">
           {current ? (
@@ -179,8 +159,10 @@ export default function CoursePlayer({
           {modules.map((m, mi) => (
             <section key={m.id} className="course-module">
               <h2>
-                <span>Módulo {mi + 1}</span>
-                {m.title}
+                <a href={`/cursos/${slug}/modulo/${m.id}`}>
+                  <span>Módulo {mi + 1}</span>
+                  {m.title}
+                </a>
               </h2>
               <ol>
                 {m.lessons.map((l) => {
@@ -221,6 +203,6 @@ export default function CoursePlayer({
           ))}
         </aside>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,28 +1,11 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import CoursePlayer, { type CurrentLesson, type OutlineModule } from '@/components/course/CoursePlayer';
-import type { SavedProgress } from '@/components/course/VideoPlayer';
-import { MATERIAL_BUCKET } from '@/lib/admin/storage';
-import { createClient } from '@/lib/supabase/server';
-import { needsSecondFactor, verifyUrl } from '@/lib/supabase/mfa';
-import './curso.css';
+import CourseShell, { CheckIcon, CourseUnavailable, LockIcon } from '@/components/course/CourseShell';
+import { lessonUrl, loadCourse, moduleUrl } from '@/lib/course-data';
 
 export const metadata: Metadata = { title: 'Curso | Azevedo Academy', robots: { index: false } };
 
-type Row = {
-  course_title: string;
-  course_status: string;
-  module_id: string | null;
-  module_title: string | null;
-  lesson_id: string | null;
-  lesson_title: string | null;
-  duration_minutes: number | null;
-  is_free_preview: boolean | null;
-  can_watch: boolean | null;
-};
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
+// Tela do curso: apresenta o curso e os módulos. As aulas ficam dentro de cada módulo.
 export default async function CursoPage({
   params,
   searchParams
@@ -32,121 +15,92 @@ export default async function CursoPage({
 }) {
   const { slug } = await params;
   const { aula } = await searchParams;
-  const path = `/cursos/${slug}`;
-  const supabase = await createClient();
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-  if (!user) redirect(`/entrar?next=${encodeURIComponent(path)}`);
-  if (await needsSecondFactor(supabase)) redirect(verifyUrl(path));
+  if (aula) redirect(lessonUrl(slug, aula)); // links antigos
 
-  const { data } = await supabase.rpc('course_outline', { p_slug: slug });
-  const rows = (data ?? []) as Row[];
+  const course = await loadCourse(slug, `/cursos/${slug}`);
+  if (!course) return <CourseUnavailable />;
 
-  if (!rows.length)
-    return (
-      <div className="course-page">
-        <div className="course-locked course-missing">
-          <h1>Este curso ainda não está disponível</h1>
-          <p>Ele aparece aqui assim que for publicado.</p>
-          <a className="course-nav-btn" href="/#cursos">
-            Ver os cursos
-          </a>
-        </div>
-      </div>
-    );
-
-  // Monta módulos e aulas a partir das linhas do índice
-  const modules: OutlineModule[] = [];
-  for (const r of rows) {
-    if (!r.module_id) continue;
-    let m = modules.find((x) => x.id === r.module_id);
-    if (!m) modules.push((m = { id: r.module_id, title: r.module_title ?? '', lessons: [] }));
-    if (r.lesson_id)
-      m.lessons.push({
-        id: r.lesson_id,
-        title: r.lesson_title ?? '',
-        durationMinutes: r.duration_minutes,
-        canWatch: Boolean(r.can_watch),
-        isFreePreview: Boolean(r.is_free_preview)
-      });
-  }
-  const lessons = modules.flatMap((m) => m.lessons);
-
-  const { data: progress } = lessons.length
-    ? await supabase
-        .from('lesson_progress')
-        .select('lesson_id, completed_at, watched, duration_seconds')
-        .eq('user_id', user.id)
-        .in(
-          'lesson_id',
-          lessons.map((l) => l.id)
-        )
-    : { data: [] };
-  const done = (progress ?? []).filter((p) => p.completed_at).map((p) => p.lesson_id as string);
-
-  // Aula aberta: a pedida no link, senão a primeira ainda não concluída
-  const watchable = lessons.filter((l) => l.canWatch);
-  const pick =
-    watchable.find((l) => aula && UUID.test(aula) && l.id === aula) ??
-    watchable.find((l) => !done.includes(l.id)) ??
-    watchable[0];
-
-  let current: CurrentLesson | null = null;
-  let saved: SavedProgress = null;
-  if (pick) {
-    const { data: lesson } = await supabase
-      .from('lessons')
-      .select('id, title, description, youtube_id, lesson_materials(id, title, kind, url, file_path, file_size, position)')
-      .eq('id', pick.id)
-      .order('position', { referencedTable: 'lesson_materials' })
-      .maybeSingle();
-    if (lesson) {
-      const mats = (lesson.lesson_materials ?? []) as {
-        id: string;
-        title: string;
-        kind: 'file' | 'link';
-        url: string | null;
-        file_path: string | null;
-        file_size: number | null;
-      }[];
-      const paths = mats.filter((m) => m.file_path).map((m) => m.file_path!);
-      const signed = new Map<string, string>();
-      if (paths.length) {
-        const { data: urls } = await supabase.storage.from(MATERIAL_BUCKET).createSignedUrls(paths, 60 * 60);
-        (urls ?? []).forEach((u) => u.path && u.signedUrl && signed.set(u.path, u.signedUrl));
-      }
-      current = {
-        id: lesson.id,
-        title: lesson.title,
-        description: lesson.description ?? '',
-        youtubeId: lesson.youtube_id,
-        materials: mats.map((m) => ({
-          id: m.id,
-          title: m.title,
-          kind: m.kind,
-          size: m.file_size,
-          href: m.kind === 'link' ? m.url : (signed.get(m.file_path!) ?? null),
-          ext: m.file_path?.match(/\.([A-Za-z0-9]{1,6})$/)?.[1]?.toLowerCase() ?? ''
-        }))
-      };
-      const p = (progress ?? []).find((x) => x.lesson_id === lesson.id);
-      saved = p
-        ? { watched: p.watched ?? '', durationSeconds: p.duration_seconds, completed: Boolean(p.completed_at) }
-        : null;
-    }
-  }
+  const total = course.lessons.length;
+  const doneCount = course.lessons.filter((l) => course.done.includes(l.id)).length;
+  const started = doneCount > 0 || course.progress.length > 0;
 
   return (
-    <CoursePlayer
-      userId={user.id}
-      slug={slug}
-      courseTitle={rows[0].course_title}
-      draft={rows[0].course_status !== 'published'}
-      modules={modules}
-      completed={done}
-      current={current}
-      saved={saved}
-    />
+    <CourseShell crumbs={[{ label: course.title }]} draft={course.draft}>
+      <section className="course-hero">
+        <h1>{course.title}</h1>
+        {course.description && <p className="course-hero-desc">{course.description}</p>}
+        <div className="course-hero-row">
+          {course.nextLesson && (
+            <a className="course-cta" href={lessonUrl(slug, course.nextLesson.id)}>
+              {started ? 'Continuar de onde parei' : 'Começar o curso'}
+            </a>
+          )}
+          {total > 0 && (
+            <div className="course-progress course-progress-inline">
+              <strong>
+                {doneCount} de {total} {total === 1 ? 'aula concluída' : 'aulas concluídas'}
+              </strong>
+              <span className="course-progress-bar" aria-hidden="true">
+                <span style={{ width: `${(doneCount / total) * 100}%` }} />
+              </span>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="course-modules" aria-labelledby="modulos">
+        <h2 id="modulos">Módulos</h2>
+        {course.modules.length === 0 ? (
+          <p className="course-empty">Os módulos deste curso chegam em breve.</p>
+        ) : (
+          <ul className="course-module-grid">
+            {course.modules.map((m, i) => {
+              const n = m.lessons.length;
+              const d = m.lessons.filter((l) => course.done.includes(l.id)).length;
+              const open = m.lessons.some((l) => l.canWatch);
+              const cover = m.lessons.find((l) => l.thumb)?.thumb ?? null;
+              return (
+                <li key={m.id}>
+                  <a className="course-module-card" href={moduleUrl(slug, m.id)} data-locked={!open}>
+                    <span className="course-module-cover">
+                      {cover ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={cover} alt="" loading="lazy" />
+                      ) : (
+                        <span className="course-module-number">{String(i + 1).padStart(2, '0')}</span>
+                      )}
+                      {n > 0 && d === n && (
+                        <span className="course-module-done">
+                          <CheckIcon />
+                          Concluído
+                        </span>
+                      )}
+                      {!open && n > 0 && (
+                        <span className="course-module-lock">
+                          <LockIcon />
+                        </span>
+                      )}
+                    </span>
+                    <span className="course-module-info">
+                      <span className="course-module-label">Módulo {i + 1}</span>
+                      <strong>{m.title}</strong>
+                      <span className="course-module-meta">
+                        {n} {n === 1 ? 'aula' : 'aulas'}
+                        {n > 0 && `, ${d} concluída${d === 1 ? '' : 's'}`}
+                      </span>
+                      {n > 0 && (
+                        <span className="course-progress-bar" aria-hidden="true">
+                          <span style={{ width: `${(d / n) * 100}%` }} />
+                        </span>
+                      )}
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
+    </CourseShell>
   );
 }
