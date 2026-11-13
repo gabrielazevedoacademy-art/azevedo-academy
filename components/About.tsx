@@ -28,10 +28,10 @@ export default function About() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="about-photo"
-            src="/sobre/gabriel-azevedo.webp"
-            alt="Gabriel Azevedo, criador da Azevedo Academy, sorrindo e fazendo sinal de positivo"
-            width={1066}
-            height={1392}
+            src="/sobre/gabriel-azevedo-2.webp"
+            alt="Gabriel Azevedo, criador da Azevedo Academy, sorrindo de braços cruzados"
+            width={1056}
+            height={1269}
             loading="lazy"
           />
         </div>
