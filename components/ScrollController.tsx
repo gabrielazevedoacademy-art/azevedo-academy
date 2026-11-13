@@ -58,7 +58,7 @@ export default function ScrollController() {
     const writeProgress = () => {
       progressQueued = false;
       const H = boundary();
-      const p = H ? Math.min(1, Math.max(0, window.scrollY / H)) : 1;
+      const p = H ? Math.min(1, Math.max(0, window.scrollY / H)) : 0;
       root.style.setProperty('--cover', p.toFixed(4));
     };
     const queueProgress = () => {
@@ -291,6 +291,8 @@ export default function ScrollController() {
     window.addEventListener('resize', queueProgress);
 
     return () => {
+      // Ao sair da página inicial, o hero não pode ficar "coberto" para a próxima visita
+      root.style.removeProperty('--cover');
       cancelAnimationFrame(transitionRaf);
       cancelAnimationFrame(smoothRaf);
       window.clearTimeout(settleTimer);

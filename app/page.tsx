@@ -3,11 +3,14 @@ import CatalogSection from '@/components/CatalogSection';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
+import ScrollController from '@/components/ScrollController';
 import { courses, site, tools } from '@/lib/catalog';
 
 export default function Home() {
   return (
     <>
+      {/* Só existe na página inicial: monta com o hero e desmonta ao sair dela */}
+      <ScrollController />
       <Header />
       <main>
         <Hero />
