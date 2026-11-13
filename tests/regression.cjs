@@ -9,9 +9,16 @@ const { chromium } = require('playwright');
 const PORT = 3210;
 const BASE = `http://localhost:${PORT}`;
 
-// Turnstile falso: entrega um código depois de `window.__captchaDelay` ms (padrão 300)
+// Turnstile falso: entrega um código depois de `__captchaDelay` ms (padrão 300).
+// Com `__captchaFail` = n, as n primeiras tentativas dão erro (simula Cloudflare falhando).
 const FAKE_TURNSTILE = `window.turnstile = {
-  render(el, o) { const go = () => setTimeout(() => o.callback('teste-' + 'x'.repeat(40)), window.__captchaDelay ?? 300); this._go = go; go(); return 'w1'; },
+  render(el, o) {
+    this._go = () => setTimeout(() => {
+      if ((window.__captchaFail || 0) > 0) { window.__captchaFail--; o['error-callback'] && o['error-callback'](); }
+      else o.callback('teste-' + 'x'.repeat(40));
+    }, window.__captchaDelay ?? 300);
+    this._go(); return 'w1';
+  },
   reset() { this._go && this._go(); },
   remove() {}
 };`;
@@ -19,10 +26,10 @@ const FAKE_TURNSTILE = `window.turnstile = {
 const tests = [];
 const test = (name, fn) => tests.push({ name, fn });
 
-async function newPage(browser, delay) {
+async function newPage(browser, delay, fail = 0) {
   const page = await (await browser.newContext({ viewport: { width: 1440, height: 900 } })).newPage();
   await page.route('**/turnstile/v0/api.js*', (r) => r.fulfill({ contentType: 'text/javascript', body: FAKE_TURNSTILE }));
-  if (delay !== undefined) await page.addInitScript((d) => (window.__captchaDelay = d), delay);
+  await page.addInitScript(([d, f]) => { if (d !== null) window.__captchaDelay = d; window.__captchaFail = f; }, [delay ?? null, fail]);
   return page;
 }
 
@@ -59,6 +66,17 @@ test('Botão de entrar não trava esperando a verificação anti-robô', async (
   await btn.click();
   await page.waitForFunction(() => document.querySelector('form.auth-form button[type="submit"]').textContent.includes('Verificando'), null, { timeout: 2000 });
   await posted; // enviou sozinho quando o código chegou
+});
+
+// Bug 12/11/2026: a verificação da Cloudflare falhava/expirava em silêncio e o login ficava preso para sempre
+test('Login continua sozinho quando a verificação falha na primeira tentativa', async (browser) => {
+  const page = await newPage(browser, 400, 2);
+  await page.goto(BASE + '/entrar');
+  await page.fill('#email', 'teste@exemplo.com');
+  await page.fill('#password', 'senha12345');
+  const posted = page.waitForRequest((r) => r.method() === 'POST' && r.url().includes('/entrar'), { timeout: 10000 });
+  await page.locator('form.auth-form button[type="submit"]').click();
+  await posted;
 });
 
 /* ---------- Execução ---------- */

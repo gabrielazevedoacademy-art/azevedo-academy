@@ -46,24 +46,41 @@ function loadScript() {
 export default function Turnstile({
   resetKey,
   onToken,
-  compact = false
+  compact = false,
+  waiting = false
 }: {
   resetKey?: unknown;
   onToken?: (token: string) => void;
   compact?: boolean;
+  waiting?: boolean;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const widget = useRef<string | null>(null);
+  const retries = useRef(0);
   const [token, setToken] = useState('');
   const [failed, setFailed] = useState(false);
+  const [slow, setSlow] = useState(false);
   const onTokenRef = useRef(onToken);
   onTokenRef.current = onToken;
 
   useEffect(() => {
     let cancelled = false;
+    let retryTimer = 0;
     const update = (t: string) => {
       setToken(t);
       onTokenRef.current?.(t);
+    };
+    // Falhou ou expirou: tenta de novo sozinho algumas vezes antes de pedir para recarregar
+    const retry = () => {
+      update('');
+      if (retries.current >= 3) {
+        setFailed(true);
+        return;
+      }
+      retries.current++;
+      retryTimer = window.setTimeout(() => {
+        if (widget.current && window.turnstile) window.turnstile.reset(widget.current);
+      }, 1200);
     };
     loadScript()
       .then(() => {
@@ -73,21 +90,27 @@ export default function Turnstile({
           language: 'pt-br',
           theme: 'light',
           size: compact ? 'compact' : 'flexible',
-          appearance: 'interaction-only',
+          // Sempre visível: se a Cloudflare pedir um clique, a pessoa vê a caixa
+          appearance: 'always',
+          'refresh-expired': 'auto',
+          'refresh-timeout': 'auto',
           callback: (t: string) => {
+            retries.current = 0;
             setFailed(false);
             update(t);
           },
           'expired-callback': () => update(''),
+          'timeout-callback': retry,
           'error-callback': () => {
-            update('');
-            setFailed(true);
+            retry();
+            return true;
           }
         });
       })
       .catch(() => setFailed(true));
     return () => {
       cancelled = true;
+      window.clearTimeout(retryTimer);
       if (widget.current && window.turnstile) window.turnstile.remove(widget.current);
       widget.current = null;
     };
@@ -101,14 +124,31 @@ export default function Turnstile({
     onTokenRef.current?.('');
   }, [resetKey]);
 
+  // Clicou e a verificação está demorando: explica o que fazer
+  useEffect(() => {
+    if (!waiting) {
+      setSlow(false);
+      return;
+    }
+    const t = window.setTimeout(() => setSlow(true), 5000);
+    return () => window.clearTimeout(t);
+  }, [waiting]);
+
   return (
     <>
       <div ref={box} className="captcha" />
       <input type="hidden" name="captchaToken" value={token} />
-      {failed && (
+      {failed ? (
         <p className="auth-hint captcha-error" role="alert">
           A verificação de segurança não carregou. Recarregue a página e tente de novo.
         </p>
+      ) : (
+        slow && (
+          <p className="auth-hint" role="status">
+            A verificação está demorando um pouco. Se aparecer uma caixa da Cloudflare acima, clique nela; o login
+            continua sozinho em seguida.
+          </p>
+        )
       )}
     </>
   );

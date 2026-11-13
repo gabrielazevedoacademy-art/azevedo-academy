@@ -99,7 +99,7 @@ export function SignInForm({ next, notice }: { next: string; notice?: string }) 
       </div>
       <PasswordField id="password" label="Senha" autoComplete="current-password" />
       <a className="auth-forgot" href="/recuperar-senha">Esqueci minha senha</a>
-      <Turnstile resetKey={state} onToken={gate.onToken} />
+      <Turnstile resetKey={state} onToken={gate.onToken} waiting={gate.waiting} />
       <Submit pending="Entrando…" water waiting={gate.waiting}>
         Entrar
       </Submit>
@@ -159,7 +159,7 @@ export function SignUpForm() {
       </div>
       <EmailPair />
       <PasswordField id="password" label="Senha" autoComplete="new-password" hint="Pelo menos 8 caracteres, com letras e números." />
-      <Turnstile resetKey={state} onToken={gate.onToken} />
+      <Turnstile resetKey={state} onToken={gate.onToken} waiting={gate.waiting} />
       <Submit pending="Criando conta…" waiting={gate.waiting}>Criar conta</Submit>
     </form>
   );
@@ -176,7 +176,7 @@ export function ResetForm() {
         <label htmlFor="email">E-mail da conta</label>
         <input id="email" name="email" type="email" autoComplete="email" inputMode="email" required />
       </div>
-      <Turnstile resetKey={state} onToken={gate.onToken} />
+      <Turnstile resetKey={state} onToken={gate.onToken} waiting={gate.waiting} />
       <Submit pending="Enviando…" waiting={gate.waiting}>Enviar link</Submit>
     </form>
   );

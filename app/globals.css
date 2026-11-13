@@ -1905,12 +1905,9 @@ body:has(.legal-page) {
   background: #128a3c;
 }
 
-/* Proteção contra robôs: só aparece quando a Cloudflare precisa de um clique */
-.captcha:empty {
-  display: none;
-}
-
+/* Proteção contra robôs (caixa da Cloudflare sempre visível, mostra o progresso) */
 .captcha {
+  min-height: 65px;
   margin-top: 4px;
 }
 
