@@ -2,29 +2,29 @@
 
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
-import Turnstile from './Turnstile';
+import Turnstile, { useCaptchaGate } from './Turnstile';
 import { requestPasswordReset, signIn, signInWithGoogle, signUp, updatePassword, type AuthState } from '@/app/(auth)/actions';
 
 function Submit({
   children,
   pending: pendingLabel,
   water = false,
-  ready = true
+  waiting = false
 }: {
   children: string;
   pending: string;
   water?: boolean;
-  ready?: boolean;
+  waiting?: boolean;
 }) {
   const { pending } = useFormStatus();
   return (
     <button
       className={`button button-dark auth-submit${water ? ' auth-submit-water' : ''}`}
       type="submit"
-      disabled={pending || !ready}
-      aria-busy={pending || !ready}
+      disabled={pending || waiting}
+      aria-busy={pending || waiting}
     >
-      <span className="auth-submit-label">{pending ? pendingLabel : ready ? children : 'Verificando segurança…'}</span>
+      <span className="auth-submit-label">{pending ? pendingLabel : waiting ? 'Verificando segurança…' : children}</span>
     </button>
   );
 }
@@ -88,9 +88,9 @@ export function GoogleButton({ next = '/' }: { next?: string }) {
 
 export function SignInForm({ next, notice }: { next: string; notice?: string }) {
   const [state, action] = useActionState(signIn, notice ? { error: notice } : undefined);
-  const [ready, setReady] = useState(false);
+  const gate = useCaptchaGate();
   return (
-    <form action={action} className="auth-form">
+    <form ref={gate.formRef} action={action} onSubmit={gate.onSubmit} className="auth-form">
       <Message state={state} />
       <input type="hidden" name="next" value={next} />
       <div className="auth-field">
@@ -99,8 +99,8 @@ export function SignInForm({ next, notice }: { next: string; notice?: string }) 
       </div>
       <PasswordField id="password" label="Senha" autoComplete="current-password" />
       <a className="auth-forgot" href="/recuperar-senha">Esqueci minha senha</a>
-      <Turnstile resetKey={state} onToken={(t) => setReady(Boolean(t))} />
-      <Submit pending="Entrando…" water ready={ready}>
+      <Turnstile resetKey={state} onToken={gate.onToken} />
+      <Submit pending="Entrando…" water waiting={gate.waiting}>
         Entrar
       </Submit>
     </form>
@@ -148,10 +148,10 @@ function EmailPair() {
 
 export function SignUpForm() {
   const [state, action] = useActionState(signUp, undefined);
-  const [ready, setReady] = useState(false);
+  const gate = useCaptchaGate();
   if (state?.success) return <Message state={state} />;
   return (
-    <form action={action} className="auth-form">
+    <form ref={gate.formRef} action={action} onSubmit={gate.onSubmit} className="auth-form">
       <Message state={state} />
       <div className="auth-field">
         <label htmlFor="name">Nome</label>
@@ -159,25 +159,25 @@ export function SignUpForm() {
       </div>
       <EmailPair />
       <PasswordField id="password" label="Senha" autoComplete="new-password" hint="Pelo menos 8 caracteres, com letras e números." />
-      <Turnstile resetKey={state} onToken={(t) => setReady(Boolean(t))} />
-      <Submit pending="Criando conta…" ready={ready}>Criar conta</Submit>
+      <Turnstile resetKey={state} onToken={gate.onToken} />
+      <Submit pending="Criando conta…" waiting={gate.waiting}>Criar conta</Submit>
     </form>
   );
 }
 
 export function ResetForm() {
   const [state, action] = useActionState(requestPasswordReset, undefined);
-  const [ready, setReady] = useState(false);
+  const gate = useCaptchaGate();
   if (state?.success) return <Message state={state} />;
   return (
-    <form action={action} className="auth-form">
+    <form ref={gate.formRef} action={action} onSubmit={gate.onSubmit} className="auth-form">
       <Message state={state} />
       <div className="auth-field">
         <label htmlFor="email">E-mail da conta</label>
         <input id="email" name="email" type="email" autoComplete="email" inputMode="email" required />
       </div>
-      <Turnstile resetKey={state} onToken={(t) => setReady(Boolean(t))} />
-      <Submit pending="Enviando…" ready={ready}>Enviar link</Submit>
+      <Turnstile resetKey={state} onToken={gate.onToken} />
+      <Submit pending="Enviando…" waiting={gate.waiting}>Enviar link</Submit>
     </form>
   );
 }

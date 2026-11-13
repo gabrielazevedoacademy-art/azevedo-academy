@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 /*
   Proteção contra robôs (Cloudflare Turnstile).
@@ -112,4 +112,36 @@ export default function Turnstile({
       )}
     </>
   );
+}
+
+/*
+  Deixa o botão sempre clicável. Se a pessoa enviar antes da verificação terminar,
+  o envio espera o código chegar e continua sozinho (sem botão travado).
+*/
+export function useCaptchaGate() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const tokenRef = useRef('');
+  const [token, setToken] = useState('');
+  const [waiting, setWaiting] = useState(false);
+
+  const onToken = useCallback((t: string) => {
+    tokenRef.current = t;
+    setToken(t);
+  }, []);
+
+  const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    if (tokenRef.current) return;
+    e.preventDefault();
+    setWaiting(true);
+  }, []);
+
+  // O código chegou depois do clique: envia depois que o campo escondido já tem o valor
+  useEffect(() => {
+    if (waiting && token) {
+      setWaiting(false);
+      formRef.current?.requestSubmit();
+    }
+  }, [waiting, token]);
+
+  return { formRef, onToken, onSubmit, waiting };
 }
