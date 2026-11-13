@@ -16,17 +16,21 @@ export type CatalogItem = {
   free?: boolean;
   /** Ainda não lançado: capa em preto e branco com a faixa "Em breve". */
   comingSoon?: boolean;
+  /** Endereço do curso no painel: a ordem dos cards segue a ordem definida lá. */
+  slug?: string;
 };
 
 export const courses: CatalogItem[] = [
   {
     title: 'Influencer com IA',
+    slug: 'influencer-com-ia',
     href: '/influencer-com-ia',
     image: '/cursos/influencer-com-ia.webp',
     hideCaption: true
   },
   {
     title: 'Aulas no YouTube',
+    slug: 'aulas-no-youtube',
     image: '/cursos/aulas-youtube.webp',
     hideCaption: true,
     free: true,
@@ -34,12 +38,14 @@ export const courses: CatalogItem[] = [
   },
   {
     title: 'Filmes com IA',
+    slug: 'filmes-com-ia',
     image: '/cursos/filmes-com-ia.webp',
     hideCaption: true,
     comingSoon: true
   },
   {
     title: 'Seja Criador de Conteúdo: YouTube',
+    slug: 'seja-criador-de-conteudo-youtube',
     image: '/cursos/seja-criador-de-conteudo-youtube.webp',
     hideCaption: true,
     comingSoon: true

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import {
   createLesson,
   createModule,
@@ -12,6 +12,7 @@ import {
 } from '@/app/admin/actions';
 import { plural, publicImage } from '@/lib/admin/storage';
 import { youtubeThumb } from '@/lib/admin/youtube';
+import { useSortable } from './sortable';
 import { ConfirmButton, Icon, notify, QuickAdd } from './ui';
 
 export type LessonItem = {
@@ -27,8 +28,6 @@ export type LessonItem = {
 
 export type ModuleItem = { id: string; title: string; is_published: boolean; lessons: LessonItem[] };
 
-type Drag = { kind: 'module'; id: string } | { kind: 'lesson'; id: string; moduleId: string } | null;
-
 function move<T>(list: T[], from: number, to: number) {
   const next = list.slice();
   const [item] = next.splice(from, 1);
@@ -42,8 +41,6 @@ export default function CourseContent({ courseId, modules: initial }: { courseId
   const [adding, setAdding] = useState<string | null>(null);
   const [addingModule, setAddingModule] = useState(initial.length === 0);
   const [, start] = useTransition();
-  const drag = useRef<Drag>(null);
-  const [dragging, setDragging] = useState<string | null>(null);
 
   // Sempre que o servidor devolver dados novos, eles passam a valer
   useEffect(() => setModules(initial), [initial]);
@@ -51,14 +48,24 @@ export default function CourseContent({ courseId, modules: initial }: { courseId
   const saveModuleOrder = (list: ModuleItem[]) =>
     start(async () => {
       const r = await reorderModules(courseId, list.map((m) => m.id));
-      if (r?.error) notify(r);
+      notify(r?.error ? r : { ok: 'Ordem dos módulos salva.' });
     });
 
   const saveLessonOrder = (moduleId: string, list: LessonItem[]) =>
     start(async () => {
       const r = await reorderLessons(moduleId, list.map((l) => l.id));
-      if (r?.error) notify(r);
+      notify(r?.error ? r : { ok: 'Ordem das aulas salva.' });
     });
+
+  const sortModules = useSortable({
+    items: modules,
+    getId: (m) => m.id,
+    onChange: setModules,
+    onCommit: saveModuleOrder
+  });
+
+  const setLessons = (moduleId: string, lessons: LessonItem[]) =>
+    setModules((list) => list.map((m) => (m.id === moduleId ? { ...m, lessons } : m)));
 
   function shiftModule(index: number, dir: -1 | 1) {
     const to = index + dir;
@@ -68,52 +75,9 @@ export default function CourseContent({ courseId, modules: initial }: { courseId
     saveModuleOrder(next);
   }
 
-  function shiftLesson(mi: number, li: number, dir: -1 | 1) {
-    const lessons = modules[mi].lessons;
-    const to = li + dir;
-    if (to < 0 || to >= lessons.length) return;
-    const nextLessons = move(lessons, li, to);
-    setModules(modules.map((m, i) => (i === mi ? { ...m, lessons: nextLessons } : m)));
-    saveLessonOrder(modules[mi].id, nextLessons);
-  }
-
-  // Arrastar e soltar (computador): reordena ao passar por cima e salva ao soltar
-  function overModule(targetId: string) {
-    const d = drag.current;
-    if (d?.kind !== 'module' || d.id === targetId) return;
-    const from = modules.findIndex((m) => m.id === d.id);
-    const to = modules.findIndex((m) => m.id === targetId);
-    if (from >= 0 && to >= 0) setModules(move(modules, from, to));
-  }
-
-  function overLesson(moduleId: string, targetId: string) {
-    const d = drag.current;
-    if (d?.kind !== 'lesson' || d.moduleId !== moduleId || d.id === targetId) return;
-    setModules(
-      modules.map((m) => {
-        if (m.id !== moduleId) return m;
-        const from = m.lessons.findIndex((l) => l.id === d.id);
-        const to = m.lessons.findIndex((l) => l.id === targetId);
-        return from >= 0 && to >= 0 ? { ...m, lessons: move(m.lessons, from, to) } : m;
-      })
-    );
-  }
-
-  function endDrag() {
-    const d = drag.current;
-    drag.current = null;
-    setDragging(null);
-    if (!d) return;
-    if (d.kind === 'module') saveModuleOrder(modules);
-    else {
-      const m = modules.find((x) => x.id === d.moduleId);
-      if (m) saveLessonOrder(m.id, m.lessons);
-    }
-  }
-
   function togglePublished(moduleId: string, lessonId: string, value: boolean) {
-    setModules(
-      modules.map((m) =>
+    setModules((list) =>
+      list.map((m) =>
         m.id !== moduleId ? m : { ...m, lessons: m.lessons.map((l) => (l.id === lessonId ? { ...l, is_published: value } : l)) }
       )
     );
@@ -128,115 +92,43 @@ export default function CourseContent({ courseId, modules: initial }: { courseId
         </div>
       )}
 
-      <ol className="adm-modules">
+      {modules.length > 1 && (
+        <p className="adm-hint adm-sort-hint">
+          Arraste módulos e aulas para mudar a ordem. No celular, segure o item por um instante antes de arrastar.
+        </p>
+      )}
+
+      <ol className="adm-modules" ref={(el) => void (sortModules.containerRef.current = el)}>
         {modules.map((mod, mi) => {
           const isCollapsed = collapsed[mod.id];
           return (
             <li
               key={mod.id}
+              data-sort-id={mod.id}
               className="adm-module"
-              data-dragging={dragging === mod.id}
+              data-dragging={sortModules.dragging === mod.id}
               data-hidden={!mod.is_published}
-              onDragOver={(e) => {
-                if (drag.current?.kind !== 'module') return;
-                e.preventDefault();
-                overModule(mod.id);
-              }}
-              onDrop={(e) => e.preventDefault()}
             >
               <ModuleHead
                 mod={mod}
                 index={mi}
                 total={modules.length}
                 collapsed={!!isCollapsed}
+                dragProps={sortModules.handle(mod.id)}
                 onToggle={() => setCollapsed({ ...collapsed, [mod.id]: !isCollapsed })}
                 onShift={(dir) => shiftModule(mi, dir)}
-                onDragStart={() => {
-                  drag.current = { kind: 'module', id: mod.id };
-                  setDragging(mod.id);
-                }}
-                onDragEnd={endDrag}
-                onChange={(patch) => setModules(modules.map((m) => (m.id === mod.id ? { ...m, ...patch } : m)))}
+                onChange={(patch) => setModules((list) => list.map((m) => (m.id === mod.id ? { ...m, ...patch } : m)))}
               />
 
               {!isCollapsed && (
                 <div className="adm-module-body">
-                  {mod.lessons.length > 0 && (
-                    <ol className="adm-lessons">
-                      {mod.lessons.map((lesson, li) => {
-                        const thumb = publicImage(lesson.thumbnail_path) ?? (lesson.youtube_id ? youtubeThumb(lesson.youtube_id) : null);
-                        return (
-                          <li
-                            key={lesson.id}
-                            className="adm-lesson"
-                            data-dragging={dragging === lesson.id}
-                            data-hidden={!lesson.is_published}
-                            onDragOver={(e) => {
-                              if (drag.current?.kind !== 'lesson') return;
-                              e.preventDefault();
-                              e.stopPropagation();
-                              overLesson(mod.id, lesson.id);
-                            }}
-                            onDrop={(e) => e.preventDefault()}
-                          >
-                            <span
-                              className="adm-grip"
-                              draggable
-                              title="Arraste para reordenar"
-                              onDragStart={(e) => {
-                                e.dataTransfer.effectAllowed = 'move';
-                                e.dataTransfer.setData('text/plain', lesson.id);
-                                const row = (e.currentTarget as HTMLElement).closest('li');
-                                if (row) e.dataTransfer.setDragImage(row, 24, 24);
-                                drag.current = { kind: 'lesson', id: lesson.id, moduleId: mod.id };
-                                setDragging(lesson.id);
-                              }}
-                              onDragEnd={endDrag}
-                            >
-                              {Icon.grip}
-                            </span>
-                            <a className="adm-lesson-link" href={`/admin/aulas/${lesson.id}`}>
-                              <span className="adm-lesson-thumb">
-                                {thumb ? (
-                                  // eslint-disable-next-line @next/next/no-img-element
-                                  <img src={thumb} alt="" loading="lazy" />
-                                ) : (
-                                  Icon.play
-                                )}
-                              </span>
-                              <span className="adm-lesson-text">
-                                <strong>{lesson.title}</strong>
-                                <span className="adm-lesson-meta">
-                                  {lesson.youtube_id ? <span>Vídeo</span> : <span className="is-missing">Sem vídeo</span>}
-                                  {lesson.duration_minutes ? <span>{lesson.duration_minutes} min</span> : null}
-                                  {lesson.materials > 0 && <span>{plural(lesson.materials, 'material', 'materiais')}</span>}
-                                  {lesson.is_free_preview && <span className="adm-tag adm-tag-free">Amostra grátis</span>}
-                                </span>
-                              </span>
-                            </a>
-                            <div className="adm-row-actions">
-                              <button
-                                type="button"
-                                className="adm-status adm-status-button"
-                                data-on={lesson.is_published}
-                                aria-pressed={lesson.is_published}
-                                title={lesson.is_published ? 'Clique para ocultar dos alunos' : 'Clique para publicar'}
-                                onClick={() => togglePublished(mod.id, lesson.id, !lesson.is_published)}
-                              >
-                                {lesson.is_published ? 'Publicada' : 'Rascunho'}
-                              </button>
-                              <span className="adm-shift">
-                                <button type="button" aria-label={`Subir a aula ${lesson.title}`} disabled={li === 0}
-                                  onClick={() => shiftLesson(mi, li, -1)}>{Icon.up}</button>
-                                <button type="button" aria-label={`Descer a aula ${lesson.title}`} disabled={li === mod.lessons.length - 1}
-                                  onClick={() => shiftLesson(mi, li, 1)}>{Icon.down}</button>
-                              </span>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ol>
-                  )}
+                  <LessonList
+                    moduleId={mod.id}
+                    lessons={mod.lessons}
+                    onChange={(lessons) => setLessons(mod.id, lessons)}
+                    onCommit={(lessons) => saveLessonOrder(mod.id, lessons)}
+                    onToggle={(lessonId, value) => togglePublished(mod.id, lessonId, value)}
+                  />
 
                   {adding === mod.id ? (
                     <QuickAdd
@@ -283,25 +175,115 @@ export default function CourseContent({ courseId, modules: initial }: { courseId
   );
 }
 
+function LessonList({
+  moduleId,
+  lessons,
+  onChange,
+  onCommit,
+  onToggle
+}: {
+  moduleId: string;
+  lessons: LessonItem[];
+  onChange: (lessons: LessonItem[]) => void;
+  onCommit: (lessons: LessonItem[]) => void;
+  onToggle: (lessonId: string, value: boolean) => void;
+}) {
+  const sort = useSortable({ items: lessons, getId: (l) => l.id, onChange, onCommit });
+
+  function shift(index: number, dir: -1 | 1) {
+    const to = index + dir;
+    if (to < 0 || to >= lessons.length) return;
+    const next = move(lessons, index, to);
+    onChange(next);
+    onCommit(next);
+  }
+
+  if (!lessons.length) return null;
+
+  return (
+    <ol className="adm-lessons" data-module={moduleId} ref={(el) => void (sort.containerRef.current = el)}>
+      {lessons.map((lesson, li) => {
+        const thumb = publicImage(lesson.thumbnail_path) ?? (lesson.youtube_id ? youtubeThumb(lesson.youtube_id) : null);
+        return (
+          <li
+            key={lesson.id}
+            data-sort-id={lesson.id}
+            className="adm-lesson adm-sortable"
+            data-dragging={sort.dragging === lesson.id}
+            data-hidden={!lesson.is_published}
+            {...sort.handle(lesson.id)}
+          >
+            <span className="adm-grip" aria-hidden="true">
+              {Icon.grip}
+            </span>
+            <a className="adm-lesson-link" href={`/admin/aulas/${lesson.id}`} draggable={false}>
+              <span className="adm-lesson-thumb">
+                {thumb ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={thumb} alt="" loading="lazy" draggable={false} />
+                ) : (
+                  Icon.play
+                )}
+              </span>
+              <span className="adm-lesson-text">
+                <strong>{lesson.title}</strong>
+                <span className="adm-lesson-meta">
+                  {lesson.youtube_id ? <span>Vídeo</span> : <span className="is-missing">Sem vídeo</span>}
+                  {lesson.duration_minutes ? <span>{lesson.duration_minutes} min</span> : null}
+                  {lesson.materials > 0 && <span>{plural(lesson.materials, 'material', 'materiais')}</span>}
+                  {lesson.is_free_preview && <span className="adm-tag adm-tag-free">Amostra grátis</span>}
+                </span>
+              </span>
+            </a>
+            <div className="adm-row-actions">
+              <button
+                type="button"
+                className="adm-status adm-status-button"
+                data-on={lesson.is_published}
+                aria-pressed={lesson.is_published}
+                title={lesson.is_published ? 'Clique para ocultar dos alunos' : 'Clique para publicar'}
+                onClick={() => onToggle(lesson.id, !lesson.is_published)}
+              >
+                {lesson.is_published ? 'Publicada' : 'Rascunho'}
+              </button>
+              <span className="adm-shift">
+                <button type="button" aria-label={`Subir a aula ${lesson.title}`} disabled={li === 0} onClick={() => shift(li, -1)}>
+                  {Icon.up}
+                </button>
+                <button
+                  type="button"
+                  aria-label={`Descer a aula ${lesson.title}`}
+                  disabled={li === lessons.length - 1}
+                  onClick={() => shift(li, 1)}
+                >
+                  {Icon.down}
+                </button>
+              </span>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 function ModuleHead({
   mod,
   index,
   total,
   collapsed,
+  dragProps,
   onToggle,
   onShift,
-  onDragStart,
-  onDragEnd,
   onChange
 }: {
   mod: ModuleItem;
   index: number;
   total: number;
   collapsed: boolean;
+  dragProps: ReturnType<ReturnType<typeof useSortable>['handle']>;
   onToggle: () => void;
   onShift: (dir: -1 | 1) => void;
-  onDragStart: () => void;
-  onDragEnd: () => void;
   onChange: (patch: Partial<ModuleItem>) => void;
 }) {
   const [editing, setEditing] = useState(false);
@@ -320,20 +302,8 @@ function ModuleHead({
   }
 
   return (
-    <div className="adm-module-head">
-      <span
-        className="adm-grip"
-        draggable
-        title="Arraste para reordenar"
-        onDragStart={(e) => {
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('text/plain', mod.id);
-          const box = (e.currentTarget as HTMLElement).closest('li');
-          if (box) e.dataTransfer.setDragImage(box, 24, 24);
-          onDragStart();
-        }}
-        onDragEnd={onDragEnd}
-      >
+    <div className="adm-module-head adm-sortable" {...(editing ? {} : dragProps)}>
+      <span className="adm-grip" aria-hidden="true">
         {Icon.grip}
       </span>
 
@@ -355,12 +325,13 @@ function ModuleHead({
           }}
         />
       ) : (
-        <button type="button" className="adm-module-title" aria-expanded={!collapsed} onClick={onToggle}>
+        <div className="adm-module-title" role="button" tabIndex={0} aria-expanded={!collapsed} onClick={onToggle}
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onToggle())}>
           <svg className="adm-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
           <span className="adm-module-index">Módulo {index + 1}</span>
           <strong>{mod.title}</strong>
           <span className="adm-module-count">{plural(mod.lessons.length, 'aula', 'aulas')}</span>
-        </button>
+        </div>
       )}
 
       <div className="adm-row-actions">

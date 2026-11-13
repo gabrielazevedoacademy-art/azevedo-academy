@@ -1599,3 +1599,66 @@ body:has(.adm) {
 .adm-captcha:has(.captcha:empty) {
   display: none;
 }
+
+/* ----- Arrastar para reordenar ----- */
+
+.adm-sortable {
+  cursor: grab;
+  -webkit-touch-callout: none;
+  touch-action: pan-y;
+}
+
+.adm-sortable a,
+.adm-sortable img {
+  -webkit-user-drag: none;
+}
+
+body.is-sorting,
+body.is-sorting * {
+  cursor: grabbing !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+.adm-module[data-dragging="true"],
+.adm-lesson[data-dragging="true"],
+.adm-courses > li[data-dragging="true"] {
+  position: relative;
+  z-index: 3;
+  opacity: 1;
+  border-radius: 16px;
+  background: var(--adm-panel);
+  box-shadow: 0 0 0 2px var(--orange), 0 18px 40px rgba(0, 0, 0, 0.16);
+  transform: scale(1.01);
+  transition: box-shadow 160ms ease, transform 160ms ease;
+}
+
+.adm-courses > li[data-dragging="true"] .adm-course {
+  border-color: transparent;
+}
+
+.adm-sort-hint {
+  margin: -6px 0 2px;
+}
+
+.adm-courses > li {
+  border-radius: 18px;
+}
+
+.adm-course {
+  grid-template-columns: 18px 60px minmax(0, 1fr) auto 20px;
+}
+
+.adm-course-grip {
+  width: 18px;
+}
+
+@media (max-width: 640px) {
+  .adm-course {
+    grid-template-columns: 52px minmax(0, 1fr) 16px;
+  }
+
+  .adm-course-grip {
+    display: none;
+  }
+}

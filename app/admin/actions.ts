@@ -280,6 +280,17 @@ export async function deleteLesson(id: string): Promise<Result> {
   redirect(courseId ? `/admin/cursos/${courseId}` : '/admin');
 }
 
+export async function reorderCourses(ids: string[]): Promise<Result> {
+  const supabase = await db();
+  if (!supabase) return DENIED;
+  if (!ids.every(isUuid)) return FAILED;
+  const results = await Promise.all(ids.map((id, i) => supabase.from('courses').update({ position: i + 1 }).eq('id', id)));
+  if (results.some((r) => r.error)) return FAILED;
+  refresh();
+  revalidatePath('/'); // ordem dos cards na página inicial
+  return { ok: 'Ordem dos cursos salva.' };
+}
+
 export async function reorderLessons(moduleId: string, ids: string[]): Promise<Result> {
   const supabase = await db();
   if (!supabase) return DENIED;

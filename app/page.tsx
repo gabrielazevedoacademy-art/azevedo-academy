@@ -5,8 +5,13 @@ import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import ScrollController from '@/components/ScrollController';
 import { courses, site, tools } from '@/lib/catalog';
+import { orderCourses } from '@/lib/course-order';
 
-export default function Home() {
+// Atualiza a ordem dos cursos a cada minuto (e na hora, quando muda no painel)
+export const revalidate = 60;
+
+export default async function Home() {
+  const orderedCourses = await orderCourses(courses);
   return (
     <>
       {/* Só existe na página inicial: monta com o hero e desmonta ao sair dela */}
@@ -18,7 +23,7 @@ export default function Home() {
           <CatalogSection
             id="cursos"
             title="Cursos"
-            items={courses}
+            items={orderedCourses}
             ratio="4 / 5"
             empty={
               <>
