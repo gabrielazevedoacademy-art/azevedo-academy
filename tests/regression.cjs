@@ -138,6 +138,25 @@ test('Meus cursos pede login', async (browser) => {
   if (u.pathname !== '/entrar' || u.searchParams.get('next') !== '/meus-cursos') throw new Error('não levou ao login: ' + page.url());
 });
 
+test('Link quebrado mostra a página 404 da Academy', async (browser) => {
+  const page = await newPage(browser);
+  const r = await page.goto(BASE + '/pagina-que-nao-existe');
+  if (r.status() !== 404) throw new Error('status ' + r.status());
+  if (!(await page.getByText('Esta página não existe').count())) throw new Error('404 padrão do Next');
+});
+
+test('Prévia de compartilhamento, sitemap e robots publicados', async () => {
+  const html = await (await fetch(BASE + '/')).text();
+  const og = html.match(/<meta property="og:image" content="([^"]+)"/);
+  if (!og) throw new Error('sem og:image');
+  const img = await fetch(BASE + new URL(og[1]).pathname);
+  if (!img.ok || !img.headers.get('content-type').startsWith('image/')) throw new Error('imagem de prévia não abre');
+  const robots = await (await fetch(BASE + '/robots.txt')).text();
+  if (!/Disallow: \/admin/.test(robots) || !/Sitemap:/.test(robots)) throw new Error('robots.txt incompleto');
+  const sm = await fetch(BASE + '/sitemap.xml');
+  if (!sm.ok || !(await sm.text()).includes('<loc>')) throw new Error('sitemap.xml ausente');
+});
+
 /* ---------- Execução ---------- */
 
 async function waitServer() {

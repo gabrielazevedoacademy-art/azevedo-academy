@@ -1914,3 +1914,60 @@ body:has(.legal-page) {
 .captcha-error {
   color: #b42318;
 }
+
+/* ---------------------------------------------------------------- 404 e erro */
+.error-page {
+  background:
+    radial-gradient(circle, rgba(0, 0, 0, 0.14) 1.3px, transparent 1.7px) 0 0 / 24px 24px,
+    #ffffff;
+}
+
+.error-card {
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+  animation: fade-up 700ms var(--ease) both;
+}
+
+.error-code {
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 22vw, 10rem);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  color: var(--orange);
+}
+
+.error-card h1 {
+  margin-top: 12px;
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.error-text {
+  max-width: 42ch;
+  margin: 14px auto 32px;
+  color: var(--gray);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.error-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.error-actions .button {
+  cursor: pointer;
+}
+
+.error-link {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
