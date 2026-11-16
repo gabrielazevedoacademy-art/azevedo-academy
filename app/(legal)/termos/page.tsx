@@ -66,7 +66,14 @@ export default function TermosPage() {
         <li>Usar a plataforma para atividades ilegais ou que violem direitos de outras pessoas.</li>
         <li>Tentar acessar áreas, contas ou dados sem permissão, ou testar falhas de segurança sem autorização.</li>
         <li>Criar contas falsas, automatizar cadastros ou sobrecarregar o site de propósito.</li>
+        <li>
+          Publicar nos comentários das aulas ofensas, spam, propaganda, links maliciosos, dados pessoais de outras
+          pessoas ou conteúdo que viole direitos autorais.
+        </li>
       </ul>
+      <p>
+        Os comentários são moderados: a Azevedo Academy pode ocultar ou apagar mensagens que descumpram estas regras.
+      </p>
       <p>
         Em caso de descumprimento, a conta pode ser suspensa ou encerrada, e os fatos podem ser comunicados às
         autoridades.

@@ -118,6 +118,7 @@ export default function Header() {
                 </div>
               </div>
               {admin && <a href="/admin">Painel de cursos</a>}
+              <a href="/meus-cursos">Meus cursos</a>
               <a href="/perfil">Meu perfil</a>
               <a href="/configuracoes">Configurações</a>
               <form action="/auth/sair" method="post">

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import CoursePlayer, { type CurrentLesson } from '@/components/course/CoursePlayer';
 import CourseShell, { CourseUnavailable } from '@/components/course/CourseShell';
+import LessonComments, { type LessonComment } from '@/components/course/LessonComments';
+import { getAdmin } from '@/lib/admin/guard';
 import type { SavedProgress } from '@/components/course/VideoPlayer';
 import { MATERIAL_BUCKET } from '@/lib/admin/storage';
 import { lessonUrl, loadCourse, moduleUrl } from '@/lib/course-data';
@@ -61,6 +63,16 @@ export default async function AulaPage({ params }: { params: Promise<{ slug: str
       ext: m.file_path?.match(/\.([A-Za-z0-9]{1,6})$/)?.[1]?.toLowerCase() ?? ''
     }))
   };
+  const [{ data: commentRows }, admin] = await Promise.all([
+    course.supabase
+      .from('lesson_comments')
+      .select('id, parent_id, user_id, body, author_name, is_staff, is_hidden, created_at')
+      .eq('lesson_id', lesson.id)
+      .order('created_at', { ascending: true })
+      .limit(500),
+    getAdmin()
+  ]);
+
   const p = course.progress.find((x) => x.lesson_id === lesson.id);
   const saved: SavedProgress = p
     ? { watched: p.watched ?? '', durationSeconds: p.duration_seconds, completed: Boolean(p.completed_at) }
@@ -82,6 +94,14 @@ export default async function AulaPage({ params }: { params: Promise<{ slug: str
         completed={course.done}
         current={current}
         saved={saved}
+        extra={
+          <LessonComments
+            lessonId={lesson.id}
+            comments={(commentRows ?? []) as LessonComment[]}
+            me={course.user.id}
+            isAdmin={admin.isAdmin}
+          />
+        }
       />
     </CourseShell>
   );

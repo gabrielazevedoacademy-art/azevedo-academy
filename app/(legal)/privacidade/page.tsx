@@ -39,6 +39,11 @@ export default function PrivacidadePage() {
           assistido e quais aulas foram concluídas).
         </li>
         <li>
+          <strong>Comentários nas aulas:</strong> o texto que você publica em &quot;Dúvidas e comentários&quot;, junto
+          com o seu nome e a data. Esses comentários ficam visíveis para os outros alunos daquela aula. Você pode
+          apagar os seus a qualquer momento.
+        </li>
+        <li>
           <strong>Dados técnicos:</strong> endereço IP, tipo de navegador e registros de acesso gerados
           automaticamente pelos nossos fornecedores de infraestrutura, usados para segurança e para o funcionamento do
           site.
@@ -59,7 +64,10 @@ export default function PrivacidadePage() {
         </li>
         <li>
           <strong>Entender quantas pessoas usam a plataforma</strong> (números agregados, como total de cadastros por
-          dia): legítimo interesse, art. 7º, IX.
+          dia, aulas mais assistidas e onde os alunos param): legítimo interesse, art. 7º, IX.
+        </li>
+        <li>
+          <strong>Mostrar seus comentários aos outros alunos e moderá-los</strong>: execução de contrato, art. 7º, V.
         </li>
         <li>
           <strong>Enviar novidades e conteúdos por e-mail</strong>, se um dia isso existir: somente com o seu
@@ -71,7 +79,8 @@ export default function PrivacidadePage() {
       <h2>4. Quem tem acesso aos seus dados</h2>
       <p>
         Dentro da Azevedo Academy, apenas o administrador da plataforma acessa nome, e-mail, datas de cadastro e de
-        acesso, para dar suporte (por exemplo, enviar um link de nova senha quando você pedir). As ações do
+        acesso, para dar suporte (por exemplo, enviar um link de nova senha quando você pedir). Os comentários que você
+        publica numa aula aparecem, com o seu nome, para os outros alunos dessa aula. As ações do
         administrador sobre contas de alunos ficam registradas.
       </p>
       <p>Também usamos fornecedores (operadores) que tratam dados em nosso nome, só para fazer a plataforma funcionar:</p>

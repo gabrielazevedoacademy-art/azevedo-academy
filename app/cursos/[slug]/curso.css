@@ -826,3 +826,290 @@ a.course-lesson-row:hover {
     font-size: 22px;
   }
 }
+
+/* ===== Meus cursos ===== */
+.my-courses {
+  padding-bottom: 40px;
+}
+
+.my-courses:last-child {
+  padding-bottom: 96px;
+}
+
+.my-course-card {
+  grid-template-rows: auto 1fr;
+}
+
+.my-course-card:hover {
+  transform: none;
+}
+
+.my-course-link img {
+  transition: transform 300ms var(--ease);
+}
+
+.my-course-link:hover img {
+  transform: scale(1.03);
+}
+
+.my-course-card .course-module-info strong a:hover {
+  color: var(--orange);
+}
+
+.my-course-cta {
+  justify-self: start;
+  height: 44px;
+  margin-top: 14px;
+  padding: 0 22px;
+  font-size: 15px;
+}
+
+.my-courses-empty {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+/* ===== Dúvidas e comentários da aula ===== */
+.cmts {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line-dark);
+}
+
+.cmts h2 {
+  margin-bottom: 18px;
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+.cmts h2 span {
+  color: var(--gray);
+  font-weight: 600;
+}
+
+.cmt-form {
+  display: grid;
+  gap: 10px;
+}
+
+.cmt-form textarea {
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 16px;
+  border: 1px solid var(--line-dark);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--paper);
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.cmt-form textarea::placeholder {
+  color: var(--gray);
+}
+
+.cmt-form textarea:focus-visible {
+  outline: none;
+  border-color: var(--orange);
+}
+
+.cmt-form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cmt-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cmt-send {
+  height: 40px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+
+.cmt-send:hover:not(:disabled) {
+  background: var(--orange);
+}
+
+.cmt-send:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.cmt-error {
+  font-size: 13px;
+  color: #ff8f7a;
+}
+
+.cmt-error:empty {
+  display: none;
+}
+
+.cmt-empty {
+  margin-top: 24px;
+  color: var(--gray-light);
+}
+
+.cmt-list,
+.cmt-replies {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.cmt-list {
+  margin-top: 24px;
+}
+
+.cmt-replies {
+  margin: 4px 0 12px 52px;
+  padding-left: 16px;
+  border-left: 1px solid var(--line-dark);
+}
+
+.cmt-replies .cmt-form {
+  padding: 8px 0;
+}
+
+.cmt {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 14px;
+  padding: 12px 0;
+}
+
+.cmt[data-hidden="true"] {
+  opacity: 0.55;
+}
+
+.cmt-avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--gray-light);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cmt-avatar[data-staff="true"] {
+  background: var(--orange);
+  color: var(--ink);
+}
+
+.cmt-body header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 14px;
+}
+
+.cmt-body time {
+  color: var(--gray);
+  font-size: 13px;
+}
+
+.cmt-badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 122, 0, 0.16);
+  color: var(--orange);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cmt-badge-hidden {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--gray-light);
+}
+
+.cmt-body p {
+  margin-top: 4px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--gray-light);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.cmt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.cmt-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gray);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cmt-link:hover {
+  color: var(--paper);
+}
+
+.cmt-danger,
+.cmt-danger:hover {
+  color: #ff8f7a;
+}
+
+@media (max-width: 640px) {
+  .cmt-replies {
+    margin-left: 18px;
+  }
+}
+
+/* As capas do catálogo são verticais (4:5), como nos cards da página inicial */
+.my-course-card .course-module-cover {
+  aspect-ratio: 4 / 5;
+}
+
+.my-courses .course-module-grid {
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+@media (max-width: 640px) {
+  .my-courses .course-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .my-course-card .course-module-info {
+    padding: 14px;
+  }
+
+  .my-course-card .course-module-info strong {
+    font-size: 16px;
+  }
+
+  .my-course-cta {
+    height: 38px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+}

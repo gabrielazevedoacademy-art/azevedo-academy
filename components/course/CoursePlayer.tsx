@@ -38,7 +38,8 @@ export default function CoursePlayer({
   modules,
   completed: initialCompleted,
   current,
-  saved
+  saved,
+  extra
 }: {
   userId: string;
   slug: string;
@@ -46,6 +47,7 @@ export default function CoursePlayer({
   completed: string[];
   current: CurrentLesson | null;
   saved: SavedProgress;
+  extra?: React.ReactNode;
 }) {
   const [completed, setCompleted] = useState(() => new Set(initialCompleted));
   const [ratio, setRatio] = useState(0);
@@ -133,6 +135,7 @@ export default function CoursePlayer({
                   </ul>
                 </section>
               )}
+              {extra}
             </>
           ) : (
             <div className="course-locked">

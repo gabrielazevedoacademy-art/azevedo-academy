@@ -5,6 +5,9 @@ import type { ViewUser } from '@/lib/user';
 import Avatar from './Avatar';
 
 const icons = {
+  courses: (
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2" /><path d="M10 9l5 2.5-5 2.5z" /><path d="M8 21h8" /></svg>
+  ),
   profile: (
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5" /></svg>
   ),
@@ -80,6 +83,7 @@ export default function UserMenu({ user, admin = false }: { user: ViewUser; admi
           </div>
         </div>
         {admin && <a role="menuitem" href="/admin">{icons.panel}Painel de cursos</a>}
+        <a role="menuitem" href="/meus-cursos">{icons.courses}Meus cursos</a>
         <a role="menuitem" href="/perfil">{icons.profile}Meu perfil</a>
         <a role="menuitem" href="/configuracoes">{icons.settings}Configurações</a>
         <form action="/auth/sair" method="post">

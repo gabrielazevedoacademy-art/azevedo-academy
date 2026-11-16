@@ -131,6 +131,13 @@ test('Telas de módulo e aula também pedem login e voltam ao mesmo lugar', asyn
   }
 });
 
+test('Meus cursos pede login', async (browser) => {
+  const page = await newPage(browser);
+  await page.goto(BASE + '/meus-cursos');
+  const u = new URL(page.url());
+  if (u.pathname !== '/entrar' || u.searchParams.get('next') !== '/meus-cursos') throw new Error('não levou ao login: ' + page.url());
+});
+
 /* ---------- Execução ---------- */
 
 async function waitServer() {
