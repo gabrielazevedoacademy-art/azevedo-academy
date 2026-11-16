@@ -3,6 +3,7 @@ import '@fontsource-variable/league-spartan';
 import '@fontsource-variable/montserrat';
 import './globals.css';
 import { SITE_URL } from '@/lib/site-url';
+import AnnouncementGate from '@/components/AnnouncementGate';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
         {children}
+        <AnnouncementGate />
       </body>
     </html>
   );

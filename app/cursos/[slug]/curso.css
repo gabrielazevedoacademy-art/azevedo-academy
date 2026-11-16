@@ -1113,3 +1113,97 @@ a.course-lesson-row:hover {
     font-size: 14px;
   }
 }
+
+/* ===== Retomar o vídeo e próxima aula ===== */
+.course-video {
+  position: relative;
+}
+
+.course-resume {
+  position: absolute;
+  left: 14px;
+  bottom: 60px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.82);
+  color: var(--paper);
+  font-size: 13px;
+  font-weight: 600;
+  animation: fade-up 400ms var(--ease) both;
+}
+
+.course-resume button {
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.course-upnext {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 20px;
+  margin-top: 16px;
+  padding: 16px 18px;
+  border: 1px solid var(--orange);
+  border-radius: 16px;
+  background: rgba(255, 122, 0, 0.08);
+  animation: fade-up 400ms var(--ease) both;
+}
+
+.course-upnext > div:first-child {
+  display: grid;
+  gap: 2px;
+}
+
+.course-upnext span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.course-upnext strong {
+  font-size: 16px;
+}
+
+.course-upnext-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.course-upnext-actions button {
+  background: none;
+  color: var(--paper);
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Sino de notificações na barra do curso */
+.course-top .notif-button {
+  color: var(--gray-light);
+}
+
+.course-top .notif-button:hover,
+.course-top .notif-button[aria-expanded="true"] {
+  color: var(--paper);
+}
+
+@media (max-width: 640px) {
+  .course-top .notif {
+    margin-left: auto;
+  }
+
+  .course-top .course-top-back {
+    margin-left: 0;
+  }
+}

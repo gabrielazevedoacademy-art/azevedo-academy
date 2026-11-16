@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatBytes } from '@/lib/admin/storage';
 import VideoPlayer, { type SavedProgress } from './VideoPlayer';
 
@@ -59,6 +59,19 @@ export default function CoursePlayer({
   const isDone = current ? completed.has(current.id) : false;
   const href = (id: string) => `/cursos/${slug}/aula/${id}`;
 
+  // Fim do vídeo: conta 5 segundos e abre a próxima aula (dá para cancelar)
+  const [countdown, setCountdown] = useState<number | null>(null);
+  useEffect(() => {
+    if (countdown === null || !next) return;
+    if (countdown <= 0) {
+      window.location.assign(href(next.id));
+      return;
+    }
+    const t = window.setTimeout(() => setCountdown((c) => (c === null ? null : c - 1)), 1000);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [countdown, next]);
+
   return (
     <>
       <div className="course-layout">
@@ -73,9 +86,27 @@ export default function CoursePlayer({
                   saved={saved}
                   onProgress={setRatio}
                   onComplete={() => setCompleted((s) => new Set(s).add(current.id))}
+                  onEnded={() => next && setCountdown(5)}
                 />
               ) : (
                 <div className="course-video course-video-empty">O vídeo desta aula chega em breve.</div>
+              )}
+
+              {countdown !== null && next && (
+                <div className="course-upnext" role="status">
+                  <div>
+                    <span>Próxima aula em {countdown}s</span>
+                    <strong>{next.title}</strong>
+                  </div>
+                  <div className="course-upnext-actions">
+                    <button type="button" className="course-nav-btn" onClick={() => setCountdown(null)}>
+                      Cancelar
+                    </button>
+                    <a className="course-nav-btn course-nav-next" href={href(next.id)}>
+                      Assistir agora
+                    </a>
+                  </div>
+                </div>
               )}
 
               <div className="course-lesson-head">

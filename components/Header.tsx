@@ -7,6 +7,7 @@ import { toViewUser, type ViewUser } from '@/lib/user';
 import GlassNav from './GlassNav';
 import Avatar from './Avatar';
 import UserMenu from './UserMenu';
+import NotificationBell from './NotificationBell';
 
 const links = [
   { href: '#inicio', label: 'Início' },
@@ -81,7 +82,10 @@ export default function Header() {
             {user === undefined ? (
               <span className="header-account-placeholder" aria-hidden="true" />
             ) : user ? (
-              <UserMenu user={user} admin={admin} />
+              <>
+                <NotificationBell />
+                <UserMenu user={user} admin={admin} />
+              </>
             ) : (
               <a className="header-login" href="/entrar">
                 <span className="header-login-label">

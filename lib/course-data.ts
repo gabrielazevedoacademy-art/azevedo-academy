@@ -71,7 +71,7 @@ export async function loadCourse(slug: string, path: string) {
     ids.length
       ? supabase
           .from('lesson_progress')
-          .select('lesson_id, completed_at, watched, duration_seconds')
+          .select('lesson_id, completed_at, watched, duration_seconds, last_position, updated_at')
           .eq('user_id', user.id)
           .in('lesson_id', ids)
       : Promise.resolve({ data: [] })
@@ -84,8 +84,13 @@ export async function loadCourse(slug: string, path: string) {
     completed_at: string | null;
     watched: string | null;
     duration_seconds: number | null;
+    last_position: number | null;
+    updated_at: string;
   }[];
   const done = prog.filter((p) => p.completed_at).map((p) => p.lesson_id);
+  const lastStarted = prog
+    .filter((p) => !p.completed_at)
+    .sort((a, b) => b.updated_at.localeCompare(a.updated_at))[0]?.lesson_id;
 
   return {
     supabase,
@@ -98,8 +103,12 @@ export async function loadCourse(slug: string, path: string) {
     lessons,
     done,
     progress: prog,
-    // Próxima aula a assistir: a primeira liberada ainda não concluída
-    nextLesson: lessons.find((l) => l.canWatch && !done.includes(l.id)) ?? lessons.find((l) => l.canWatch) ?? null
+    // Próxima aula: a última que a pessoa estava assistindo e não terminou; senão, a primeira não concluída
+    nextLesson:
+      lessons.find((l) => l.id === lastStarted && l.canWatch) ??
+      lessons.find((l) => l.canWatch && !done.includes(l.id)) ??
+      lessons.find((l) => l.canWatch) ??
+      null
   };
 }
 

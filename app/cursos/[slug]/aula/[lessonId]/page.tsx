@@ -75,7 +75,12 @@ export default async function AulaPage({ params }: { params: Promise<{ slug: str
 
   const p = course.progress.find((x) => x.lesson_id === lesson.id);
   const saved: SavedProgress = p
-    ? { watched: p.watched ?? '', durationSeconds: p.duration_seconds, completed: Boolean(p.completed_at) }
+    ? {
+        watched: p.watched ?? '',
+        durationSeconds: p.duration_seconds,
+        completed: Boolean(p.completed_at),
+        lastPosition: p.last_position ?? 0
+      }
     : null;
 
   return (

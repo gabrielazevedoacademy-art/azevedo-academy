@@ -1,3 +1,5 @@
+import NotificationBell from '@/components/NotificationBell';
+
 // Moldura das telas do aluno: barra do topo, caminho (curso › módulo › aula) e aviso de rascunho
 
 export type Crumb = { label: string; href?: string };
@@ -40,6 +42,7 @@ export default function CourseShell({
             </span>
           ))}
         </nav>
+        <NotificationBell />
         <a className="course-top-back" href="/#cursos">
           Todos os cursos
         </a>

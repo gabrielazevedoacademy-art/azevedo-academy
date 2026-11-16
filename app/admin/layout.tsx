@@ -9,8 +9,9 @@ import './admin.css';
 export const metadata: Metadata = { title: 'Painel | Azevedo Academy', robots: { index: false, follow: false } };
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { user } = await requireAdminPage();
+  const { user, supabase } = await requireAdminPage();
   const view = toViewUser(user);
+  const { data: unanswered } = await supabase.rpc('admin_unanswered');
 
   return (
     <div className="adm">
@@ -20,7 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <img src="/logo.svg" alt="" width={26} height={27} />
           <span>Painel</span>
         </a>
-        <AdminNav />
+        <AdminNav badges={{ '/admin/comentarios': Number(unanswered) || 0 }} />
         <div className="adm-side-foot">
           <a href="/" className="adm-side-link">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9" /><path d="M18 14v6H4V6h6" /></svg>

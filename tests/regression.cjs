@@ -157,6 +157,20 @@ test('Prévia de compartilhamento, sitemap e robots publicados', async () => {
   if (!sm.ok || !(await sm.text()).includes('<loc>')) throw new Error('sitemap.xml ausente');
 });
 
+test('Página de vendas tem prévia de compartilhamento', async () => {
+  const html = await (await fetch(BASE + '/influencer-com-ia')).text();
+  const og = html.match(/<meta property="og:image" content="([^"]+)"/);
+  if (!og) throw new Error('sem og:image');
+  const img = await fetch(BASE + new URL(og[1]).pathname);
+  if (!img.ok) throw new Error('imagem de prévia não encontrada: ' + og[1]);
+});
+
+test('Painel de novidades exige login', async (browser) => {
+  const page = await newPage(browser);
+  await page.goto(BASE + '/admin/novidades');
+  if (!page.url().includes('/entrar')) throw new Error('não levou ao login: ' + page.url());
+});
+
 /* ---------- Execução ---------- */
 
 async function waitServer() {
