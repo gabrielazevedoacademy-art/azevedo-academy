@@ -23,6 +23,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|assets/|cursos/|ferramentas/|sobre/|influencer-com-ia|favicon|apple-touch-icon|logo|.*\\.(?:html|svg|png|jpg|jpeg|gif|webp|avif|ico|css|js|woff2?)$).*)'
+    '/((?!_next/static|_next/image|assets/|influencer-com-ia|favicon|apple-touch-icon|logo|.*\\.(?:html|svg|png|jpg|jpeg|gif|webp|avif|ico|css|js|woff2?)$).*)'
   ]
 };

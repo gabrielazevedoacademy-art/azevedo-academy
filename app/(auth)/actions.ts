@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { SUPABASE_KEY, SUPABASE_URL } from '@/lib/supabase/env';
 import { needsSecondFactor, verifyUrl } from '@/lib/supabase/mfa';
+import { safeNext } from '@/lib/safe-next';
 
 export type AuthState = { error?: string; success?: string } | undefined;
 
@@ -16,10 +17,6 @@ const captcha = (f: FormData) => String(f.get('captchaToken') || '');
 
 const DISPOSABLE = 'E-mails temporários não são aceitos. Use um e-mail que você acessa sempre, como Gmail ou Outlook.';
 
-function safeNext(value: FormDataEntryValue | null) {
-  const next = typeof value === 'string' ? value : '';
-  return next.startsWith('/') && !next.startsWith('//') ? next : '/';
-}
 
 async function origin() {
   const h = await headers();

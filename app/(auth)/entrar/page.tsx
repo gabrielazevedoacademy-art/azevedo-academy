@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { GoogleButton, SignInForm } from '@/components/AuthForms';
 import { createClient } from '@/lib/supabase/server';
+import { safeNext } from '@/lib/safe-next';
 
 export const metadata = { title: 'Entrar | Azevedo Academy' };
 
@@ -18,8 +19,8 @@ export default async function EntrarPage({ searchParams }: { searchParams: Promi
     <>
       <h1>Entrar</h1>
       <p className="auth-sub">Acesse seus cursos e ferramentas.</p>
-      <GoogleButton next={next.startsWith('/') ? next : '/'} />
-      <SignInForm next={next.startsWith('/') ? next : '/'} notice={aviso ? notices[aviso] : undefined} />
+      <GoogleButton next={safeNext(next)} />
+      <SignInForm next={safeNext(next)} notice={aviso ? notices[aviso] : undefined} />
       <p className="auth-legal">
         Ao entrar com o Google pela primeira vez, você concorda com os <a href="/termos">Termos de Uso</a> e com a{' '}
         <a href="/privacidade">Política de Privacidade</a>.

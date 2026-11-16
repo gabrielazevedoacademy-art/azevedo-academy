@@ -2,10 +2,11 @@ import { redirect } from 'next/navigation';
 import { MfaSetup } from '@/components/MfaForms';
 import { createClient } from '@/lib/supabase/server';
 import { needsSecondFactor, verifyUrl } from '@/lib/supabase/mfa';
+import { safeNext } from '@/lib/safe-next';
 
 export const metadata = { title: 'Segurança da conta | Azevedo Academy' };
 
-const safe = (v?: string) => (v && v.startsWith('/') && !v.startsWith('//') ? v : '/configuracoes');
+const safe = (v?: string) => safeNext(v, '/configuracoes');
 
 export default async function SegurancaPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
   const next = safe((await searchParams).next);

@@ -102,6 +102,25 @@ test('Página do curso pede login antes de mostrar as aulas', async (browser) =>
   if (!page.url().includes('/entrar?next=%2Fcursos%2Faulas-no-youtube')) throw new Error('não levou ao login: ' + page.url());
 });
 
+// 16/11/2026: "/\site.com" passava na checagem e o login levava a pessoa para fora do site (redirecionamento aberto)
+test('Login não devolve a pessoa para outro site', async (browser) => {
+  const page = await newPage(browser);
+  for (const evil of ['/\\evil.example', '//evil.example', '/\t/evil.example', 'https://evil.example']) {
+    await page.goto(BASE + '/entrar?next=' + encodeURIComponent(evil));
+    const next = await page.locator('input[name="next"]').first().inputValue();
+    if (next !== '/') throw new Error(`next aceito: ${JSON.stringify(evil)} -> ${JSON.stringify(next)}`);
+  }
+  await page.goto(BASE + '/entrar?next=' + encodeURIComponent('/cursos/x?aula=1'));
+  if ((await page.locator('input[name="next"]').first().inputValue()) !== '/cursos/x?aula=1') throw new Error('caminho válido perdido');
+});
+
+// 16/11/2026: o proxy pulava /cursos/*, a sessão não era renovada e o aluno podia cair da conta assistindo aulas
+test('Sessão é renovada também nas telas do curso', async () => {
+  const src = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'proxy.ts'), 'utf8');
+  const matcher = src.slice(src.indexOf('matcher'));
+  if (/[|(]cursos\//.test(matcher)) throw new Error('proxy ainda ignora /cursos/');
+});
+
 // 12/11/2026: o card do curso abria direto num módulo; agora é curso → módulo → aula
 test('Telas de módulo e aula também pedem login e voltam ao mesmo lugar', async (browser) => {
   const page = await newPage(browser);

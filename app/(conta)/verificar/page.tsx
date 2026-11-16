@@ -2,10 +2,11 @@ import { redirect } from 'next/navigation';
 import { MfaVerify } from '@/components/MfaForms';
 import { createClient } from '@/lib/supabase/server';
 import { needsSecondFactor } from '@/lib/supabase/mfa';
+import { safeNext } from '@/lib/safe-next';
 
 export const metadata = { title: 'Verificação em duas etapas | Azevedo Academy' };
 
-const safe = (v?: string) => (v && v.startsWith('/') && !v.startsWith('//') ? v : '/');
+const safe = (v?: string) => safeNext(v);
 
 export default async function VerificarPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
   const next = safe((await searchParams).next);
