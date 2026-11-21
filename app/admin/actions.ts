@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { getAdmin, isUuid } from '@/lib/admin/guard';
 import { IMAGE_BUCKET, MATERIAL_BUCKET } from '@/lib/admin/storage';
 import { parseYouTubeId } from '@/lib/admin/youtube';
+import { cleanLink } from '@/lib/links';
 
 export type Result = { error?: string; ok?: string } | undefined;
 
@@ -99,6 +100,9 @@ export async function updateCourse(_: Result, form: FormData): Promise<Result> {
   const slug = slugify(text(form, 'slug') || title);
   if (!isUuid(id)) return FAILED;
   if (!title) return { error: 'O curso precisa de um nome.' };
+  const external = cleanLink(text(form, 'external_url'));
+  if (external === undefined || (external && !external.startsWith('https://')))
+    return { error: 'Cole o link completo da página de venda, começando com https://.' };
 
   const { error } = await supabase
     .from('courses')
@@ -107,12 +111,14 @@ export async function updateCourse(_: Result, form: FormData): Promise<Result> {
       slug,
       description: text(form, 'description'),
       is_free: checked(form, 'is_free'),
+      external_url: external,
       status: checked(form, 'published') ? 'published' : 'draft'
     })
     .eq('id', id);
   if (error?.code === '23505') return { error: 'Esse endereço já é usado por outro curso.' };
   if (error) return FAILED;
   refresh();
+  revalidatePath('/'); // link dos cards na página inicial
   return { ok: 'Curso salvo.' };
 }
 

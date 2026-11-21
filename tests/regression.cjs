@@ -171,6 +171,22 @@ test('Painel de novidades exige login', async (browser) => {
   if (!page.url().includes('/entrar')) throw new Error('não levou ao login: ' + page.url());
 });
 
+test('Biblioteca de materiais abre sem login e o painel dela exige login', async (browser) => {
+  const page = await newPage(browser);
+  const r = await page.goto(BASE + '/materiais');
+  if (r.status() !== 200) throw new Error('/materiais status ' + r.status());
+  if (!(await page.getByRole('heading', { name: 'Materiais gratuitos' }).count())) throw new Error('título ausente');
+  const missing = await page.goto(BASE + '/materiais/nao-existe-xyz');
+  if (missing.status() !== 404) throw new Error('material inexistente deveria dar 404');
+  await page.goto(BASE + '/admin/materiais');
+  if (!page.url().includes('/entrar')) throw new Error('painel de materiais sem login: ' + page.url());
+});
+
+test('Card "Biblioteca de prompts" da página inicial leva aos materiais', async () => {
+  const html = await (await fetch(BASE + '/')).text();
+  if (!html.includes('href="/materiais"')) throw new Error('card sem link para /materiais');
+});
+
 /* ---------- Execução ---------- */
 
 async function waitServer() {

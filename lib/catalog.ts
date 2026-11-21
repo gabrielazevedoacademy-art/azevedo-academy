@@ -56,8 +56,8 @@ export const tools: CatalogItem[] = [
   {
     title: 'Biblioteca de prompts',
     image: '/ferramentas/biblioteca-de-prompts.webp',
-    hideCaption: true
-    // href: definir quando a página da biblioteca estiver pronta
+    hideCaption: true,
+    href: '/materiais'
   }
 ];
 

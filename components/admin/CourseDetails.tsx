@@ -11,6 +11,7 @@ export type CourseInfo = {
   slug: string;
   description: string;
   is_free: boolean;
+  external_url: string | null;
   status: 'draft' | 'published';
 };
 
@@ -49,6 +50,11 @@ export default function CourseDetails({ course }: { course: CourseInfo }) {
       <div className="adm-field">
         <label htmlFor="c-desc">Descrição</label>
         <textarea id="c-desc" name="description" defaultValue={course.description} rows={4} placeholder="O que o aluno vai aprender" />
+      </div>
+      <div className="adm-field">
+        <label htmlFor="c-ext">Link de venda (Kiwify)</label>
+        <input id="c-ext" name="external_url" defaultValue={course.external_url ?? ''} placeholder="https://pay.kiwify.com.br/…" inputMode="url" />
+        <p className="adm-hint">Se preenchido, o card do curso na página inicial leva direto para este link.</p>
       </div>
       <div className="adm-switches">
         <Switch name="published" defaultChecked={course.status === 'published'} label="Publicado para os alunos" />

@@ -39,6 +39,11 @@ export default function PrivacidadePage() {
           assistido e quais aulas foram concluídas).
         </li>
         <li>
+          <strong>Uso dos materiais:</strong> quando você copia um prompt, baixa um arquivo ou abre um link da
+          biblioteca de materiais, registramos a ação e a data (ligadas à sua conta, se você estiver logado). Isso mostra
+          quais materiais são mais úteis.
+        </li>
+        <li>
           <strong>Comentários nas aulas:</strong> o texto que você publica em &quot;Dúvidas e comentários&quot;, junto
           com o seu nome e a data. Esses comentários ficam visíveis para os outros alunos daquela aula. Você pode
           apagar os seus a qualquer momento.

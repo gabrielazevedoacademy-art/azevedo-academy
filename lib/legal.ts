@@ -4,5 +4,5 @@ export const LEGAL = {
   email: 'gabriel.azevedo.academy@gmail.com',
   site: 'azevedoacademy.com.br',
   forum: 'David Canabarro/RS',
-  updated: '16 de novembro de 2026'
+  updated: '21 de novembro de 2026'
 };

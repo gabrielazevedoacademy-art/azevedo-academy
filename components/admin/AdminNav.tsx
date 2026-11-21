@@ -16,6 +16,12 @@ const links = [
     icon: <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20c1-3.5 3.5-5.5 6.5-5.5s5.5 2 6.5 5.5" /><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.4 3.6 5.2" /></svg>
   },
   {
+    href: '/admin/materiais',
+    label: 'Materiais',
+    match: (p: string) => p.startsWith('/admin/materiais'),
+    icon: <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10l2 2h6.5A1.5 1.5 0 0 1 20 7.5v11a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z" /></svg>
+  },
+  {
     href: '/admin/comentarios',
     label: 'Comentários',
     match: (p: string) => p.startsWith('/admin/comentarios'),

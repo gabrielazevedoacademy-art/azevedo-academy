@@ -12,6 +12,7 @@ type Raw = {
   slug: string;
   description: string;
   is_free: boolean;
+  external_url: string | null;
   status: 'draft' | 'published';
   cover_path: string | null;
   modules: (Omit<ModuleItem, 'lessons'> & {
@@ -27,7 +28,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
   const { data } = await supabase
     .from('courses')
     .select(
-      `id, title, slug, description, is_free, status, cover_path,
+      `id, title, slug, description, is_free, status, cover_path, external_url,
        modules(id, title, is_published, position,
          lessons(id, title, is_published, is_free_preview, thumbnail_path, youtube_id, duration_minutes, position, lesson_materials(count)))`
     )

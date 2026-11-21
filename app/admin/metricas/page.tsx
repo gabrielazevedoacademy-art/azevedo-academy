@@ -28,8 +28,18 @@ const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) : 0);
 
 export default async function MetricasPage() {
   const { supabase } = await requireAdminPage('/admin/metricas');
-  const { data, error } = await supabase.rpc('admin_metrics');
+  const [{ data, error }, { data: matStats }, { data: matList }] = await Promise.all([
+    supabase.rpc('admin_metrics'),
+    supabase.rpc('admin_material_stats'),
+    supabase.from('materials').select('id, title, kind, requires_login')
+  ]);
   const m = data as Metrics | null;
+  const titles = new Map(((matList ?? []) as { id: string; title: string; requires_login: boolean }[]).map((x) => [x.id, x]));
+  const topMaterials = ((matStats ?? []) as { material_id: string; copies: number; downloads: number; opens: number; people: number }[])
+    .map((x) => ({ ...x, total: x.copies + x.downloads + x.opens, info: titles.get(x.material_id) }))
+    .filter((x) => x.info)
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 10);
 
   if (error || !m) {
     return (
@@ -100,6 +110,43 @@ export default async function MetricasPage() {
           <span>{m.daily[0] ? label(m.daily[0].day) : ''}</span>
           <span>Hoje</span>
         </div>
+      </section>
+
+      <section className="adm-panel adm-funnel" aria-labelledby="mat-top">
+        <h2 id="mat-top" className="adm-section-title">
+          Materiais mais usados
+        </h2>
+        {topMaterials.length === 0 ? (
+          <p className="adm-hint">Quando alguém copiar um prompt, baixar um arquivo ou abrir um link, aparece aqui.</p>
+        ) : (
+          <div className="adm-table-wrap">
+            <table className="adm-table">
+              <thead>
+                <tr>
+                  <th scope="col">Material</th>
+                  <th scope="col">Cópias</th>
+                  <th scope="col">Downloads</th>
+                  <th scope="col">Links abertos</th>
+                  <th scope="col">Pessoas logadas</th>
+                </tr>
+              </thead>
+              <tbody>
+                {topMaterials.map((x) => (
+                  <tr key={x.material_id}>
+                    <td>
+                      <a href={`/admin/materiais/${x.material_id}`}>{x.info!.title}</a>
+                      {x.info!.requires_login && <small> (com login)</small>}
+                    </td>
+                    <td>{x.copies}</td>
+                    <td>{x.downloads}</td>
+                    <td>{x.opens}</td>
+                    <td>{x.people}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
       {courses.size === 0 ? (
